@@ -53,7 +53,7 @@ export function HeroCardV2({ i }: { i: number }) {
         <div className={`${s.inner} ${s.dark}`}>
           <Head label="Поток" />
           <div className={v.glow}><i /><Avatars className={v.glowAvatars} /></div>
-          <p className={s.idea}><span>{hero.mainIdea[0]}</span> <span className={s.ideaMute}>{hero.mainIdea[1]}</span> <span>{hero.mainIdea[2]}</span></p>
+          <p className={s.idea}><span>{hero.mainIdea[0]}</span> <span className={s.ideaMute}>{hero.mainIdea[1]}</span></p>
         </div>
       );
     default: // бюджет — семейство кривых на сетке

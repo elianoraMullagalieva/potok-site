@@ -136,7 +136,7 @@ function CardContent({ i }: { i: number }) {
           <Head label="Поток" />
           <Avatars />
           <p className={styles.idea}>
-            <span>{hero.mainIdea[0]}</span> <span className={styles.ideaMute}>{hero.mainIdea[1]}</span> <span>{hero.mainIdea[2]}</span>
+            <span>{hero.mainIdea[0]}</span> <span className={styles.ideaMute}>{hero.mainIdea[1]}</span>
           </p>
         </div>
       );
