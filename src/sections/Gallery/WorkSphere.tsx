@@ -10,8 +10,10 @@ import styles from './WorkSphere.module.css';
  * Крутится сама, от скролла (pin) и от перетаскивания. Плитки, повёрнутые
  * к зрителю лицом в центр, тают — так в сфере открывается окно под заголовок.
  */
-const IMAGES = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}.webp`);
-const PORTRAIT = new Set([6]); // седьмой креатив вертикальный
+const IMAGES = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}.webp`);
+// пропорции ширина/высота каждого креатива
+const RATIO = [16 / 9, 16 / 9, 16 / 9, 16 / 9, 16 / 9, 16 / 9, 3 / 4, 1, 0.9, 0.8, 1.12];
+const M = IMAGES.length;
 
 export function WorkSphere() {
   const root = useRef<HTMLElement>(null);
@@ -91,9 +93,9 @@ export function WorkSphere() {
         <div ref={globe} className={styles.globe}>
           {pos.map((p, i) => (
             <div key={i} ref={(n) => { tiles.current[i] = n; }} className={styles.tile}
-              style={{ width: TILE, height: PORTRAIT.has(i % 7) ? TILE * 0.9 : TILE * 0.5625, marginLeft: -TILE / 2, marginTop: PORTRAIT.has(i % 7) ? -TILE * 0.45 : -TILE * 0.28,
+              style={{ width: TILE * (RATIO[i % M] < 1 ? 0.78 : 1), height: (TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M], marginLeft: -(TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / 2, marginTop: -((TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M]) / 2,
                 transform: `rotateY(${p.lon}deg) rotateX(${-p.lat}deg) translateZ(${R}px)` }}>
-              <img className={styles.img} src={IMAGES[i % 7]} alt={gallery.captions[i % gallery.captions.length]} loading="lazy" draggable={false} />
+              <img className={styles.img} src={IMAGES[i % M]} alt={gallery.captions[i % gallery.captions.length]} loading="lazy" draggable={false} />
             </div>
           ))}
         </div>
