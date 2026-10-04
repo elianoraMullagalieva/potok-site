@@ -38,7 +38,7 @@ export function WorkSphere() {
 
   useEffect(() => {
     const g = globe.current!; const el = root.current!;
-    const st = { rot: 0, vel: 0, drag: false, x: 0, scroll: 0, tilt: -12 };
+    const st = { rot: 0, vel: 0, drag: false, x: 0, scroll: 0, scrollTarget: 0, tilt: -12 };
     // прямоугольник заголовка: размываем только то, что его задевает
     let hw = 300, hh = 60;
     const measure = () => { const r = headRef.current?.getBoundingClientRect(); if (r) { hw = r.width / 2 + 24; hh = r.height / 2 + 20; } };
@@ -75,8 +75,8 @@ export function WorkSphere() {
     paint();
     const ctx = gsap.context(() => {
       if (reduced) return;
-      ScrollTrigger.create({ trigger: el, start: 'top top', end: '+=140%', pin: true, scrub: 0.8,
-        onUpdate: (self) => { st.scroll = self.progress * 160; } });
+      ScrollTrigger.create({ trigger: el, start: 'top top', end: '+=110%', pin: true, anticipatePin: 1,
+        onUpdate: (self) => { st.scrollTarget = self.progress * 70; } });
       gsap.from(`.${styles.head} > *`, { y: 30, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: el, start: 'top 70%' } });
     }, el);
     let raf = 0, last = 0, running = true;
@@ -84,6 +84,7 @@ export function WorkSphere() {
       if (!running) return;
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
       if (!st.drag) { if (Math.abs(st.vel) > 0.5) { st.rot += st.vel * dt; st.vel *= 0.94; } else st.rot += 4 * dt; }
+      st.scroll += (st.scrollTarget - st.scroll) * Math.min(1, dt * 4); // мягкий догон за скроллом
       paint(); raf = requestAnimationFrame(tick);
     };
     if (!reduced) raf = requestAnimationFrame(tick);

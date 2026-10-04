@@ -27,7 +27,7 @@ export function Cases() {
         gsap.set(`.${styles.big}`, { filter: 'blur(0px)', opacity: 1 });
         return;
       }
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=160%', pin: true, scrub: 0.7 } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=160%', pin: true, scrub: 1.2, anticipatePin: 1 } });
       cards.forEach((c, i) => {
         const k = i - (n - 1) / 2;
         gsap.set(c, { x: k * 48, rotate: k * 7, y: Math.abs(k) * 18, zIndex: 10 - Math.abs(k) });

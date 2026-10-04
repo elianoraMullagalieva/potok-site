@@ -20,7 +20,7 @@ export function Process() {
     const el = root.current!, tr = track.current!;
     const ctx = gsap.context(() => {
       const dist = () => tr.scrollWidth - window.innerWidth;
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${dist() + 400}`, pin: true, scrub: 0.8, invalidateOnRefresh: true } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${dist() + 400}`, pin: true, scrub: 1.2, anticipatePin: 1, invalidateOnRefresh: true } });
       tl.to(tr, { x: () => -dist(), ease: 'none', duration: 1 }, 0)
         .to(`.${styles.bar}`, { scaleX: 1, ease: 'none', duration: 1 }, 0);
       gsap.utils.toArray<HTMLElement>(`.${styles.fill}`).forEach((f, i) => {
