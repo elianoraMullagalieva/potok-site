@@ -6,22 +6,15 @@ import { Nav } from '../../ui/Nav';
 import { Button } from '../../ui/Button';
 import { Dot } from '../../ui/Tag';
 import { useReducedMotion } from '../../lib/useReducedMotion';
-import { LERP } from '../../tokens/motion';
+import { SkyRing } from '../../ui/SkyRing';
+import { useMedia } from '../../lib/useMedia';
 import styles from './Hero.module.css';
 
-/* Веер карточек: угол и глубина от центра, как у референса */
-const DECK = [
-  { rot: 34, z: -70, y: 22 },
-  { rot: 17, z: -24, y: 8 },
-  { rot: 0, z: 0, y: 0 },
-  { rot: -17, z: -24, y: 8 },
-  { rot: -34, z: -70, y: 22 },
-];
 
 export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => ReactNode; delay?: number } = {}) {
   const root = useRef<HTMLElement>(null);
-  const deck = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const small = useMedia('(max-width: 768px)');
 
   useEffect(() => {
     const el = root.current!;
@@ -31,7 +24,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
       tl.from(`.${styles.frame}`, { scale: 0.96, borderRadius: 60, duration: 1.4 }, 0)
         .from(`.${styles.word}`, { yPercent: 110, opacity: 0, filter: 'blur(8px)', duration: 1.1, stagger: 0.05 }, 0.25)
         .from(`.${styles.sub}, .${styles.actions}, .${styles.under}`, { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 0.7)
-        .from(`.${styles.card}`, { y: 160, opacity: 0, rotateX: -55, rotateZ: () => gsap.utils.random(-10, 10), duration: 1.5, ease: 'back.out(1.2)', stagger: { each: 0.09, from: 'center' } }, 0.55)
+        .from(`.${styles.stage}`, { y: 140, opacity: 0, scale: 0.92, duration: 1.8 }, 0.55)
         // выделение слова «первого», как текст на телефоне
         .fromTo(`.${styles.selBg}`, { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, 1.5)
         .fromTo(`.${styles.selHandle}`, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 1.7)
@@ -40,20 +33,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
         .from(`header`, { y: -16, opacity: 0, duration: 1 }, 0.4);
     }, el);
 
-    // параллакс веера за курсором: lerp, без дёрганья
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
-    const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-      ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
-    };
-    const tick = () => {
-      cx += (tx - cx) * LERP.cursor; cy += (ty - cy) * LERP.cursor;
-      if (deck.current) deck.current.style.transform = `rotateY(${cx * 4}deg) rotateX(${-cy * 2.5}deg)`;
-      raf = requestAnimationFrame(tick);
-    };
-    if (!reduced && matchMedia('(pointer:fine)').matches) { el.addEventListener('pointermove', onMove); raf = requestAnimationFrame(tick); }
-    return () => { ctx.revert(); el.removeEventListener('pointermove', onMove); cancelAnimationFrame(raf); };
+    return () => { ctx.revert(); };
   }, [reduced, delay]);
 
   const words = hero.title.split(' ');
@@ -87,13 +67,14 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
         </div>
 
         <div className={styles.stage}>
-          <div ref={deck} className={styles.deck}>
-            {DECK.map((d, i) => (
-              <div key={i} className={styles.card} style={{ transform: `translateY(${d.y}px) rotateY(${d.rot}deg) translateZ(${d.z}px)` }}>
-                {renderCard ? renderCard(i) : <CardContent i={i} />}
-              </div>
-            ))}
-          </div>
+          {/* 5 карточек × 3 = кольцо из 15: спереди читаются пять, края тают в небе */}
+          <SkyRing
+            count={15}
+            cardWidth={small ? 150 : 200} cardHeight={small ? 196 : 260} gap={small ? 14 : 40}
+            speed={2.2} clearArc={46} haze={12}
+            cardClassName={styles.card}
+            render={(i) => (renderCard ? renderCard(i % 5) : <CardContent i={i % 5} />)}
+          />
         </div>
 
         <ul className={styles.facts}>
