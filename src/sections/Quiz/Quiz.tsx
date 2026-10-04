@@ -73,8 +73,10 @@ export function Quiz() {
         {/* левая колонка: вопрос или финал */}
         <div className={styles.left}>
           <div className={styles.top}>
-            <span className={`label ${styles.progressLabel}`}>{step < 4 ? quiz.progress(step + 1) : quiz.final.title}</span>
-            <span className={styles.steps} aria-hidden>{[0, 1, 2, 3].map((i) => <i key={i} className={i < answered ? styles.stepOn : ''} />)}</span>
+            <span className={`label ${styles.progressLabel}`}>{step < 4 ? quiz.progress(step + 1) : quiz.title}</span>
+            {step < 4
+              ? <span className={styles.steps} aria-hidden>{[0, 1, 2, 3].map((i) => <i key={i} className={i < answered ? styles.stepOn : ''} />)}</span>
+              : <span className={styles.plan}>{plan(answers)}</span>}
           </div>
           <div ref={pane} className={styles.pane}>
             {step < 4 ? (
@@ -96,10 +98,13 @@ export function Quiz() {
               <div className={styles.done}><span className={styles.check} aria-hidden>✓</span><h3 className={styles.q}>{quiz.final.done}</h3></div>
             ) : (
               <form className={styles.form} onSubmit={submit}>
+                <h3 className={styles.q}>{quiz.final.title}</h3>
                 <p className={styles.sub}>{quiz.final.sub}</p>
-                <div className={styles.planRow}><span className="label mute">{quiz.final.insideLabel}</span><span className={styles.plan}>{plan(answers)}</span></div>
-                <ul className={styles.inside}>{quiz.final.inside.map((x) => <li key={x}>{x}</li>)}</ul>
-                <p className={styles.bonus}><b>Бонус</b> · {quiz.final.bonus}</p>
+                <div className={styles.insideBlock}>
+                  <span className="label mute">{quiz.final.insideLabel}</span>
+                  <ul className={styles.inside}>{quiz.final.inside.map((x) => <li key={x}>{x}</li>)}</ul>
+                </div>
+                <p className={styles.bonus}><i aria-hidden /><b>Бонус</b><span>{quiz.final.bonus}</span></p>
                 <div className={styles.fields}>
                   <input name="name" required placeholder={quiz.final.name} className={styles.input} autoComplete="name" />
                   <input name="contact" required placeholder={quiz.final.contact} className={styles.input} autoComplete="tel" />
