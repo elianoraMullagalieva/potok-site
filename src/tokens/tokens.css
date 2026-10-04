@@ -1,0 +1,42 @@
+:root {
+  --bg: #f4f3ef;
+  --bg-2: #e9e8e3;
+  --card: #ffffff;
+  --card-grey: #e4e3df;
+  --dark: #121316;
+  --dark-2: #1c1d21;
+  --ink: #121316;
+  --ink-2: #4a4c52;
+  --mute: #8a8c92;
+  --mute-2: #b9bbc0;
+  --line: rgba(18, 19, 22, 0.1);
+  --line-light: rgba(255, 255, 255, 0.18);
+  --on-dark: #f4f3ef;
+
+  /* бренд: только фото и кнопки */
+  --blue: #1f6cff;
+  --blue-deep: #0b3fb6;
+  --yellow: #ffe14d;
+
+  --font-sans: 'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --t-hero: clamp(44px, 6.2vw, 92px);
+  --t-l: clamp(36px, 4.8vw, 72px);
+  --t-m: clamp(26px, 3vw, 44px);
+  --t-card: 22px;
+  --t-body: 15px;
+  --t-small: 13px;
+  --t-label: 11px;
+
+  --r-frame: 28px;
+  --r-card: 20px;
+  --r-card-s: 14px;
+  --r-pill: 999px;
+
+  --gutter: 48px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (max-width: 768px) {
+  :root { --gutter: 16px; --r-frame: 18px; --r-card: 16px; }
+}
