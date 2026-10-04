@@ -1,0 +1,50 @@
+.section { padding-top: 140px; padding-bottom: 140px; }
+.head { max-width: 760px; }
+.h2 { margin-top: 14px; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; }
+.tail { color: var(--mute); }
+.sub { margin-top: 16px; font-size: 18px; color: var(--mute); max-width: 32ch; }
+
+.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+.person { position: relative; height: 520px; border-radius: var(--r-card); overflow: hidden; background: var(--dark-2); color: #fff; }
+.person:nth-child(2) { margin-top: 40px; }
+.portrait { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; filter: grayscale(1); transition: filter .8s var(--ease), transform 1.4s var(--ease); }
+.person:hover .portrait { filter: none; transform: scale(1.03); }
+.personBody { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px; background: linear-gradient(to top, rgba(10,10,14,.9), rgba(10,10,14,0)); }
+.pName { font-size: 22px; font-weight: 500; letter-spacing: -0.03em; }
+.pRole { margin-top: 2px; font-size: 14px; color: rgba(255,255,255,.7); }
+.pLine { margin-top: 10px; font-size: 15px; line-height: 1.35; color: rgba(255,255,255,.85); max-width: 28ch; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+.stat { padding: 24px; border-radius: var(--r-card); background: #fff; min-height: 220px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 20px 50px -36px rgba(10,10,10,.2); }
+.stat:nth-child(2) { background: var(--yellow); }
+.stat:nth-child(4) { background: var(--dark); color: var(--on-dark); }
+.big { font-size: clamp(40px, 3.6vw, 56px); font-weight: 500; letter-spacing: -0.05em; line-height: 1; }
+.statLabel { font-size: 15px; color: var(--mute); max-width: 22ch; }
+.stat:nth-child(2) .statLabel { color: rgba(18,19,22,.65); }
+.stat:nth-child(4) .statLabel { color: rgba(244,243,239,.6); }
+.bars { display: flex; align-items: flex-end; gap: 6px; height: 56px; margin-bottom: auto; }
+.bars i { flex: 1; border-radius: 3px; background: var(--ink); opacity: .85; transform-origin: bottom; animation: grow 1.4s var(--ease) both; }
+@keyframes grow { from { transform: scaleY(0); } }
+.dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: auto; max-width: 150px; }
+.dots i { aspect-ratio: 1; border-radius: 50%; background: var(--ink); animation: popDot .6s var(--ease) both; }
+@keyframes popDot { from { transform: scale(0); } }
+.tl { position: relative; height: 56px; margin-bottom: auto; border-bottom: 2px solid var(--line); display: flex; justify-content: space-between; }
+.tl i { width: 1px; height: 100%; background: var(--line); }
+.tl b { position: absolute; bottom: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 3px rgba(255,225,77,.35); }
+.ring { width: 64px; height: 64px; margin-bottom: auto; }
+
+.bottom { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; margin-top: 16px; }
+.promises { padding: 28px; border-radius: var(--r-card); background: var(--bg-2); }
+.promises ol { margin: 18px 0 0; padding: 0; list-style: none; display: grid; }
+.promises li { display: flex; gap: 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+.promises li div { display: flex; flex-direction: column; gap: 2px; }
+.promises b { font-size: 20px; font-weight: 500; letter-spacing: -0.02em; }
+.promises li div span { font-size: 15px; color: var(--mute); }
+.pn { font-size: 13px; color: var(--mute); padding-top: 6px; min-width: 24px; }
+.quote { margin: 0; padding: 28px; border-radius: var(--r-card); background: #fff; display: flex; flex-direction: column; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 20px 50px -36px rgba(10,10,10,.2); }
+.quote blockquote { margin: 0; font-size: clamp(24px, 2.2vw, 32px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; text-wrap: balance; }
+.quote figcaption { display: flex; align-items: center; gap: 12px; margin-top: 24px; font-size: 16px; font-weight: 500; }
+.quote figcaption small { display: block; font-size: 13px; font-weight: 400; color: var(--mute); }
+.partners { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: auto; padding-top: 28px; font-size: 14px; font-weight: 500; color: var(--mute); }
+@media (max-width: 1000px) { .team, .stats { grid-template-columns: 1fr 1fr; } .person:nth-child(2) { margin-top: 0; } .bottom { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .team, .stats { grid-template-columns: 1fr; } .person { height: 420px; } }

@@ -8,6 +8,10 @@ import { Services } from './sections/Services/Services';
 import { WorkSphere } from './sections/Gallery/WorkSphere';
 import { Cases } from './sections/Cases/Cases';
 import { Quiz } from './sections/Quiz/Quiz';
+import { Process } from './sections/Process/Process';
+import { Pricing } from './sections/Pricing/Pricing';
+import { About } from './sections/About/About';
+import { Lead } from './sections/Lead/Lead';
 import { Preloader } from './ui/Preloader';
 
 const params = new URLSearchParams(location.search);
@@ -28,6 +32,10 @@ export default function App() {
       <Services />
       <WorkSphere />
       <Cases />
+      <Process />
+      <Pricing />
+      <About />
+      <Lead />
       <a className="label" href={V1 ? `${import.meta.env.BASE_URL}v2/` : `${import.meta.env.BASE_URL}v1/`} style={{ position: 'fixed', left: 16, bottom: 14, zIndex: 50, color: 'var(--mute)' }}>{V1 ? 'Версия 2 →' : 'Версия 1 →'}</a>
     </main>
   );

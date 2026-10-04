@@ -34,7 +34,7 @@ export function BenefitsV2() {
   }, [reduced]);
 
   return (
-    <section id="about" ref={root} className={v.section}>
+    <section id="benefits" ref={root} className={v.section}>
       <div className={v.grid} aria-hidden>{Array.from({ length: 5 }, (_, i) => <i key={i} className={v.vline} />)}</div>
       <div className={`wrap ${v.inner}`}>
         <div className={b.head}><span className="label mute">{benefits.label}</span></div>

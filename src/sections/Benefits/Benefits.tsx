@@ -33,7 +33,7 @@ export function Benefits() {
   }, [reduced]);
 
   return (
-    <section id="about" ref={root} className={`wrap ${styles.section}`}>
+    <section id="benefits" ref={root} className={`wrap ${styles.section}`}>
       <div className={styles.head}>
         <Dot /><span className="label mute">{benefits.label}</span>
       </div>
