@@ -36,7 +36,7 @@ export default function App() {
       <Pricing />
       <About />
       <Lead />
-      <a className="label" href={V1 ? `${import.meta.env.BASE_URL}v2/` : `${import.meta.env.BASE_URL}v1/`} style={{ position: 'fixed', left: 16, bottom: 14, zIndex: 50, color: 'var(--mute)' }}>{V1 ? 'Версия 2 →' : 'Версия 1 →'}</a>
+      <a className="label" href={V1 ? `${import.meta.env.BASE_URL}v2/` : `${import.meta.env.BASE_URL}v1/`} style={{ position: 'fixed', left: 16, bottom: 14, zIndex: 50, color: 'var(--ink)', background: 'rgba(244,243,239,.85)', backdropFilter: 'blur(8px)', padding: '6px 10px', borderRadius: 999, boxShadow: '0 0 0 1px var(--line) inset' }}>{V1 ? 'Версия 2 →' : 'Версия 1 →'}</a>
     </main>
   );
 }
