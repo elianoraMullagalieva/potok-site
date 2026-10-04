@@ -51,7 +51,8 @@
 .segs { display: flex; gap: 4px; margin-top: 12px; }
 .segs i { flex: 1; height: 12px; border-radius: 4px; background: var(--bg-2); }
 /* мягкие сегменты: зажигаются по очереди от первого к последнему, держатся и гаснут */
-.segOn { animation: ignite 4.2s var(--ease) infinite; }
+.segOn { background: #ffe98a; }
+[data-live] .segOn { animation: ignite 4.2s var(--ease) infinite; }
 .segOff { box-shadow: 0 0 0 1px var(--line) inset; background: transparent; }
 @keyframes ignite {
   0%, 4% { background: var(--bg-2); }
@@ -65,18 +66,20 @@
 .caption { margin-top: 8px; font-size: 13.5px; line-height: 1.3; color: var(--mute); }
 .area { width: 100%; height: auto; }
 
-.notifWrap { justify-content: flex-start; padding: 14px 12px; }
+.notifWrap { justify-content: space-between; padding: 14px 12px 16px; }
+.notifUnder { font-size: 13px; line-height: 1.3; color: rgba(255,255,255,.85); text-wrap: balance; }
 .notif {
   display: flex; gap: 10px; padding: 11px 12px; border-radius: 18px; color: var(--ink);
   background: rgba(255,255,255,.8); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4);
   box-shadow: 0 10px 30px -14px rgba(0,20,80,.45), 0 0 0 0.5px rgba(255,255,255,.6) inset;
-  animation: notifIn 6s cubic-bezier(.2,1.2,.3,1) infinite; transform-origin: top center;
+  transform-origin: top center;
 }
+[data-live] .notif { animation: notifIn 7.5s cubic-bezier(.22,1,.36,1) infinite; }
 @keyframes notifIn {
-  0% { transform: translateY(-140%) scale(.96); opacity: 0; }
-  7% { transform: translateY(0) scale(1); opacity: 1; }
-  82% { transform: translateY(0); opacity: 1; }
-  90%, 100% { transform: translateY(-140%); opacity: 0; }
+  0% { transform: translateY(-150%) scale(.97); opacity: 0; }
+  16% { transform: translateY(0) scale(1); opacity: 1; }
+  84% { transform: translateY(0); opacity: 1; }
+  94%, 100% { transform: translateY(-150%); opacity: 0; }
 }
 .appIcon { flex: none; width: 36px; height: 36px; border-radius: 9px; background: var(--blue); display: grid; place-items: center; color: #fff; }
 .appIcon b { font-size: 20px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; margin-top: -3px; }
@@ -91,15 +94,17 @@
   display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; margin-left: -10px;
   background: var(--dark-2); color: rgba(244,243,239,.85); font-size: 12px; font-weight: 500;
   box-shadow: 0 0 0 2px var(--dark), 0 0 0 2.5px rgba(255,255,255,.18);
-  animation: popIn 0.9s var(--ease) both;
 }
+[data-live] .avatar { animation: popIn 0.9s var(--ease) both; }
 .avatar:first-child { margin-left: 0; }
 
-.pop { animation: popIn 0.8s var(--ease) both; }
+[data-live] .pop { animation: popIn 0.7s var(--ease) both; }
 @keyframes popIn { from { opacity: 0; transform: translateY(8px) scale(.9); } to { opacity: 1; transform: none; } }
-.areaLine { stroke-dasharray: 400; stroke-dashoffset: 400; animation: drawLine 2.2s var(--ease) 0.6s forwards; }
-@keyframes drawLine { to { stroke-dashoffset: 0; } }
-.pulse { transform-origin: center; transform-box: fill-box; animation: pulseDot 2.6s var(--ease) infinite; }
+.areaLine { stroke-dasharray: 400; stroke-dashoffset: 0; }
+[data-live] .areaLine { animation: drawLine 2.2s var(--ease) 0.3s both; }
+@keyframes drawLine { from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; } }
+.pulse { transform-origin: center; transform-box: fill-box; opacity: 0; }
+[data-live] .pulse { animation: pulseDot 2.6s var(--ease) infinite; }
 @keyframes pulseDot { 0%, 100% { transform: scale(.6); opacity: .5; } 50% { transform: scale(1.4); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .notif, .pop, .avatar, .areaLine, .pulse { animation: none; opacity: 1; stroke-dashoffset: 0; } }
 

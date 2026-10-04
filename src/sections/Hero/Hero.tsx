@@ -127,6 +127,7 @@ function CardContent({ i }: { i: number }) {
       return (
         <div className={`${styles.inner} ${styles.glass} ${styles.notifWrap}`}>
           <Notif />
+          <p className={styles.notifUnder}>{hero.card.under}</p>
         </div>
       );
     case 3: // тёмная: трое + главная мысль

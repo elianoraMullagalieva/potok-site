@@ -53,6 +53,9 @@ export function SkyRing({
         const sink = soft * soft;
         el.style.opacity = String(1 - sink * 0.98);
         el.style.filter = soft > 0.02 ? `blur(${(soft * haze).toFixed(1)}px)` : 'none';
+        // анимации внутри карточки идут только в резкой зоне; при входе они стартуют заново
+        const live = soft < 0.02;
+        if (live !== el.hasAttribute('data-live')) el.toggleAttribute('data-live', live);
         el.style.transform = `rotateY(${i * step}deg) translateZ(${R - soft * 50}px)`;
       }
     };

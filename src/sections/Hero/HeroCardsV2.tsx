@@ -45,6 +45,7 @@ export function HeroCardV2({ i }: { i: number }) {
       return (
         <div className={`${s.inner} ${s.glass} ${s.notifWrap}`}>
           <Notif />
+          <p className={s.notifUnder}>{hero.card.under}</p>
         </div>
       );
     case 3: // тёмная: светящееся кольцо + мысль
