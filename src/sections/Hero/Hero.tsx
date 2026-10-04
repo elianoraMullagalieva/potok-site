@@ -8,6 +8,7 @@ import { benefits } from '../../content/texts';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import { SkyRing } from '../../ui/SkyRing';
 import { useMedia } from '../../lib/useMedia';
+import { Face } from '../../ui/Face';
 import styles from './Hero.module.css';
 
 
@@ -172,7 +173,7 @@ export function Notif() {
 export function Avatars({ className }: { className?: string }) {
   return (
     <div className={`${styles.avatars} ${className ?? ''}`} aria-hidden>
-      {benefits.team.map((t, k) => <span key={t.initials} className={styles.avatar} style={{ animationDelay: `${0.4 + k * 0.15}s` }}>{t.initials}</span>)}
+      {benefits.team.map((t, k) => <span key={t.initials} className={styles.avatar} style={{ animationDelay: `${0.4 + k * 0.15}s` }}><Face src={t.face} name={t.name} size={40} /></span>)}
     </div>
   );
 }

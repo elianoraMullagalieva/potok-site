@@ -91,8 +91,7 @@
 
 .avatars { display: flex; margin: auto 0 14px; }
 .avatar {
-  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; margin-left: -10px;
-  background: var(--dark-2); color: rgba(244,243,239,.85); font-size: 12px; font-weight: 500;
+  display: block; width: 40px; height: 40px; border-radius: 50%; margin-left: -10px; overflow: hidden;
   box-shadow: 0 0 0 2px var(--dark), 0 0 0 2.5px rgba(255,255,255,.18);
 }
 [data-live] .avatar { animation: popIn 0.9s var(--ease) both; }

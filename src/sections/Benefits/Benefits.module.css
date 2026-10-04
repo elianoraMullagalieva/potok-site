@@ -53,8 +53,7 @@
 
 .team { position: relative; z-index: 1; display: flex; margin: 20px 0 auto; }
 .ava {
-  display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%;
-  background: var(--ink); color: var(--on-dark); font-size: 15px; font-weight: 500; letter-spacing: 0.02em;
+  display: block; width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
   box-shadow: 0 0 0 3px var(--card-grey); margin-left: -12px;
 }
 .ava:first-child { margin-left: 0; }

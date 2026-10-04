@@ -14,4 +14,4 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .glow i { animation: none; } }
 .glowAvatars { position: relative; margin: 0 !important; }
-.glowAvatars > span { width: 34px; height: 34px; font-size: 11px; }
+.glowAvatars > span { width: 34px; height: 34px; } .glowAvatars img { width: 34px !important; height: 34px !important; }

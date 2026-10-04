@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { services } from '../../content/texts';
-import { Tag } from '../../ui/Tag';
+import { Face } from '../../ui/Face';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Services.module.css';
@@ -18,8 +18,8 @@ export function Services() {
     if (reduced) return;
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.h2} .${styles.line}`, { yPercent: 100, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: `.${styles.h2}`, start: 'top 80%' } });
-      gsap.from(`.${styles.item}`, { y: 60, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.row}`, start: 'top 85%' } });
-      gsap.from(`.${styles.detail}`, { y: 60, opacity: 0, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.detail}`, start: 'top 85%' } });
+      gsap.from(`.${styles.item}`, { opacity: 0, scale: 0.96, duration: 1.0, ease: 'expo.out', stagger: 0.07, scrollTrigger: { trigger: `.${styles.row}`, start: 'top 85%' } });
+      gsap.from(`.${styles.detail}`, { opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.detail}`, start: 'top 90%' } });
     }, root);
     ScrollTrigger.refresh();
     return () => ctx.revert();
@@ -37,7 +37,6 @@ export function Services() {
 
   const s = services.items[active];
   const person = services.people[s.lead];
-  const leads = Array.from(new Set(services.items.map((x) => x.lead)));
 
   return (
     <section id="services" ref={root} className={`wrap ${styles.section}`}>
@@ -48,10 +47,6 @@ export function Services() {
         <span className={styles.mask}><span className={styles.line}>{services.title}</span></span>
         <span className={styles.mask}><span className={`${styles.line} ${styles.tail}`}>{services.titleTail}</span></span>
       </h2>
-      <div className={styles.notes}>
-        <p className={styles.note}>{services.sub}</p>
-        <p className={`${styles.note} ${styles.noteRight}`}><span className="label mute">{services.leadLabel}</span><br />{leads.join(' · ')}</p>
-      </div>
 
       {/* превью: пять клавиш */}
       <div className={styles.row} role="tablist" aria-label={services.label}>
@@ -61,7 +56,7 @@ export function Services() {
             <div key={it.n} role="tab" aria-selected={on} tabIndex={0} className={`${styles.item} ${on ? styles.on : ''}`}
               onClick={() => pick(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(i); } }}>
               <div className={styles.top}>
-                <Tag onDark>{it.lead}</Tag>
+                <span className={styles.lead}><Face src={services.people[it.lead].face} name={services.people[it.lead].name} size={26} /><span>{it.lead}</span></span>
                 <span className={`num ${styles.key}`}>{it.n}</span>
               </div>
               <img className={styles.photo} src={photo(services.people[it.lead].photo)} alt={services.people[it.lead].name} loading="lazy" draggable={false} />
@@ -91,7 +86,7 @@ export function Services() {
           <div className={`${styles.dLead} ${styles.swap}`}>
             <span className="label mute">{services.leadLabel}</span>
             <div className={styles.person}>
-              <img className={styles.ava} src={photo(person.photo)} alt="" />
+              <img className={styles.ava} src={photo(person.face)} alt="" />
               <div>
                 <div className={styles.pName}>{person.name}</div>
                 <div className={styles.pRole}>{person.role}</div>

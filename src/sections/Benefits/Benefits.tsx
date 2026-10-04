@@ -3,6 +3,7 @@ import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { benefits } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
 import { Tag, Dot } from '../../ui/Tag';
+import { Face } from '../../ui/Face';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Benefits.module.css';
 
@@ -116,7 +117,7 @@ function CrmRows() {
 function Team() {
   return (
     <div className={styles.team} aria-hidden>
-      {benefits.team.map((t) => <span key={t.initials} className={styles.ava} title={t.name}>{t.initials}</span>)}
+      {benefits.team.map((t) => <span key={t.initials} className={styles.ava}><Face src={t.face} name={t.name} size={60} /></span>)}
       <span className={`${styles.ava} ${styles.avaEmpty}`} />
     </div>
   );
