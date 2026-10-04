@@ -93,22 +93,40 @@ export function Hero() {
   );
 }
 
+function Head({ label, trend = false }: { label: string; trend?: boolean }) {
+  return (
+    <div className={styles.head}>
+      <span className="label">{label}</span>
+      {trend && (
+        <span className={styles.trend} aria-hidden>
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 9 9 1M3 1h6v6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </span>
+      )}
+    </div>
+  );
+}
+
 function CardContent({ i }: { i: number }) {
   switch (i) {
     case 0: // ниши + каналы
       return (
         <div className={`${styles.inner} ${styles.white}`}>
-          <span className="label mute">Ниша</span>
-          <div className={styles.chips}>{hero.niches.map((n) => <span key={n} className={styles.chip}>{n}</span>)}</div>
-          <div className={styles.chipsBottom}>{hero.channels.map((n) => <span key={n} className={`${styles.chip} ${styles.chipDark}`}>{n}</span>)}</div>
+          <Head label="Ниша" />
+          <div className={styles.chips}>
+            {hero.niches.map((n, k) => <span key={n} className={`${styles.chip} ${k === 0 ? styles.chipOn : ''}`}>{n}</span>)}
+          </div>
+          <div className={styles.chipsBottom}>
+            {hero.channels.map((n) => <span key={n} className={`${styles.chip} ${styles.chipDark}`}><i className={styles.chipDot} />{n}</span>)}
+          </div>
         </div>
       );
-    case 1: // 9 из 10 + донат
+    case 1: // 9 из 10
       return (
         <div className={`${styles.inner} ${styles.white}`}>
-          <Ring value={0.9} />
+          <Head label="Запуски" trend />
           <div>
-            <div className={`num ${styles.big}`}>9 из 10</div>
+            <div className={`num ${styles.big}`}>9 <span className={styles.bigMute}>из 10</span></div>
+            <Segments total={10} filled={9} />
             <p className={styles.caption}>запусков — заявки в 1-й день</p>
           </div>
         </div>
@@ -118,7 +136,7 @@ function CardContent({ i }: { i: number }) {
         <div className={`${styles.inner} ${styles.glass}`}>
           <span className={styles.bell}><Dot /></span>
           <div>
-            <div className={styles.cardHead}><span>{hero.card.label}</span><span className={`num ${styles.time}`}>{hero.card.time}</span></div>
+            <div className={styles.cardHead}><span className="label">{hero.card.label}</span><span className={`label num ${styles.time}`}>{hero.card.time}</span></div>
             <p className={styles.cardText}>{hero.card.text}</p>
           </div>
         </div>
@@ -126,14 +144,16 @@ function CardContent({ i }: { i: number }) {
     case 3: // тёмная с главной мыслью
       return (
         <div className={`${styles.inner} ${styles.dark}`}>
+          <Head label="Поток" />
           <p className={styles.idea}>
-            <span>{hero.mainIdea[0]}</span> <span className={styles.ideaMute}>{hero.mainIdea[1]}</span> <span>{hero.mainIdea[2]}</span>
+            <span>{hero.mainIdea[0]}</span> <i className={styles.spark} aria-hidden /> <span className={styles.ideaMute}>{hero.mainIdea[1]}</span> <span>{hero.mainIdea[2]}</span>
           </p>
         </div>
       );
     default: // бюджет + график
       return (
         <div className={`${styles.inner} ${styles.white}`}>
+          <Head label="Бюджет на рекламу" trend />
           <div>
             <div className={`num ${styles.big}`}>от 2 000 ₽</div>
             <p className={styles.caption}>в день</p>
@@ -144,25 +164,36 @@ function CardContent({ i }: { i: number }) {
   }
 }
 
-function Ring({ value }: { value: number }) {
-  const r = 26, c = 2 * Math.PI * r;
+/* 10 сегментов: 9 заполнены — читается мгновенно */
+function Segments({ total, filled }: { total: number; filled: number }) {
   return (
-    <svg className={styles.ring} width="64" height="64" viewBox="0 0 64 64" aria-hidden>
-      <circle cx="32" cy="32" r={r} fill="none" stroke="var(--line)" strokeWidth="6" />
-      <circle cx="32" cy="32" r={r} fill="none" stroke="var(--ink)" strokeWidth="6" strokeLinecap="round"
-        strokeDasharray={`${c * value} ${c}`} transform="rotate(-90 32 32)" />
-    </svg>
+    <div className={styles.segs} aria-hidden>
+      {Array.from({ length: total }, (_, k) => <i key={k} className={k < filled ? styles.segOn : styles.segOff} />)}
+    </div>
   );
 }
+
+/* Плавная кривая с жёлтой заливкой, точечная сетка, маркер на конце */
 function Area() {
-  const pts = [8, 14, 11, 20, 18, 28, 26, 36, 34, 44];
-  const w = 150, h = 56, step = w / (pts.length - 1);
-  const line = pts.map((p, i) => `${i * step},${h - p}`).join(' ');
+  const pts = [10, 13, 12, 18, 17, 24, 23, 30, 29, 38, 37, 46];
+  const w = 160, h = 60, step = w / (pts.length - 1);
+  const P = pts.map((p, i) => [i * step, h - p] as const);
+  let d = `M${P[0][0]},${P[0][1]}`;
+  for (let k = 1; k < P.length; k++) {
+    const [x0, y0] = P[k - 1], [x1, y1] = P[k], cx = (x0 + x1) / 2;
+    d += ` C${cx},${y0} ${cx},${y1} ${x1},${y1}`;
+  }
+  const [ex, ey] = P[P.length - 1];
   return (
-    <svg className={styles.area} viewBox={`0 0 ${w} ${h + 10}`} aria-hidden>
-      <polygon points={`0,${h} ${line} ${w},${h}`} fill="var(--ink)" opacity="0.06" />
-      <polyline points={line} fill="none" stroke="var(--ink)" strokeWidth="1.5" strokeLinejoin="round" />
-      {pts.map((_, i) => <circle key={i} cx={i * step} cy={h + 6} r="1" fill="var(--mute-2)" />)}
+    <svg className={styles.area} viewBox={`-2 -6 ${w + 8} ${h + 14}`} aria-hidden>
+      <defs>
+        <linearGradient id="af" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--yellow)" stopOpacity=".9" /><stop offset="1" stopColor="var(--yellow)" stopOpacity="0" /></linearGradient>
+        <pattern id="dots" width="16" height="12" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.8" fill="var(--mute-2)" /></pattern>
+      </defs>
+      <rect x="0" y="0" width={w} height={h} fill="url(#dots)" />
+      <path d={`${d} L${w},${h} L0,${h} Z`} fill="url(#af)" />
+      <path d={d} fill="none" stroke="var(--ink)" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx={ex} cy={ey} r="4.5" fill="var(--ink)" /><circle cx={ex} cy={ey} r="2" fill="var(--yellow)" />
     </svg>
   );
 }

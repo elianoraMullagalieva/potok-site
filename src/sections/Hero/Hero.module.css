@@ -38,17 +38,28 @@
 .chip { font-size: 11px; font-weight: 500; letter-spacing: -0.01em; padding: 6px 10px; border-radius: var(--r-pill); background: var(--bg-2); white-space: nowrap; }
 .chipDark { background: var(--ink); color: var(--on-dark); }
 
-.big { font-size: 34px; font-weight: 500; letter-spacing: -0.045em; line-height: 1; }
-.caption { margin-top: 8px; font-size: 12.5px; line-height: 1.3; color: var(--ink-2); }
-.ring { align-self: flex-end; }
+.big { font-size: 38px; font-weight: 500; letter-spacing: -0.05em; line-height: 0.95; white-space: nowrap; }
+.bigMute { font-size: 0.5em; color: var(--mute); letter-spacing: -0.02em; }
+.head { display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--mute); }
+.head .label { font-size: 10px; letter-spacing: 0.1em; }
+.dark .head { color: rgba(244,243,239,.5); }
+.trend { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; background: var(--bg-2); color: var(--ink); }
+.segs { display: flex; gap: 3px; margin-top: 12px; }
+.segs i { flex: 1; height: 14px; border-radius: 3px; }
+.segOn { background: var(--ink); }
+.segOff { background: var(--bg-2); }
+.chipOn { background: var(--yellow); }
+.chipDot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 6px; vertical-align: 1px; }
+.spark { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); vertical-align: 2px; margin: 0 1px; }
+.caption { margin-top: 8px; font-size: 12px; line-height: 1.3; color: var(--mute); }
 .area { width: 100%; height: auto; }
 
 .bell { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.9); align-self: center; margin-top: 22px; }
-.cardHead { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; }
+.cardHead { display: flex; justify-content: space-between; color: rgba(255,255,255,.7); }
 .time { opacity: .7; }
-.cardText { margin-top: 6px; font-size: 13px; line-height: 1.35; color: rgba(255,255,255,.82); }
+.cardText { margin-top: 10px; font-size: 16px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.25; color: #fff; }
 
-.idea { font-size: 20px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; margin-top: auto; }
+.idea { font-size: 21px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; }
 .ideaMute { color: rgba(244,243,239,.5); }
 
 .facts {
@@ -64,12 +75,17 @@
   .deck { gap: 14px; }
 }
 @media (max-width: 768px) {
-  .hero { padding: 8px; min-height: 640px; }
-  .center { top: 13%; }
-  .actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
-  .stage { bottom: 18%; }
-  .deck { transform: scale(0.7) !important; }
+  .hero { padding: 8px; height: auto; min-height: 0; }
+  .frame { display: flex; flex-direction: column; min-height: 100svh; padding-top: 88px; }
+  .center { position: static; transform: none; width: 100%; padding: 0 16px; }
+  .h1 { font-size: 40px; }
+  .tail { font-size: 0.78em; }
+  .sub { font-size: 14px; margin-top: 16px; }
+  .actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; margin-top: 22px; }
+  .under { margin-top: 12px; }
+  .stage { position: static; margin-top: 34px; height: 210px; }
+  .deck { transform: scale(0.72) !important; transform-origin: top center; gap: 12px; }
   .card:nth-child(1), .card:nth-child(5) { display: none; }
-  .facts { flex-direction: column; align-items: center; gap: 6px; bottom: 22px; }
+  .facts { position: static; flex-direction: column; align-items: center; gap: 6px; padding: 24px 16px 22px; margin-top: auto; }
   .facts li + li::before { display: none; }
 }

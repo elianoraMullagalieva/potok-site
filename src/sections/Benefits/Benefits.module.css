@@ -39,10 +39,14 @@
 .cardText { margin-top: 10px; font-size: 13.5px; line-height: 1.4; color: var(--mute); max-width: 26ch; }
 .dark .cardText, .photo .cardText { color: rgba(244,243,239,.62); }
 
-.crm { position: relative; z-index: 1; display: grid; gap: 14px; margin: 24px 0 auto; }
+.crm { position: relative; z-index: 1; display: grid; gap: 16px; margin: 28px 0 auto; }
 .crm li { display: grid; grid-template-columns: 92px 1fr; align-items: center; gap: 12px; font-size: 12px; color: var(--ink-2); }
-.crm i { display: block; height: 10px; border-radius: 6px; background: var(--bg-2); position: relative; overflow: hidden; }
-.crm i::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 0 55%, var(--mute-2)); opacity: .9; transform-origin: left; animation: fill 1.6s var(--ease) both; }
+.crmHead { grid-template-columns: 1fr auto !important; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--mute) !important; }
+.live { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 3px rgba(255,225,77,.3); animation: pulse 2.4s var(--ease) infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 3px rgba(255,225,77,.3); } 50% { box-shadow: 0 0 0 7px rgba(255,225,77,.08); } }
+.crm i { display: block; height: 12px; border-radius: 6px; background: var(--bg-2); position: relative; overflow: hidden; }
+.crm i::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform-origin: left; animation: fill 1.6s var(--ease) both; }
+.crm i.barOn::after { background: var(--yellow); }
 @keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 .team { position: relative; z-index: 1; display: flex; margin: 20px 0 auto; }
@@ -63,5 +67,28 @@
 @media (max-width: 560px) {
   .section { padding-top: 96px; padding-bottom: 80px; }
   .cards { grid-template-columns: 1fr; gap: 14px; }
-  .card:nth-child(n) { margin-top: 0; height: 300px; }
+  .card:nth-child(n) { margin-top: 0; height: auto; min-height: 300px; }
+  .crm, .team { margin-bottom: 28px; }
 }
+
+/* Связки: цепочка */
+.chain { position: relative; z-index: 1; margin: 26px 0 auto; display: grid; gap: 10px; }
+.chainRow { position: relative; display: flex; align-items: center; gap: 12px; }
+.chainNode { position: relative; z-index: 1; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; box-shadow: 0 0 0 1px var(--line-light) inset; background: var(--dark); }
+.chainNode i { width: 6px; height: 6px; border-radius: 50%; background: rgba(244,243,239,.6); }
+.chainNodeOn { background: var(--yellow); box-shadow: none; }
+.chainNodeOn i { background: var(--ink); }
+.chainPill { font-size: 12px; padding: 6px 10px; border-radius: var(--r-pill); box-shadow: 0 0 0 1px var(--line-light) inset; color: rgba(244,243,239,.85); }
+.chainPillOn { background: rgba(244,243,239,.1); color: #fff; }
+.chainLine { position: absolute; left: 8.5px; top: 18px; width: 1px; height: 12px; background: var(--line-light); }
+
+/* Скорость: таймлайн */
+.tl { position: relative; z-index: 1; margin: 26px 0 auto; }
+.tlTrack { height: 6px; border-radius: 3px; background: rgba(255,255,255,.28); overflow: hidden; }
+.tlTrack i { display: block; height: 100%; background: var(--yellow); border-radius: 3px; transform-origin: left; animation: fill 1.8s var(--ease) both; }
+.tlMarks { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 10px; font-size: 11px; color: rgba(255,255,255,.9); }
+.tlMarks li { display: grid; gap: 6px; justify-items: start; }
+.tlMarks li:nth-child(2) { justify-items: center; text-align: center; }
+.tlMarks li:nth-child(3) { justify-items: end; }
+.tlMarks b { width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.tlMarks li:nth-child(3) b { background: rgba(255,255,255,.4); }

@@ -55,6 +55,8 @@ export function Benefits() {
             <div className={styles.cardTop}>
               <Tag onDark={c.kind !== 'light' && c.kind !== 'grey'}>{c.tag}</Tag>
             </div>
+            {c.kind === 'dark' && <Chain />}
+            {c.kind === 'photo' && <Timeline />}
             {c.kind === 'light' && <CrmRows />}
             {c.kind === 'grey' && <Team />}
             <div className={styles.cardBody}>
@@ -68,12 +70,45 @@ export function Benefits() {
   );
 }
 
+/* Связка: объявление → квиз → бот → заявка. Слова из подписи карточки */
+function Chain() {
+  const steps = ['Объявления', 'Квиз', 'Бот'];
+  return (
+    <div className={styles.chain} aria-hidden>
+      {steps.map((st, i) => (
+        <div key={st} className={styles.chainRow}>
+          <span className={styles.chainNode}><i /></span>
+          <span className={styles.chainPill}>{st}</span>
+          {i < steps.length - 1 && <span className={styles.chainLine} />}
+        </div>
+      ))}
+      <div className={styles.chainRow}>
+        <span className={`${styles.chainNode} ${styles.chainNodeOn}`}><i /></span>
+        <span className={`${styles.chainPill} ${styles.chainPillOn}`}>Заявки</span>
+      </div>
+    </div>
+  );
+}
+/* Таймлайн запуска: бюджет зачислен → день 1 → день 2 */
+function Timeline() {
+  return (
+    <div className={styles.tl} aria-hidden>
+      <div className={styles.tlTrack}><i style={{ width: '66%' }} /></div>
+      <ul className={styles.tlMarks}>
+        <li><b /><span>Бюджет зачислен</span></li>
+        <li><b /><span>День 1</span></li>
+        <li><b /><span>День 2</span></li>
+      </ul>
+    </div>
+  );
+}
 function CrmRows() {
   const widths = [78, 46, 30, 62];
   return (
     <ul className={styles.crm} aria-hidden>
+      <li className={styles.crmHead}><span className="label">CRM</span><span className={styles.live} /></li>
       {benefits.crmRows.map((r, i) => (
-        <li key={r}><span>{r}</span><i style={{ width: `${widths[i]}%` }} /></li>
+        <li key={r}><span>{r}</span><i className={i === 1 ? styles.barOn : ''} style={{ width: `${widths[i]}%` }} /></li>
       ))}
     </ul>
   );
