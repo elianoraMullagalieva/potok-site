@@ -185,7 +185,7 @@ export const about = {
     { value: 140, suffix: '', label: 'проектов с 2019 года', kind: 'bars' },
     { value: 30, suffix: '+', label: 'ниш с готовыми связками', kind: 'dots' },
     { value: 2.1, suffix: '', label: 'года — средний срок с клиентом', kind: 'timeline', decimals: 1 },
-    { value: 55, suffix: '%', label: 'заявок — целевые (50–60 %)', kind: 'ring' },
+    { value: 55, suffix: '%', label: 'заявок — целевые', kind: 'ring' },
   ],
   promisesLabel: '3 обещания из договора',
   promises: [
