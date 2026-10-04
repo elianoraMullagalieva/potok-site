@@ -23,8 +23,13 @@
 .on .shade { opacity: 1; }
 .top, .bottom { position: relative; z-index: 1; }
 .top { display: flex; justify-content: space-between; align-items: center; }
-.n { color: var(--mute); }
-.on .n { color: rgba(255,255,255,.6); }
+.key {
+  display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: #fff; color: var(--ink);
+  font-size: 12px; font-weight: 500;
+  box-shadow: 0 3px 0 #d6d5cf, 0 6px 14px -6px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.04);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.4s var(--ease);
+}
+.on .key { transform: translateY(3px); box-shadow: 0 0 0 #d6d5cf, 0 2px 6px -4px rgba(0,0,0,.3), 0 0 0 1px rgba(0,0,0,.04); background: var(--yellow); }
 
 .title { font-size: var(--t-card); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
 .more { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.8s var(--ease), opacity 0.5s var(--ease); }

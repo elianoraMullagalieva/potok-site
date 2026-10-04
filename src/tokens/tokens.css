@@ -19,7 +19,7 @@
   --yellow: #ffe14d;
 
   --font-sans: 'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --font-mono: var(--font-sans);
 
   --t-hero: clamp(44px, 6.2vw, 92px);
   --t-l: clamp(36px, 4.8vw, 72px);
@@ -27,7 +27,7 @@
   --t-card: 22px;
   --t-body: 15px;
   --t-small: 13px;
-  --t-label: 11px;
+  --t-label: 12px;
 
   --r-frame: 28px;
   --r-card: 20px;

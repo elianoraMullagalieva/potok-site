@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { gsap } from '../../lib/lenis';
 import { hero } from '../../content/texts';
 import { Sky } from '../../ui/Sky';
@@ -18,7 +18,7 @@ const DECK = [
   { rot: -34, z: -70, y: 22 },
 ];
 
-export function Hero() {
+export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => ReactNode; delay?: number } = {}) {
   const root = useRef<HTMLElement>(null);
   const deck = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -27,11 +27,15 @@ export function Hero() {
     const el = root.current!;
     const ctx = gsap.context(() => {
       if (reduced) return;
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay });
       tl.from(`.${styles.frame}`, { scale: 0.96, borderRadius: 60, duration: 1.4 }, 0)
         .from(`.${styles.word}`, { yPercent: 110, opacity: 0, filter: 'blur(8px)', duration: 1.1, stagger: 0.05 }, 0.25)
         .from(`.${styles.sub}, .${styles.actions}, .${styles.under}`, { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 0.7)
-        .from(`.${styles.card}`, { y: 120, opacity: 0, rotateX: -12, duration: 1.4, stagger: { each: 0.08, from: 'center' } }, 0.55)
+        .from(`.${styles.card}`, { y: 160, opacity: 0, rotateX: -55, rotateZ: () => gsap.utils.random(-10, 10), duration: 1.5, ease: 'back.out(1.2)', stagger: { each: 0.09, from: 'center' } }, 0.55)
+        // выделение слова «первого», как текст на телефоне
+        .fromTo(`.${styles.selBg}`, { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, 1.5)
+        .fromTo(`.${styles.selHandle}`, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 1.7)
+        .to(`.${styles.selBg}, .${styles.selHandle}`, { opacity: 0, duration: 0.5 }, 3.1)
         .from(`.${styles.facts} > *`, { y: 12, opacity: 0, duration: 0.8, stagger: 0.08 }, 1.3)
         .from(`header`, { y: -16, opacity: 0, duration: 1 }, 0.4);
     }, el);
@@ -50,7 +54,7 @@ export function Hero() {
     };
     if (!reduced && matchMedia('(pointer:fine)').matches) { el.addEventListener('pointermove', onMove); raf = requestAnimationFrame(tick); }
     return () => { ctx.revert(); el.removeEventListener('pointermove', onMove); cancelAnimationFrame(raf); };
-  }, [reduced]);
+  }, [reduced, delay]);
 
   const words = hero.title.split(' ');
   const tail = hero.titleTail.split(' ');
@@ -64,7 +68,14 @@ export function Hero() {
 
         <div className={styles.center}>
           <h1 className={`display ${styles.h1}`}>
-            <span className={styles.line}>{words.map((w, i) => <span key={i} className={styles.mask}><span className={styles.word}>{w}</span></span>)}</span>
+            <span className={styles.line}>{words.map((w, i) => (
+              <span key={i} className={styles.mask}>
+                <span className={`${styles.word} ${w === 'первого' ? styles.sel : ''}`}>
+                  {w === 'первого' && <><i className={styles.selBg} /><i className={`${styles.selHandle} ${styles.selL}`} /><i className={`${styles.selHandle} ${styles.selR}`} /></>}
+                  {w}
+                </span>
+              </span>
+            ))}</span>
             <span className={`${styles.line} ${styles.tail}`}>{tail.map((w, i) => <span key={i} className={styles.mask}><span className={styles.word}>{w}</span></span>)}</span>
           </h1>
           <p className={styles.sub}>{hero.sub}</p>
@@ -79,7 +90,7 @@ export function Hero() {
           <div ref={deck} className={styles.deck}>
             {DECK.map((d, i) => (
               <div key={i} className={styles.card} style={{ transform: `translateY(${d.y}px) rotateY(${d.rot}deg) translateZ(${d.z}px)` }}>
-                <CardContent i={i} />
+                {renderCard ? renderCard(i) : <CardContent i={i} />}
               </div>
             ))}
           </div>

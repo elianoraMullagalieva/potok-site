@@ -53,7 +53,7 @@ export function Services() {
               <div className={styles.shade} />
               <div className={styles.top}>
                 <Tag onDark={on}>{s.lead}</Tag>
-                <span className={`label ${styles.n}`}>{s.n}</span>
+                <span className={`num ${styles.key}`}>{s.n}</span>
               </div>
               <div className={styles.bottom}>
                 <h3 className={styles.title}>{s.title}</h3>

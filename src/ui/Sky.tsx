@@ -58,7 +58,8 @@ export function Sky({ seed = 1.7, zoom = 1, pan = [0, 0], animate = true, classN
     let raf = 0, running = true, visible = true;
     const resize = () => {
       const w = Math.max(2, Math.floor(cv.clientWidth * scale)), h = Math.max(2, Math.floor(cv.clientHeight * scale));
-      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); gl.uniform2f(uR, w, h); }
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+      gl.uniform2f(uR, w, h);
     };
     const draw = (ms: number) => { resize(); gl.uniform1f(uT, ms / 1000 + seed * 40); gl.drawArrays(gl.TRIANGLES, 0, 3); };
     const loop = (ms: number) => { if (!running) return; if (visible) draw(ms); raf = requestAnimationFrame(loop); };
@@ -68,7 +69,7 @@ export function Sky({ seed = 1.7, zoom = 1, pan = [0, 0], animate = true, classN
     ro.observe(cv);
     if (animate && !reduced) raf = requestAnimationFrame(loop); else draw(performance.now());
     return () => { running = false; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect(); };
-  }, [seed, zoom, pan, animate, reduced, dpr]);
+  }, [seed, zoom, pan[0], pan[1], animate, reduced, dpr]); // eslint-disable-line react-hooks/exhaustive-deps
   return <canvas ref={ref} className={`${styles.sky} ${className ?? ''}`} aria-hidden />;
 }
 
