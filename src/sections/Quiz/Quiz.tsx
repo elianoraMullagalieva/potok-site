@@ -1,0 +1,128 @@
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { quiz } from '../../content/texts';
+import { SkyStatic } from '../../ui/Sky';
+import { Button } from '../../ui/Button';
+import { useReducedMotion } from '../../lib/useReducedMotion';
+import styles from './Quiz.module.css';
+
+/* Результат по правилу из текстов: «Пока не знаю»/«Ничего» → Тест; «Агентство»/«Фрилансер» → Ведение; нестандартная ниша → Связка */
+function plan(answers: (number | null)[]) {
+  const [niche, , budget, tried] = answers;
+  if (budget === 3 || tried === 0) return quiz.plans.test;
+  if (tried === 1 || tried === 2) return quiz.plans.lead;
+  if (niche === 3) return quiz.plans.custom;
+  return quiz.plans.test;
+}
+
+export function Quiz() {
+  const root = useRef<HTMLElement>(null);
+  const [step, setStep] = useState(0); // 0..3 вопросы, 4 финал
+  const [answers, setAnswers] = useState<(number | null)[]>([null, null, null, null]);
+  const [sent, setSent] = useState(false);
+  const reduced = useReducedMotion();
+  const answered = answers.filter((a) => a !== null).length;
+
+  useEffect(() => {
+    if (reduced) return;
+    const ctx = gsap.context(() => {
+      gsap.from(`.${styles.card}`, { y: 80, opacity: 0, scale: 0.97, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 75%' } });
+      gsap.from(`.${styles.h2}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 80%' } });
+    }, root);
+    ScrollTrigger.refresh();
+    return () => ctx.revert();
+  }, [reduced]);
+
+  // смена шага: панель вопроса уезжает влево, новая приезжает справа
+  const pane = useRef<HTMLDivElement>(null);
+  const go = (next: number) => {
+    if (reduced || !pane.current) { setStep(next); return; }
+    gsap.to(pane.current, { x: next > step ? -24 : 24, opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
+      setStep(next);
+      gsap.fromTo(pane.current, { x: next > step ? 24 : -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'expo.out' });
+    } });
+  };
+  const choose = (i: number) => {
+    const a = [...answers]; a[step] = i; setAnswers(a);
+    setTimeout(() => go(Math.min(step + 1, 4)), 320);
+  };
+  const submit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const payload = { name: fd.get('name'), contact: fd.get('contact'), answers: answers.map((a, i) => (a === null ? null : quiz.questions[i].a[a])), plan: plan(answers) };
+    const token = import.meta.env.VITE_TG_TOKEN, chat = import.meta.env.VITE_TG_CHAT;
+    if (token && chat) {
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chat, text: `Квиз · ${payload.plan}\n${payload.name} · ${payload.contact}\n${payload.answers.join(' · ')}` }) }).catch(() => {});
+    }
+    setSent(true);
+  };
+
+  const q = quiz.questions[step];
+  const fill = (answered / 4) * 100;
+
+  return (
+    <section id="quiz" ref={root} className={`wrap ${styles.section}`}>
+      <h2 className={`display ${styles.h2}`}>{quiz.title}</h2>
+      <div className={styles.card}>
+        {/* левая колонка: вопрос или финал */}
+        <div className={styles.left}>
+          <div className={styles.top}>
+            <span className={`label ${styles.progressLabel}`}>{step < 4 ? quiz.progress(step + 1) : quiz.final.title}</span>
+            <span className={styles.steps} aria-hidden>{[0, 1, 2, 3].map((i) => <i key={i} className={i < answered ? styles.stepOn : ''} />)}</span>
+          </div>
+          <div ref={pane} className={styles.pane}>
+            {step < 4 ? (
+              <>
+                <h3 className={styles.q}>{q.q}</h3>
+                <ul className={styles.options}>
+                  {q.a.map((o, i) => (
+                    <li key={o}>
+                      <button type="button" className={`${styles.opt} ${answers[step] === i ? styles.optOn : ''}`} onClick={() => choose(i)}>
+                        <span className={styles.optFill} aria-hidden /><span className={styles.optText}>{o}</span>
+                        <span className={styles.optIdx} aria-hidden>{i + 1}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                {step > 0 && <button type="button" className={styles.back} onClick={() => go(step - 1)}>← {quiz.back}</button>}
+              </>
+            ) : sent ? (
+              <div className={styles.done}><span className={styles.check} aria-hidden>✓</span><h3 className={styles.q}>{quiz.final.done}</h3></div>
+            ) : (
+              <form className={styles.form} onSubmit={submit}>
+                <p className={styles.sub}>{quiz.final.sub}</p>
+                <div className={styles.planRow}><span className="label mute">{quiz.final.insideLabel}</span><span className={styles.plan}>{plan(answers)}</span></div>
+                <ul className={styles.inside}>{quiz.final.inside.map((x) => <li key={x}>{x}</li>)}</ul>
+                <p className={styles.bonus}><b>Бонус</b> · {quiz.final.bonus}</p>
+                <div className={styles.fields}>
+                  <input name="name" required placeholder={quiz.final.name} className={styles.input} autoComplete="name" />
+                  <input name="contact" required placeholder={quiz.final.contact} className={styles.input} autoComplete="tel" />
+                </div>
+                <label className={styles.consent}><input type="checkbox" required /> <span>{quiz.final.consent}</span></label>
+                <Button variant="primary" arrow type="submit" className={styles.cta}>{quiz.final.cta}</Button>
+                <button type="button" className={styles.back} onClick={() => go(3)}>← {quiz.back}</button>
+              </form>
+            )}
+          </div>
+        </div>
+
+        {/* правая колонка: небо и «О», которая заливается за каждый ответ */}
+        <div className={styles.right}>
+          <SkyStatic seed={5.5} zoom={0.9} pan={[0.2, 0.1]} />
+          <div className={styles.o} aria-hidden>
+            <svg viewBox="0 0 200 200" width="100%" height="100%">
+              <defs><clipPath id="oFill"><rect x="0" y={200 - fill * 2} width="200" height="200" style={{ transition: 'y 1s cubic-bezier(.16,1,.3,1)' }} /></clipPath></defs>
+              <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,.55)" strokeWidth="26" />
+              <circle cx="100" cy="100" r="78" fill="none" stroke="var(--yellow)" strokeWidth="26" clipPath="url(#oFill)" />
+            </svg>
+            <span className={`num ${styles.pct}`}>{fill}%</span>
+          </div>
+          <ul className={styles.picked}>
+            {answers.map((a, i) => a === null ? null : <li key={i} className={styles.pick}>{quiz.questions[i].a[a]}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}

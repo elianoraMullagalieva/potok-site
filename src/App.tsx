@@ -7,6 +7,7 @@ import { BenefitsV2 } from './sections/Benefits/BenefitsV2';
 import { Services } from './sections/Services/Services';
 import { WorkSphere } from './sections/Gallery/WorkSphere';
 import { Cases } from './sections/Cases/Cases';
+import { Quiz } from './sections/Quiz/Quiz';
 import { Preloader } from './ui/Preloader';
 
 const params = new URLSearchParams(location.search);
@@ -23,6 +24,7 @@ export default function App() {
       {loading && <Preloader onDone={done} />}
       <Hero renderCard={V1 ? undefined : (i) => <HeroCardV2 i={i} />} delay={loading ? 3.0 : 0} />
       {V1 ? <Benefits /> : <BenefitsV2 />}
+      <Quiz />
       <Services />
       <WorkSphere />
       <Cases />

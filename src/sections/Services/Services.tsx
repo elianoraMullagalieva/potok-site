@@ -1,30 +1,45 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { services } from '../../content/texts';
-import { SkyStatic } from '../../ui/Sky';
 import { Tag } from '../../ui/Tag';
 import { Button } from '../../ui/Button';
+import { Wire, type WireKind } from '../../ui/Wire';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Services.module.css';
 
+/* Объект под каждую услугу: по смыслу, не декорация */
+const OBJ: WireKind[] = ['funnel', 'coil', 'wave', 'poly', 'rings'];
+
 export function Services() {
   const root = useRef<HTMLElement>(null);
-  const [active, setActive] = useState(1);
+  const detail = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
   const reduced = useReducedMotion();
 
   useEffect(() => {
     if (reduced) return;
     const ctx = gsap.context(() => {
-      gsap.from(`.${styles.h2} .${styles.line}`, { yPercent: 100, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12,
-        scrollTrigger: { trigger: `.${styles.h2}`, start: 'top 80%' } });
-      gsap.from(`.${styles.item}`, { y: 60, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08,
-        scrollTrigger: { trigger: `.${styles.row}`, start: 'top 85%' } });
+      gsap.from(`.${styles.h2} .${styles.line}`, { yPercent: 100, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: `.${styles.h2}`, start: 'top 80%' } });
+      gsap.from(`.${styles.item}`, { y: 60, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.row}`, start: 'top 85%' } });
+      gsap.from(`.${styles.detail}`, { y: 60, opacity: 0, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.detail}`, start: 'top 85%' } });
     }, root);
     ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced]);
 
-  const leads = Array.from(new Set(services.items.map((s) => s.lead)));
+  // смена услуги: содержимое карточки мягко перетекает
+  const pick = (i: number) => {
+    if (i === active) return;
+    if (reduced || !detail.current) { setActive(i); return; }
+    gsap.to(`.${styles.swap}`, { y: -10, opacity: 0, duration: 0.2, ease: 'power2.in', onComplete: () => {
+      setActive(i);
+      gsap.fromTo(`.${styles.swap}`, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05 });
+    } });
+  };
+
+  const s = services.items[active];
+  const person = services.people[s.lead];
+  const leads = Array.from(new Set(services.items.map((x) => x.lead)));
 
   return (
     <section id="services" ref={root} className={`wrap ${styles.section}`}>
@@ -40,32 +55,52 @@ export function Services() {
         <p className={`${styles.note} ${styles.noteRight}`}><span className="label mute">{services.leadLabel}</span><br />{leads.join(' · ')}</p>
       </div>
 
+      {/* превью: пять клавиш */}
       <div className={styles.row} role="tablist" aria-label={services.label}>
-        {services.items.map((s, i) => {
+        {services.items.map((it, i) => {
           const on = i === active;
           return (
-            <div
-              key={s.n} role="tab" aria-selected={on} tabIndex={0}
-              className={`${styles.item} ${on ? styles.on : ''}`}
-              onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}
-            >
-              {on && <SkyStatic seed={6 + i} zoom={0.7} pan={[0.2 * i, 0.3]} />}
-              <div className={styles.shade} />
+            <div key={it.n} role="tab" aria-selected={on} tabIndex={0} className={`${styles.item} ${on ? styles.on : ''}`}
+              onClick={() => pick(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(i); } }}>
               <div className={styles.top}>
-                <Tag onDark={on}>{s.lead}</Tag>
-                <span className={`num ${styles.key}`}>{s.n}</span>
+                <Tag onDark={on}>{it.lead}</Tag>
+                <span className={`num ${styles.key}`}>{it.n}</span>
               </div>
-              <div className={styles.bottom}>
-                <h3 className={styles.title}>{s.title}</h3>
-                <div className={styles.more}>
-                  <p className={styles.lineText}>{s.line}</p>
-                  <p className={styles.fit}><span className="label">{services.fitLabel}</span><br />{s.fit}</p>
-                  <Button variant="primary" arrow className={styles.cta} tabIndex={on ? 0 : -1}>{services.cta}</Button>
-                </div>
-              </div>
+              <div className={styles.preview} aria-hidden><Wire kind={OBJ[i]} color={on ? '#f4f3ef' : '#1a1b1f'} accent="#ffe14d" stroke={0.9} speed={on ? 1 : 0.5} /></div>
+              <h3 className={styles.title}>{it.title}</h3>
             </div>
           );
         })}
+      </div>
+
+      {/* раскрытая карточка: всегда открыта, по умолчанию первая */}
+      <div ref={detail} className={styles.detail}>
+        <div className={styles.dLeft}>
+          <span className={`label mute ${styles.swap}`}>{s.n} · {services.label}</span>
+          <h3 className={`${styles.dTitle} ${styles.swap}`}>{s.title}</h3>
+          <p className={`${styles.dLine} ${styles.swap}`}>{s.line}</p>
+          <Button variant="primary" arrow className={styles.dCta}>{services.cta}</Button>
+        </div>
+        <div className={styles.dVisual}>
+          <Wire kind={OBJ[active]} accent="#ffe14d" stroke={1.1} />
+        </div>
+        <div className={styles.dRight}>
+          <div className={styles.swap}>
+            <span className="label mute">{services.fitLabel}</span>
+            <p className={styles.dFit}>{s.fit}</p>
+          </div>
+          <div className={`${styles.dLead} ${styles.swap}`}>
+            <span className="label mute">{services.leadLabel}</span>
+            <div className={styles.person}>
+              <span className={styles.ava}>{person.initials}</span>
+              <div>
+                <div className={styles.pName}>{person.name}</div>
+                <div className={styles.pRole}>{person.role}</div>
+              </div>
+            </div>
+            <p className={styles.pExp}>{person.exp}</p>
+          </div>
+        </div>
       </div>
     </section>
   );
