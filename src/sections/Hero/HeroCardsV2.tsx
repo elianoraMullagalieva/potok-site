@@ -1,7 +1,7 @@
 import { hero } from '../../content/texts';
-import { Wire } from '../../ui/Wire';
 import { Curves } from '../../ui/Curves';
 import { Dot } from '../../ui/Tag';
+import { Segments } from './Hero';
 import s from './Hero.module.css';
 import v from './HeroV2.module.css';
 
@@ -35,9 +35,9 @@ export function HeroCardV2({ i }: { i: number }) {
       return (
         <div className={`${s.inner} ${s.white}`}>
           <Head label="Запуски" trend />
-          <div className={v.sphere}><Wire kind="dots" faded={0.1} accent="#ffe14d" stroke={1} speed={0.8} /></div>
           <div>
             <div className={`num ${s.big}`}>9 <span className={s.bigMute}>из 10</span></div>
+            <Segments total={10} filled={9} />
             <p className={s.caption}>запусков — заявки в 1-й день</p>
           </div>
         </div>

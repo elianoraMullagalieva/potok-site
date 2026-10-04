@@ -70,7 +70,7 @@
 .time { opacity: .7; }
 .cardText { margin-top: 10px; font-size: 16px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.25; color: #fff; }
 
-.idea { font-size: 21px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; }
+.idea { font-size: 20px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; text-wrap: balance; }
 .ideaMute { color: rgba(244,243,239,.5); }
 
 .facts {

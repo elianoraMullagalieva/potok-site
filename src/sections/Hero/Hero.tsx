@@ -70,7 +70,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
           {/* 5 карточек × 3 = кольцо из 15: спереди читаются пять, края тают в небе */}
           <SkyRing
             count={15}
-            cardWidth={small ? 150 : 200} cardHeight={small ? 196 : 260} gap={small ? 14 : 40}
+            cardWidth={small ? 160 : 228} cardHeight={small ? 204 : 268} gap={small ? 14 : 30}
             speed={2.2} clearArc={46} haze={12}
             cardClassName={styles.card}
             render={(i) => (renderCard ? renderCard(i % 5) : <CardContent i={i % 5} />)}
@@ -157,7 +157,7 @@ function CardContent({ i }: { i: number }) {
 }
 
 /* 10 сегментов: 9 заполнены — читается мгновенно */
-function Segments({ total, filled }: { total: number; filled: number }) {
+export function Segments({ total, filled }: { total: number; filled: number }) {
   return (
     <div className={styles.segs} aria-hidden>
       {Array.from({ length: total }, (_, k) => <i key={k} className={k < filled ? styles.segOn : styles.segOff} style={{ animationDelay: `${k * 0.14}s` }} />)}
