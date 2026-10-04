@@ -35,14 +35,19 @@ export function Quiz() {
 
   // смена шага: панель вопроса уезжает влево, новая приезжает справа
   const pane = useRef<HTMLDivElement>(null);
+  const busy = useRef(false);
   const go = (next: number) => {
     if (reduced || !pane.current) { setStep(next); return; }
-    gsap.to(pane.current, { x: next > step ? -24 : 24, opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
+    busy.current = true;
+    gsap.killTweensOf(pane.current);
+    gsap.to(pane.current, { x: next > step ? -24 : 24, opacity: 0, duration: 0.25, ease: 'power2.in', overwrite: true, onComplete: () => {
       setStep(next);
-      gsap.fromTo(pane.current, { x: next > step ? 24 : -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'expo.out' });
+      gsap.fromTo(pane.current, { x: next > step ? 24 : -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: 'expo.out', overwrite: true, onComplete: () => { busy.current = false; } });
     } });
   };
   const choose = (i: number) => {
+    if (busy.current) return;
+    busy.current = true;
     const a = [...answers]; a[step] = i; setAnswers(a);
     setTimeout(() => go(Math.min(step + 1, 4)), 320);
   };
