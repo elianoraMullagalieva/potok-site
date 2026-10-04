@@ -33,8 +33,8 @@ export function Cases() {
         gsap.set(c, { x: k * 48, rotate: k * 7, y: Math.abs(k) * 18, zIndex: 10 - Math.abs(k) });
         tl.to(c, { x: k * 400, rotate: 0, y: 0, ease: 'power2.inOut', duration: 1 }, 0);
       });
-      tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.22, scale: 1.04 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
-        .to(`.${styles.big}`, { yPercent: -92, ease: 'power2.inOut', duration: 0.8 }, 0.35)
+      tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.22, scale: 1.04, yPercent: -50 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
+        .to(`.${styles.big}`, { yPercent: -142, ease: 'power2.inOut', duration: 0.8 }, 0.35)
         .to(`.${styles.stage}`, { y: 90, ease: 'power2.inOut', duration: 0.8 }, 0.35)
         .fromTo(`.${styles.foot}`, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, 0.6);
       // счётчики «12 → 92»
