@@ -18,6 +18,7 @@ const M = IMAGES.length;
 export function WorkSphere() {
   const root = useRef<HTMLElement>(null);
   const globe = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
   const tiles = useRef<(HTMLElement | null)[]>([]);
   const small = useMedia('(max-width: 768px)');
   const reduced = useReducedMotion();
@@ -38,6 +39,11 @@ export function WorkSphere() {
   useEffect(() => {
     const g = globe.current!; const el = root.current!;
     const st = { rot: 0, vel: 0, drag: false, x: 0, scroll: 0, tilt: -12 };
+    // прямоугольник заголовка: размываем только то, что его задевает
+    let hw = 300, hh = 60;
+    const measure = () => { const r = headRef.current?.getBoundingClientRect(); if (r) { hw = r.width / 2 + 24; hh = r.height / 2 + 20; } };
+    measure();
+    const ro = new ResizeObserver(measure); if (headRef.current) ro.observe(headRef.current);
     const paint = () => {
       const rot = st.rot + st.scroll;
       g.style.transform = `rotateX(${st.tilt}deg) rotateY(${rot}deg)`;
@@ -54,9 +60,11 @@ export function WorkSphere() {
         // экранная позиция плитки с учётом перспективы
         const k = PERSP / (PERSP - z * R);
         const sx = x * R * k, sy = y * R * k;
-        // окно под текст: эллипс в центре экрана, внутри него плитки растворяются полностью
-        const d = Math.hypot(sx / 430, sy / 230);
-        const win = Math.max(0, Math.min(1, (1.15 - d) / 0.35));
+        // пересечение плитки с прямоугольником заголовка (с мягким полем 48px)
+        const tw = (TILE * k * (RATIO[i % M] < 1 ? 0.78 : 1)) / 2, th = tw / RATIO[i % M];
+        const dx = Math.max(0, Math.abs(sx) - (hw + tw)), dy = Math.max(0, Math.abs(sy) - (hh + th));
+        const gap = Math.max(dx, dy);
+        const win = Math.max(0, Math.min(1, 1 - gap / 48));
         const edge = Math.max(0, Math.min(1, z / 0.25)); // края сферы мягко уходят
         const o = (1 - win) * (0.25 + 0.75 * edge);
         t.style.opacity = o.toFixed(3);
@@ -84,7 +92,7 @@ export function WorkSphere() {
     const up = () => { st.drag = false; };
     el.addEventListener('pointerdown', down); el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
     ScrollTrigger.refresh();
-    return () => { running = false; cancelAnimationFrame(raf); ctx.revert(); el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
+    return () => { running = false; cancelAnimationFrame(raf); ro.disconnect(); ctx.revert(); el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
   }, [N, R, PERSP, reduced]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -100,7 +108,7 @@ export function WorkSphere() {
           ))}
         </div>
       </div>
-      <div className={styles.head}>
+      <div ref={headRef} className={styles.head}>
         <h2 className={`display ${styles.h2}`}>{gallery.title}<br /><span className={styles.tail}>{gallery.titleTail}</span></h2>
       </div>
     </section>
