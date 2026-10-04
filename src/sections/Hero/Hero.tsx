@@ -11,11 +11,11 @@ import styles from './Hero.module.css';
 
 /* Веер карточек: угол и глубина от центра, как у референса */
 const DECK = [
-  { rot: 38, z: -140, y: 26 },
-  { rot: 20, z: -60, y: 10 },
+  { rot: 34, z: -70, y: 22 },
+  { rot: 17, z: -24, y: 8 },
   { rot: 0, z: 0, y: 0 },
-  { rot: -20, z: -60, y: 10 },
-  { rot: -38, z: -140, y: 26 },
+  { rot: -17, z: -24, y: 8 },
+  { rot: -34, z: -70, y: 22 },
 ];
 
 export function Hero() {

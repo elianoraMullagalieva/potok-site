@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { benefits } from '../../content/texts';
-import { Sky } from '../../ui/Sky';
+import { SkyStatic } from '../../ui/Sky';
 import { Tag, Dot } from '../../ui/Tag';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Benefits.module.css';
@@ -40,9 +40,9 @@ export function Benefits() {
       <h2 className={`display ${styles.manifest}`}>
         {benefits.manifest.map((chunk, i) =>
           chunk === '▬' ? (
-            <span key={i} className={styles.capsule} aria-hidden><Sky seed={2.3 + i} zoom={0.6} pan={[0.4 * i, 0.2]} animate={false} /></span>
+            <span key={i} className={styles.capsule} aria-hidden><SkyStatic seed={2.3 + i} zoom={0.6} pan={[0.4 * i, 0.2]} /></span>
           ) : (
-            chunk.split(' ').map((w, j) => <span key={`${i}-${j}`} className={`${styles.w} ${i >= 2 ? styles.wMute : ''}`}>{w} </span>)
+            chunk.split(' ').map((w, j) => <span key={`${i}-${j}`} className={`${styles.w} ${i >= 2 ? styles.wMute : ''}`}>{w}</span>)
           ),
         )}
       </h2>
@@ -50,7 +50,7 @@ export function Benefits() {
       <div className={styles.cards}>
         {benefits.cards.map((c, i) => (
           <article key={c.tag} className={`${styles.card} ${styles[c.kind]}`} style={{ '--i': i } as React.CSSProperties}>
-            {c.kind === 'photo' && <Sky seed={4.1} zoom={0.8} pan={[0.3, 0.1]} animate={false} />}
+            {c.kind === 'photo' && <SkyStatic seed={4.1} zoom={0.8} pan={[0.3, 0.1]} />}
             {c.kind === 'photo' && <div className={styles.photoShade} />}
             <div className={styles.cardTop}>
               <Tag onDark={c.kind !== 'light' && c.kind !== 'grey'}>{c.tag}</Tag>

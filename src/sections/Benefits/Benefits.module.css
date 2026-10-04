@@ -1,10 +1,10 @@
 .section { padding-top: 140px; padding-bottom: 120px; }
 .head { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .manifest {
-  margin: 28px auto 0; max-width: 1040px; text-align: center;
-  font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.04;
+  margin: 28px auto 0; max-width: 1240px; text-align: center; text-wrap: balance;
+  font-size: clamp(32px, 4.4vw, 66px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.04;
 }
-.w { display: inline-block; will-change: opacity; }
+.w { display: inline-block; will-change: opacity; margin-right: 0.24em; }
 .wMute { color: var(--mute); }
 .capsule {
   position: relative; display: inline-block; vertical-align: middle; width: 1.55em; height: 0.62em; margin: 0 0.12em 0.1em;

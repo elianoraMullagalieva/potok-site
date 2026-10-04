@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useReducedMotion } from '../lib/useReducedMotion';
 import styles from './Sky.module.css';
 
@@ -15,7 +15,7 @@ void main(){
   vec2 uv = gl_FragCoord.xy / r; vec2 q = uv; q.x *= r.x/r.y;
   q = q*zoom + pan;
   // градиент неба: глубокий синий сверху, светлый у горизонта
-  vec3 top = vec3(0.09, 0.40, 1.0); vec3 hor = vec3(0.62, 0.80, 1.0);
+  vec3 top = vec3(0.06, 0.34, 0.98); vec3 hor = vec3(0.50, 0.74, 1.0);
   vec3 sky = mix(hor, top, smoothstep(0.0, 1.0, pow(uv.y, 0.85)));
   // солнце в верхнем левом углу
   float sun = exp(-length(uv - vec2(0.18, 1.05))*2.2);
@@ -23,9 +23,9 @@ void main(){
   // облака: два слоя, медленный дрейф
   float d1 = fbm(q*1.6 + vec2(t*0.012, 0.0));
   float d2 = fbm(q*3.4 + vec2(-t*0.02, t*0.004) + 7.0);
-  float band = smoothstep(0.95, 0.15, uv.y);           // кучевые ближе к низу
-  float c1 = smoothstep(0.46, 0.72, d1 + band*0.08);
-  float c2 = smoothstep(0.55, 0.78, d2) * 0.55 * smoothstep(0.2, 0.9, uv.y);
+  float band = smoothstep(0.80, 0.25, uv.y);           // кучевые только внизу
+  float c1 = smoothstep(0.52, 0.76, d1) * band;
+  float c2 = smoothstep(0.62, 0.82, d2) * 0.35 * smoothstep(0.3, 0.95, uv.y);
   float cloud = clamp(c1 + c2, 0.0, 1.0);
   // объём: верх облака светлее, низ в тени
   float shade = fbm(q*2.2 + vec2(0.0, 0.35) + vec2(t*0.012, 0.0));
@@ -70,4 +70,38 @@ export function Sky({ seed = 1.7, zoom = 1, pan = [0, 0], animate = true, classN
     return () => { running = false; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect(); };
   }, [seed, zoom, pan, animate, reduced, dpr]);
   return <canvas ref={ref} className={`${styles.sky} ${className ?? ''}`} aria-hidden />;
+}
+
+
+/* Статичные копии неба: один общий WebGL-контекст → dataURL. Не плодим контексты. */
+let shared: { cv: HTMLCanvasElement; gl: WebGLRenderingContext; u: Record<string, WebGLUniformLocation | null> } | null = null;
+function getShared() {
+  if (shared) return shared;
+  const cv = document.createElement('canvas');
+  const gl = cv.getContext('webgl', { preserveDrawingBuffer: true, antialias: false })!;
+  const sh = (type: number, src: string) => { const x = gl.createShader(type)!; gl.shaderSource(x, src); gl.compileShader(x); return x; };
+  const prog = gl.createProgram()!;
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VERT)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FRAG)); gl.linkProgram(prog); gl.useProgram(prog);
+  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const u = Object.fromEntries(['r', 't', 'seed', 'zoom', 'pan'].map((k) => [k, gl.getUniformLocation(prog, k)]));
+  shared = { cv, gl, u };
+  return shared;
+}
+const cache = new Map<string, string>();
+export function skyImage(seed: number, zoom: number, pan: [number, number], w = 640, h = 480) {
+  const key = `${seed}|${zoom}|${pan}|${w}x${h}`;
+  const hit = cache.get(key); if (hit) return hit;
+  const { cv, gl, u } = getShared();
+  cv.width = w; cv.height = h; gl.viewport(0, 0, w, h);
+  gl.uniform2f(u.r, w, h); gl.uniform1f(u.t, seed * 40); gl.uniform1f(u.seed, seed); gl.uniform1f(u.zoom, zoom); gl.uniform2f(u.pan, pan[0], pan[1]);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  const url = cv.toDataURL('image/jpeg', 0.86);
+  cache.set(key, url);
+  return url;
+}
+export function SkyStatic({ seed = 2, zoom = 0.8, pan = [0, 0] as [number, number], className }: { seed?: number; zoom?: number; pan?: [number, number]; className?: string }) {
+  const url = useMemo(() => skyImage(seed, zoom, pan), [seed, zoom, pan[0], pan[1]]); // eslint-disable-line react-hooks/exhaustive-deps
+  return <div className={`${styles.sky} ${className ?? ''}`} style={{ backgroundImage: `url(${url})`, backgroundSize: 'cover', backgroundPosition: 'center' }} aria-hidden />;
 }

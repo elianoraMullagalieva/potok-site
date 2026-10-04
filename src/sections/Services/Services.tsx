@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { services } from '../../content/texts';
-import { Sky } from '../../ui/Sky';
+import { SkyStatic } from '../../ui/Sky';
 import { Tag } from '../../ui/Tag';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
@@ -44,12 +44,12 @@ export function Services() {
         {services.items.map((s, i) => {
           const on = i === active;
           return (
-            <button
-              key={s.n} role="tab" aria-selected={on}
+            <div
+              key={s.n} role="tab" aria-selected={on} tabIndex={0}
               className={`${styles.item} ${on ? styles.on : ''}`}
               onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}
             >
-              {on && <Sky seed={6 + i} zoom={0.7} pan={[0.2 * i, 0.3]} animate={false} />}
+              {on && <SkyStatic seed={6 + i} zoom={0.7} pan={[0.2 * i, 0.3]} />}
               <div className={styles.shade} />
               <div className={styles.top}>
                 <Tag onDark={on}>{s.lead}</Tag>
@@ -63,7 +63,7 @@ export function Services() {
                   <Button variant="primary" arrow className={styles.cta} tabIndex={on ? 0 : -1}>{services.cta}</Button>
                 </div>
               </div>
-            </button>
+            </div>
           );
         })}
       </div>

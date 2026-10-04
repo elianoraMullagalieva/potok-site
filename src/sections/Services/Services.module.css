@@ -11,7 +11,7 @@
 
 .row { display: flex; gap: 12px; margin-top: 72px; height: 300px; }
 .item {
-  position: relative; flex: 1; min-width: 0; border-radius: var(--r-card); overflow: hidden; isolation: isolate;
+  cursor: pointer; position: relative; flex: 1; min-width: 0; border-radius: var(--r-card); overflow: hidden; isolation: isolate;
   background: var(--card-grey); color: var(--ink); text-align: left;
   display: flex; flex-direction: column; justify-content: space-between; padding: 18px;
   transition: flex 0.9s var(--ease), background 0.5s var(--ease), color 0.4s var(--ease), transform 0.7s var(--ease);
