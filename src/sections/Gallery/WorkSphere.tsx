@@ -10,9 +10,9 @@ import styles from './WorkSphere.module.css';
  * Крутится сама, от скролла (pin) и от перетаскивания. Плитки, повёрнутые
  * к зрителю лицом в центр, тают — так в сфере открывается окно под заголовок.
  */
-const IMAGES = ['c1.webp', 'c8.jpg', 'c2.webp', 'c9.jpg', 'c3.webp', 'c10.jpg', 'c4.webp', 'c11.jpg', 'c5.webp', 'c12.jpg', 'c6.webp', 'c7.webp'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}`);
+const IMAGES = ['c1.webp', 'c8.jpg', 'c2.webp', 'c9.jpg', 'c3.webp', 'c10.jpg', 'c4.webp', 'c11.jpg', 'c5.webp', 'c6.webp', 'c7.webp'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}`);
 // пропорции ширина/высота каждого креатива, порядок чередует тёмные и светлые
-const RATIO = [16 / 9, 1, 16 / 9, 0.9, 16 / 9, 0.8, 16 / 9, 1.12, 16 / 9, 1, 16 / 9, 3 / 4];
+const RATIO = [16 / 9, 1, 16 / 9, 0.9, 16 / 9, 0.8, 16 / 9, 1.12, 16 / 9, 16 / 9, 3 / 4];
 const M = IMAGES.length;
 
 export function WorkSphere() {
