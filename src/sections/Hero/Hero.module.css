@@ -37,9 +37,9 @@
 .dark { background: var(--dark); color: var(--on-dark); }
 .glass { background: rgba(16, 52, 150, .34); backdrop-filter: blur(22px) saturate(1.3); -webkit-backdrop-filter: blur(22px) saturate(1.3); color: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.28) inset; }
 
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.chipsBottom { display: flex; gap: 6px; }
-.chip { font-size: 11px; font-weight: 500; letter-spacing: -0.01em; padding: 6px 10px; border-radius: var(--r-pill); background: var(--bg-2); white-space: nowrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.chipsBottom { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { font-size: 11px; font-weight: 500; letter-spacing: -0.01em; padding: 5px 9px; border-radius: var(--r-pill); background: var(--bg-2); white-space: nowrap; }
 .chipDark { background: var(--ink); color: var(--on-dark); }
 
 .big { font-size: 38px; font-weight: 500; letter-spacing: -0.05em; line-height: 0.95; white-space: nowrap; }
@@ -48,10 +48,17 @@
 .head .label { font-size: 11.5px; }
 .dark .head { color: rgba(244,243,239,.5); }
 .trend { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; background: var(--bg-2); color: var(--ink); }
-.segs { display: flex; gap: 3px; margin-top: 12px; }
-.segs i { flex: 1; height: 14px; border-radius: 3px; }
-.segOn { background: var(--ink); }
-.segOff { background: var(--bg-2); }
+.segs { display: flex; gap: 4px; margin-top: 12px; }
+.segs i { flex: 1; height: 12px; border-radius: 4px; background: var(--bg-2); }
+/* мягкие сегменты: зажигаются по очереди от первого к последнему, держатся и гаснут */
+.segOn { animation: ignite 4.2s var(--ease) infinite; }
+.segOff { box-shadow: 0 0 0 1px var(--line) inset; background: transparent; }
+@keyframes ignite {
+  0%, 4% { background: var(--bg-2); }
+  12%, 70% { background: #d9d7d0; box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 0 0 1px rgba(0,0,0,.03); }
+  85%, 100% { background: var(--bg-2); box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) { .segOn { animation: none; background: #d9d7d0; } }
 .chipOn { background: var(--yellow); }
 .chipDot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 6px; vertical-align: 1px; }
 .spark { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); vertical-align: 2px; margin: 0 1px; }

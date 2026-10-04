@@ -160,7 +160,7 @@ function CardContent({ i }: { i: number }) {
 function Segments({ total, filled }: { total: number; filled: number }) {
   return (
     <div className={styles.segs} aria-hidden>
-      {Array.from({ length: total }, (_, k) => <i key={k} className={k < filled ? styles.segOn : styles.segOff} />)}
+      {Array.from({ length: total }, (_, k) => <i key={k} className={k < filled ? styles.segOn : styles.segOff} style={{ animationDelay: `${k * 0.14}s` }} />)}
     </div>
   );
 }

@@ -23,7 +23,7 @@ export function HeroCardV2({ i }: { i: number }) {
           <Head label="Ниша" />
           <div className={v.pills}>
             {hero.niches.map((n, k) => (
-              <span key={n} className={`${v.pill} ${k === 0 ? v.pillOn : ''}`} style={{ width: ['88%', '70%', '54%', '62%'][k] }}>
+              <span key={n} className={`${v.pill} ${k === 0 ? v.pillOn : ''}`} style={{ width: ['88%', '72%', '54%', '62%', '58%'][k] }}>
                 <i className={v.pillIcon} /><span>{n}</span>
               </span>
             ))}
