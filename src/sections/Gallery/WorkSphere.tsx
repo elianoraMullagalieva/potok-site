@@ -21,8 +21,9 @@ export function WorkSphere() {
   const reduced = useReducedMotion();
   const N = small ? 28 : 56;
   // шар во весь экран: радиус от высоты окна, спереди плитки крупнее за счёт перспективы
-  const R = small ? 240 : 560;
-  const TILE = small ? 112 : 176;
+  const R = small ? 230 : 470;
+  const TILE = small ? 104 : 168;
+  const PERSP = small ? 1400 : 2600;
 
   // позиции на сфере
   const pos = Array.from({ length: N }, (_, i) => {
@@ -48,12 +49,16 @@ export function WorkSphere() {
         const y1 = y * Math.cos(tx) - z * Math.sin(tx), z2 = y * Math.sin(tx) + z * Math.cos(tx); y = y1; z = z2;
         if (z < -0.05) { t.style.visibility = 'hidden'; continue; }
         t.style.visibility = 'visible';
-        // сердцевина прозрачная: всё, что ближе к зрителю, чем 0.5, растворяется полностью
-        const win = Math.max(0, Math.min(1, (z - 0.42) / 0.3));
-        const edge = Math.max(0, Math.min(1, z / 0.3)); // края сферы мягко уходят
-        const o = (1 - win) * (0.2 + 0.8 * edge);
+        // экранная позиция плитки с учётом перспективы
+        const k = PERSP / (PERSP - z * R);
+        const sx = x * R * k, sy = y * R * k;
+        // окно под текст: эллипс в центре экрана, внутри него плитки растворяются полностью
+        const d = Math.hypot(sx / 430, sy / 230);
+        const win = Math.max(0, Math.min(1, (1.15 - d) / 0.35));
+        const edge = Math.max(0, Math.min(1, z / 0.25)); // края сферы мягко уходят
+        const o = (1 - win) * (0.25 + 0.75 * edge);
         t.style.opacity = o.toFixed(3);
-        t.style.filter = win > 0.1 ? `blur(${(win * 14).toFixed(1)}px)` : 'none';
+        t.style.filter = win > 0.05 ? `blur(${(win * 12).toFixed(1)}px)` : 'none';
         void y;
       }
     };
@@ -78,11 +83,11 @@ export function WorkSphere() {
     el.addEventListener('pointerdown', down); el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
     ScrollTrigger.refresh();
     return () => { running = false; cancelAnimationFrame(raf); ctx.revert(); el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
-  }, [N, reduced]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [N, R, PERSP, reduced]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section id="gallery" ref={root} className={styles.section}>
-      <div className={styles.stage} style={{ perspective: small ? 900 : 1400 }}>
+      <div className={styles.stage} style={{ perspective: PERSP }}>
         <div ref={globe} className={styles.globe}>
           {pos.map((p, i) => (
             <div key={i} ref={(n) => { tiles.current[i] = n; }} className={styles.tile}
