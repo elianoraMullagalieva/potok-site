@@ -1,6 +1,5 @@
 import { hero } from '../../content/texts';
 import { Curves } from '../../ui/Curves';
-import { Dot } from '../../ui/Tag';
 import { Segments } from './Hero';
 import s from './Hero.module.css';
 import v from './HeroV2.module.css';
@@ -42,11 +41,17 @@ export function HeroCardV2({ i }: { i: number }) {
           </div>
         </div>
       );
-    case 2: // пилюля на градиенте неба, как «Agent»
+    case 2: // уведомление как на iPhone: прилетает сверху, повторяется
       return (
         <div className={`${s.inner} ${s.glass} ${v.agent}`}>
-          <span className={v.agentPill}><Dot /><span>{hero.card.label}</span><span className={`num ${v.agentTime}`}>{hero.card.time}</span></span>
-          <p className={v.agentText}>{hero.card.text}</p>
+          <div className={v.notif}>
+            <span className={v.appIcon} aria-hidden><b>a</b></span>
+            <div className={v.notifBody}>
+              <div className={v.notifHead}><span className={v.appName}>amoCRM</span><span className={`num ${v.notifTime}`}>{hero.card.time}</span></div>
+              <div className={v.notifTitle}>{hero.card.label}</div>
+              <div className={v.notifText}>{hero.card.text}</div>
+            </div>
+          </div>
         </div>
       );
     case 3: // тёмная: светящееся кольцо + мысль
