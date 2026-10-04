@@ -59,10 +59,10 @@ export const services = {
   fitLabel: 'Подходит, если…',
   leadLabel: 'Ведёт',
   people: {
-    'Ольга': { name: 'Ольга Кравец', role: 'Директ и Avito Ads', exp: '8 лет в Яндекс Директе', initials: 'ОК' },
-    'Мира': { name: 'Мира Лисовская', role: 'Дизайнер', exp: '6 лет в продуктовом дизайне. Квизы, которые проходят до конца', initials: 'МЛ' },
-    'Андрей': { name: 'Андрей Семёнов', role: 'Стратег, основатель', exp: '11 лет в маркетинге. Находит, где теряются деньги', initials: 'АС' },
-  } as Record<string, { name: string; role: string; exp: string; initials: string }>,
+    'Ольга': { name: 'Ольга Кравец', role: 'Директ и Avito Ads', exp: '8 лет в Яндекс Директе', initials: 'ОК', photo: 'team/olga.jpg' },
+    'Мира': { name: 'Мира Лисовская', role: 'Дизайнер', exp: '6 лет в продуктовом дизайне. Квизы, которые проходят до конца', initials: 'МЛ', photo: 'team/mira.jpg' },
+    'Андрей': { name: 'Андрей Семёнов', role: 'Стратег, основатель', exp: '11 лет в маркетинге. Находит, где теряются деньги', initials: 'АС', photo: 'team/andrey.jpg' },
+  } as Record<string, { name: string; role: string; exp: string; initials: string; photo: string }>,
 };
 
 export const gallery = {

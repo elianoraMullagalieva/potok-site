@@ -3,12 +3,10 @@ import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { services } from '../../content/texts';
 import { Tag } from '../../ui/Tag';
 import { Button } from '../../ui/Button';
-import { Wire, type WireKind } from '../../ui/Wire';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Services.module.css';
 
-/* Объект под каждую услугу: по смыслу, не декорация */
-const OBJ: WireKind[] = ['funnel', 'coil', 'wave', 'poly', 'rings'];
+const photo = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
 export function Services() {
   const root = useRef<HTMLElement>(null);
@@ -63,10 +61,11 @@ export function Services() {
             <div key={it.n} role="tab" aria-selected={on} tabIndex={0} className={`${styles.item} ${on ? styles.on : ''}`}
               onClick={() => pick(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(i); } }}>
               <div className={styles.top}>
-                <Tag onDark={on}>{it.lead}</Tag>
+                <Tag onDark>{it.lead}</Tag>
                 <span className={`num ${styles.key}`}>{it.n}</span>
               </div>
-              <div className={styles.preview} aria-hidden><Wire kind={OBJ[i]} color={on ? '#f4f3ef' : '#1a1b1f'} accent="#ffe14d" stroke={0.9} speed={on ? 1 : 0.5} /></div>
+              <img className={styles.photo} src={photo(services.people[it.lead].photo)} alt={services.people[it.lead].name} loading="lazy" draggable={false} />
+              <div className={styles.shade} aria-hidden />
               <h3 className={styles.title}>{it.title}</h3>
             </div>
           );
@@ -82,7 +81,7 @@ export function Services() {
           <Button variant="primary" arrow className={styles.dCta}>{services.cta}</Button>
         </div>
         <div className={styles.dVisual}>
-          <Wire kind={OBJ[active]} accent="#ffe14d" stroke={1.1} />
+          <img key={person.photo} className={`${styles.dPhoto} ${styles.swap}`} src={photo(person.photo)} alt={person.name} />
         </div>
         <div className={styles.dRight}>
           <div className={styles.swap}>
@@ -92,7 +91,7 @@ export function Services() {
           <div className={`${styles.dLead} ${styles.swap}`}>
             <span className="label mute">{services.leadLabel}</span>
             <div className={styles.person}>
-              <span className={styles.ava}>{person.initials}</span>
+              <img className={styles.ava} src={photo(person.photo)} alt="" />
               <div>
                 <div className={styles.pName}>{person.name}</div>
                 <div className={styles.pRole}>{person.role}</div>

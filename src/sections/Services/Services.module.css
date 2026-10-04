@@ -11,13 +11,13 @@
 /* превью */
 .row { display: flex; gap: 12px; margin-top: 64px; }
 .item {
-  cursor: pointer; position: relative; flex: 1; min-width: 0; height: 232px; border-radius: var(--r-card); overflow: hidden;
-  background: var(--card-grey); color: var(--ink); display: flex; flex-direction: column; justify-content: space-between; padding: 16px 18px 18px;
+  cursor: pointer; position: relative; flex: 1; min-width: 0; height: 300px; border-radius: var(--r-card); overflow: hidden;
+  background: var(--dark-2); display: flex; flex-direction: column; justify-content: space-between; padding: 16px 18px 18px;
   transition: background .5s var(--ease), color .4s var(--ease), transform .6s var(--ease);
 }
 .item:hover:not(.on) { transform: translateY(-3px); }
 .item:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
-.on { background: var(--dark); color: #fff; }
+.on { background: var(--dark); box-shadow: 0 0 0 2px var(--yellow); }
 .top { display: flex; justify-content: space-between; align-items: center; }
 .key {
   display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: #fff; color: var(--ink);
@@ -26,8 +26,12 @@
   transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .4s var(--ease);
 }
 .on .key { transform: translateY(3px); box-shadow: 0 0 0 #d6d5cf, 0 2px 6px -4px rgba(0,0,0,.3), 0 0 0 1px rgba(0,0,0,.04); background: var(--yellow); }
-.preview { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; transform: translate(-50%, -58%); opacity: .9; pointer-events: none; }
-.title { font-size: 20px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; position: relative; }
+.photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: grayscale(1) contrast(1.05); opacity: .55; transition: filter .6s var(--ease), opacity .6s var(--ease), transform 1.2s var(--ease); }
+.item:hover .photo, .on .photo { filter: none; opacity: 1; transform: scale(1.03); }
+.shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,14,.85) 0%, rgba(10,10,14,.25) 45%, transparent 70%); pointer-events: none; }
+.item { color: #fff; }
+.top { position: relative; z-index: 1; }
+.title { position: relative; z-index: 1; font-size: 19px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; text-wrap: balance; max-width: 11ch; }
 
 /* раскрытая карточка */
 .detail {
@@ -38,16 +42,27 @@
 .dTitle { margin-top: 14px; font-size: var(--t-m); font-weight: 500; letter-spacing: -0.035em; line-height: 1.02; max-width: 12ch; }
 .dLine { margin-top: 14px; font-size: 18px; color: var(--mute); max-width: 24ch; }
 .dCta { margin-top: auto; align-self: flex-start; padding-top: 0; }
-.dVisual { border-radius: var(--r-card); background: var(--bg); min-height: 300px; padding: 20px; }
+.dVisual { position: relative; border-radius: var(--r-card); background: var(--bg-2); min-height: 320px; overflow: hidden; }
+.dPhoto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; }
 .dRight { display: flex; flex-direction: column; gap: 28px; padding: 6px 0 0 8px; }
 .dFit { margin-top: 10px; font-size: 20px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; max-width: 20ch; }
 .dLead { padding-top: 22px; border-top: 1px solid var(--line); }
 .person { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
-.ava { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--ink); color: var(--on-dark); font-size: 14px; font-weight: 500; }
+.ava { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: 50% 15%; }
 .pName { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; }
 .pRole { font-size: 14px; color: var(--mute); }
 .pExp { margin-top: 12px; font-size: 15px; line-height: 1.4; color: var(--ink-2); max-width: 26ch; }
 
+@media (max-width: 1280px) {
+  .detail { grid-template-columns: 1fr 0.8fr 0.9fr; gap: 18px; padding: 28px; }
+  .dTitle { font-size: 34px; }
+  .dLine { font-size: 16px; }
+  .dFit { font-size: 17px; }
+  .pExp { font-size: 14px; }
+  .item { height: 260px; padding: 14px; }
+  .title { font-size: 17px; }
+  .key { width: 30px; height: 30px; }
+}
 @media (max-width: 1000px) {
   .row { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: none; }
   .row::-webkit-scrollbar { display: none; }
