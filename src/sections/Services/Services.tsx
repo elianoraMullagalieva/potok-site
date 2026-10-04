@@ -73,6 +73,10 @@ export function Services() {
           <span className={`label mute ${styles.swap}`}>{s.n} · {services.label}</span>
           <h3 className={`${styles.dTitle} ${styles.swap}`}>{s.title}</h3>
           <p className={`${styles.dLine} ${styles.swap}`}>{s.line}</p>
+          <figure className={`${styles.dQuote} ${styles.swap}`}>
+            <blockquote>«{s.quote}»</blockquote>
+            <figcaption><img src={photo(person.face)} alt="" /><span>{person.name}</span></figcaption>
+          </figure>
           <Button variant="primary" arrow className={styles.dCta}>{services.cta}</Button>
         </div>
         <div className={styles.dVisual}>
