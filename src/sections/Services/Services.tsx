@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { services } from '../../content/texts';
-import { Face } from '../../ui/Face';
+import { Tag } from '../../ui/Tag';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Services.module.css';
@@ -56,7 +56,7 @@ export function Services() {
             <div key={it.n} role="tab" aria-selected={on} tabIndex={0} className={`${styles.item} ${on ? styles.on : ''}`}
               onClick={() => pick(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(i); } }}>
               <div className={styles.top}>
-                <span className={styles.lead}><Face src={services.people[it.lead].face} name={services.people[it.lead].name} size={26} /><span>{it.lead}</span></span>
+                <Tag onDark>{it.lead}</Tag>
                 <span className={`num ${styles.key}`}>{it.n}</span>
               </div>
               <img className={styles.photo} src={photo(services.people[it.lead].photo)} alt={services.people[it.lead].name} loading="lazy" draggable={false} />
