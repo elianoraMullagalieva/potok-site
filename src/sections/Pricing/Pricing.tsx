@@ -36,8 +36,7 @@ export function Pricing() {
       <div className={styles.grid}>
         {pricing.plans.map((p) => (
           <article key={p.id} className={`${styles.plan} ${p.featured ? styles.featured : ''}`}>
-            {p.featured && <SkyStatic seed={7.3} zoom={0.9} pan={[0.1, 0.2]} />}
-            {p.featured && <div className={styles.shade} aria-hidden />}
+            {p.featured && <div className={styles.bg} aria-hidden><SkyStatic seed={7.3} zoom={0.9} pan={[0.1, 0.2]} /><div className={styles.shade} /></div>}
             <div className={styles.planTop}>
               <h3 className={styles.name}>{p.name}</h3>
               {p.badge && <span className={styles.badge}>{p.badge}</span>}
