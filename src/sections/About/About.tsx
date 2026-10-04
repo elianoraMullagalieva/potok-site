@@ -53,15 +53,14 @@ export function About() {
         })}
       </div>
 
-      <div className={styles.stats}>
+      <ul className={styles.stats}>
         {about.stats.map((s) => (
-          <div key={s.label} className={styles.stat}>
-            <Diagram kind={s.kind} />
-            <div className={`num ${styles.big}`}><span className={styles.val} data-v={s.value} data-d={s.decimals ?? 0}>{String(s.value).replace('.', ',')}</span>{s.suffix}</div>
-            <p className={styles.statLabel}>{s.label}</p>
-          </div>
+          <li key={s.label} className={styles.stat}>
+            <span className={`num ${styles.big}`}><span className={styles.val} data-v={s.value} data-d={s.decimals ?? 0}>{String(s.value).replace('.', ',')}</span>{s.suffix}</span>
+            <span className={styles.statLabel}>{s.label}</span>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div className={styles.bottom}>
         <div className={styles.promises}>
@@ -82,16 +81,3 @@ export function About() {
   );
 }
 
-/* Диаграммы под цифры: бары, точки, таймлайн, кольцо */
-function Diagram({ kind }: { kind: string }) {
-  if (kind === 'bars') return <div className={styles.bars} aria-hidden>{[30, 46, 58, 52, 70, 84, 100].map((h, i) => <i key={i} style={{ height: `${h}%`, animationDelay: `${i * 0.08}s` }} />)}</div>;
-  if (kind === 'dots') return <div className={styles.dots} aria-hidden>{Array.from({ length: 30 }, (_, i) => <i key={i} style={{ animationDelay: `${i * 0.03}s` }} />)}</div>;
-  if (kind === 'timeline') return <div className={styles.tl} aria-hidden><i /><i /><i /><b style={{ left: '70%' }} /></div>;
-  const r = 20, c = 2 * Math.PI * r;
-  return (
-    <svg className={styles.ring} viewBox="0 0 48 48" aria-hidden>
-      <circle cx="24" cy="24" r={r} fill="none" stroke="var(--line)" strokeWidth="6" />
-      <circle cx="24" cy="24" r={r} fill="none" stroke="var(--yellow)" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${c * 0.55} ${c}`} transform="rotate(-90 24 24)" />
-    </svg>
-  );
-}

@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { cases } from '../../content/texts';
 import { Button } from '../../ui/Button';
-import { CaseMark } from './Logos';
+import { CaseLogo } from './Logos';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Cases.module.css';
 
 /**
- * Кейсы по svz: огромный размытый заголовок во всю ширину, поверх веер стеклянных
- * карточек. На скролле (pin) веер раскладывается в ряд, заголовок проявляется и уходит вверх.
+ * Кейсы: огромный размытый заголовок, поверх веер из трёх стеклянных карточек.
+ * На скролле веер раскладывается в ряд, заголовок проявляется и уходит вверх,
+ * затем снизу поднимаются ещё три кейса. Клик раскрывает карточку.
  */
 export function Cases() {
   const root = useRef<HTMLElement>(null);
@@ -20,70 +21,72 @@ export function Cases() {
   useEffect(() => {
     const el = root.current!;
     const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray<HTMLElement>(`.${styles.card}`);
-      const n = cards.length;
+      const first = gsap.utils.toArray<HTMLElement>(`.${styles.row1} .${styles.card}`);
+      const second = gsap.utils.toArray<HTMLElement>(`.${styles.row2}`);
       if (reduced || small) {
-        gsap.set(cards, { x: 0, rotate: 0 });
-        gsap.set(`.${styles.big}`, { filter: 'blur(0px)', opacity: 1 });
+        gsap.set(first, { x: 0, rotate: 0, y: 0 });
+        gsap.set(`.${styles.big}`, { filter: 'blur(0px)', opacity: 1, yPercent: -50 });
+        gsap.set(second, { opacity: 1, y: 0 });
         return;
       }
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=160%', pin: true, scrub: 1.2, anticipatePin: 1 } });
-      cards.forEach((c, i) => {
+      const n = first.length;
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=220%', pin: true, scrub: 1.2, anticipatePin: 1 } });
+      first.forEach((c, i) => {
         const k = i - (n - 1) / 2;
         gsap.set(c, { x: k * 48, rotate: k * 7, y: Math.abs(k) * 18, zIndex: 10 - Math.abs(k) });
-        tl.to(c, { x: k * 400, rotate: 0, y: 0, ease: 'power2.inOut', duration: 1 }, 0);
+        tl.to(c, { x: k * 420, rotate: 0, y: 0, ease: 'power2.inOut', duration: 1 }, 0);
       });
       tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.22, scale: 1.04, yPercent: -50 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
-        .to(`.${styles.big}`, { yPercent: -142, ease: 'power2.inOut', duration: 0.8 }, 0.35)
-        .to(`.${styles.stage}`, { y: 90, ease: 'power2.inOut', duration: 0.8 }, 0.35)
-        .fromTo(`.${styles.foot}`, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, 0.6);
-      // счётчики «12 → 92»
-      gsap.utils.toArray<HTMLElement>(`.${styles.to}`).forEach((n) => {
-        const to = Number(n.dataset.to); const o = { v: Number(n.dataset.from) };
-        gsap.to(o, { v: to, duration: 1.8, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 60%' }, onUpdate: () => { n.textContent = String(Math.round(o.v)); } });
+        // заголовок уходит вверх и уменьшается, ряд карточек поднимается
+        .to(`.${styles.big}`, { yPercent: -240, scale: 0.46, ease: 'power2.inOut', duration: 0.9 }, 0.5)
+        .to(`.${styles.row1}`, { y: -150, ease: 'power2.inOut', duration: 0.9 }, 0.5)
+        // второй ряд поднимается снизу
+        .fromTo(second, { y: 420, opacity: 0 }, { y: 150, opacity: 1, ease: 'power2.out', duration: 0.9 }, 0.9)
+        .fromTo(`.${styles.foot}`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 1.4);
+      gsap.utils.toArray<HTMLElement>(`.${styles.to}`).forEach((nEl) => {
+        const to = Number(nEl.dataset.to); const o = { v: Number(nEl.dataset.from) };
+        gsap.to(o, { v: to, duration: 1.8, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 60%' }, onUpdate: () => { nEl.textContent = String(Math.round(o.v)); } });
       });
     }, el);
     ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced, small]);
 
+  const Card = ({ c }: { c: (typeof cases.items)[number] }) => {
+    const isOpen = open === c.id;
+    return (
+      <article className={`${styles.card} ${isOpen ? styles.open : ''}`} onClick={() => setOpen(isOpen ? null : c.id)}>
+        <header className={styles.cardHead}>
+          <CaseLogo id={c.id} name={c.client} />
+          <span className={styles.period}>{c.period}</span>
+        </header>
+        <p className={styles.meta}>{c.niche} · {c.city}</p>
+        <div className={styles.numbers}>
+          {c.from > 0 && <><span className={`num ${styles.from}`}>{c.from}</span><span className={styles.arrow} aria-hidden><svg width="28" height="12" viewBox="0 0 28 12" fill="none"><path d="M0 6h26m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span></>}
+          {c.from === 0 && <span className={styles.plus}>+</span>}
+          <span className={`num ${styles.to}`} data-from={c.from} data-to={c.to}>{reduced || small ? c.to : c.from}</span>
+        </div>
+        <p className={styles.unit}>{c.unit}</p>
+        <ul className={styles.facts}>{c.facts.map((f) => <li key={f}>{f}</li>)}</ul>
+        <div className={styles.more}>
+          <div>
+            <p className={styles.did}>{c.did}</p>
+            <blockquote className={styles.quote}>«{c.quote}»<footer>{c.who}</footer></blockquote>
+            <Button variant="primary" arrow className={styles.cta} onClick={(e) => e.stopPropagation()}>{cases.cta}</Button>
+          </div>
+        </div>
+      </article>
+    );
+  };
+
   return (
     <section id="cases" ref={root} className={styles.section}>
       <h2 className={`display ${styles.big}`} aria-label={cases.title}>{cases.title}</h2>
       <div className={styles.stage}>
-        {cases.items.map((c) => {
-          const isOpen = open === c.id;
-          return (
-            <article key={c.id} className={`${styles.card} ${isOpen ? styles.open : ''}`} onClick={() => setOpen(isOpen ? null : c.id)}>
-              <header className={styles.cardHead}>
-                <span className={styles.mark}><CaseMark id={c.id} size={30} /></span>
-                <span className={styles.client}>{c.client}</span>
-                <span className={styles.meta}>{c.niche} · {c.city}</span>
-              </header>
-              <div className={styles.numbers}>
-                <span className={`num ${styles.from}`}>{c.from}</span>
-                <span className={styles.arrow} aria-hidden><svg width="28" height="12" viewBox="0 0 28 12" fill="none"><path d="M0 6h26m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-                <span className={`num ${styles.to}`} data-from={c.from} data-to={c.to}>{reduced || small ? c.to : c.from}</span>
-              </div>
-              <p className={styles.unit}>{c.unit}</p>
-              <div className={styles.more}>
-                <div>
-                  <ul className={styles.facts}>{c.facts.map((f) => <li key={f}>{f}</li>)}</ul>
-                  <blockquote className={styles.quote}>«{c.quote}»<footer>{c.who}</footer></blockquote>
-                  <Button variant="primary" arrow className={styles.cta} onClick={(e) => e.stopPropagation()}>{cases.cta}</Button>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+        <div className={styles.row1}>{cases.items.slice(0, 3).map((c) => <Card key={c.id} c={c} />)}</div>
+        <div className={styles.row2}>{cases.items.slice(3).map((c) => <Card key={c.id} c={c} />)}</div>
       </div>
-      <div className={styles.foot}>
-        <p className={styles.sub}>{cases.sub}</p>
-        <ul className={styles.tags}>
-          <li className={styles.tagsLabel}>{cases.more}</li>
-          {cases.tags.map((t) => <li key={t} className={styles.tag}>{t}</li>)}
-        </ul>
-      </div>
+      <p className={styles.foot}>{cases.sub}</p>
     </section>
   );
 }
