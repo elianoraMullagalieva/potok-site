@@ -67,8 +67,8 @@ export const services = {
 
 export const gallery = {
   label: 'Внутри',
-  title: 'Так выглядит',
-  titleTail: 'ваша реклама',
+  title: 'Так выглядят',
+  titleTail: 'креативы клиентов',
   sub: 'Квизы, посадочные, креативы и отчёты — живые экраны.',
   captions: [
     'Квиз с фильтром по проёму ворот',

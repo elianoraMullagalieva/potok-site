@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { gallery } from '../../content/texts';
-import { SkyStatic } from '../../ui/Sky';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './WorkSphere.module.css';
@@ -11,7 +10,8 @@ import styles from './WorkSphere.module.css';
  * Крутится сама, от скролла (pin) и от перетаскивания. Плитки, повёрнутые
  * к зрителю лицом в центр, тают — так в сфере открывается окно под заголовок.
  */
-const TYPES = ['landing', 'creative', 'quiz', 'crm', 'sky'] as const;
+const IMAGES = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}.webp`);
+const PORTRAIT = new Set([6]); // седьмой креатив вертикальный
 
 export function WorkSphere() {
   const root = useRef<HTMLElement>(null);
@@ -19,9 +19,10 @@ export function WorkSphere() {
   const tiles = useRef<(HTMLElement | null)[]>([]);
   const small = useMedia('(max-width: 768px)');
   const reduced = useReducedMotion();
-  const N = small ? 24 : 40;
-  const R = small ? 200 : 330;
-  const TILE = small ? 100 : 150;
+  const N = small ? 28 : 56;
+  // шар во весь экран: радиус от высоты окна, спереди плитки крупнее за счёт перспективы
+  const R = small ? 240 : 560;
+  const TILE = small ? 112 : 176;
 
   // позиции на сфере
   const pos = Array.from({ length: N }, (_, i) => {
@@ -47,12 +48,12 @@ export function WorkSphere() {
         const y1 = y * Math.cos(tx) - z * Math.sin(tx), z2 = y * Math.sin(tx) + z * Math.cos(tx); y = y1; z = z2;
         if (z < -0.05) { t.style.visibility = 'hidden'; continue; }
         t.style.visibility = 'visible';
-        // окно под заголовок: плитки прямо перед зрителем тают
-        const win = Math.max(0, (z - 0.72) / 0.28);
-        const edge = Math.max(0, Math.min(1, z / 0.35)); // края сферы мягко уходят
-        const o = (1 - win * win) * (0.25 + 0.75 * edge);
+        // сердцевина прозрачная: всё, что ближе к зрителю, чем 0.5, растворяется полностью
+        const win = Math.max(0, Math.min(1, (z - 0.42) / 0.3));
+        const edge = Math.max(0, Math.min(1, z / 0.3)); // края сферы мягко уходят
+        const o = (1 - win) * (0.2 + 0.8 * edge);
         t.style.opacity = o.toFixed(3);
-        t.style.filter = win > 0.4 ? `blur(${((win - 0.4) * 10).toFixed(1)}px)` : 'none';
+        t.style.filter = win > 0.1 ? `blur(${(win * 14).toFixed(1)}px)` : 'none';
         void y;
       }
     };
@@ -85,32 +86,16 @@ export function WorkSphere() {
         <div ref={globe} className={styles.globe}>
           {pos.map((p, i) => (
             <div key={i} ref={(n) => { tiles.current[i] = n; }} className={styles.tile}
-              style={{ width: TILE, height: TILE * 0.68, marginLeft: -TILE / 2, marginTop: -TILE * 0.34,
+              style={{ width: TILE, height: PORTRAIT.has(i % 7) ? TILE * 0.9 : TILE * 0.5625, marginLeft: -TILE / 2, marginTop: PORTRAIT.has(i % 7) ? -TILE * 0.45 : -TILE * 0.28,
                 transform: `rotateY(${p.lon}deg) rotateX(${-p.lat}deg) translateZ(${R}px)` }}>
-              <Tile type={TYPES[i % TYPES.length]} caption={gallery.captions[i % gallery.captions.length]} seed={i} />
+              <img className={styles.img} src={IMAGES[i % 7]} alt={gallery.captions[i % gallery.captions.length]} loading="lazy" draggable={false} />
             </div>
           ))}
         </div>
       </div>
       <div className={styles.head}>
-        <span className="label mute">{gallery.label}</span>
         <h2 className={`display ${styles.h2}`}>{gallery.title}<br /><span className={styles.tail}>{gallery.titleTail}</span></h2>
-        <p className={styles.sub}>{gallery.sub}</p>
       </div>
     </section>
-  );
-}
-
-/* Мини-экраны: пять типов, рисуются CSS, без картинок */
-function Tile({ type, caption, seed }: { type: (typeof TYPES)[number]; caption: string; seed: number }) {
-  return (
-    <div className={`${styles.screen} ${styles[type]}`} title={caption}>
-      {type === 'sky' && <SkyStatic seed={3 + seed * 0.37} zoom={0.9} pan={[seed * 0.2, 0.1]} />}
-      {type === 'landing' && (<><i className={styles.bar} style={{ width: '46%' }} /><i className={styles.hero} /><span className={styles.cols}><i /><i /></span></>)}
-      {type === 'creative' && (<><b className={styles.big}>{['−30 %', '14 дн.', '2 дня', '950 ₽', '92'][seed % 5]}</b><i className={styles.bar} style={{ width: '58%' }} /></>)}
-      {type === 'quiz' && (<><i className={styles.progress}><i /></i><span className={styles.opts}><i /><i className={styles.optOn} /><i /></span></>)}
-      {type === 'crm' && (<><span className={styles.rows}><i style={{ width: '70%' }} /><i style={{ width: '45%' }} /><i style={{ width: '82%' }} /><i style={{ width: '30%' }} /></span></>)}
-      <span className={styles.cap}>{caption}</span>
-    </div>
   );
 }
