@@ -12,8 +12,8 @@
 .card:hover { transform: translateY(-4px); box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 28px 50px -28px rgba(10,10,10,.26); }
 .obj { height: 250px; padding: 18px; }
 .body { padding: 4px 24px 26px; margin-top: auto; }
-.title { margin-top: 14px; font-size: 20px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; }
-.text { margin-top: 8px; font-size: 13.5px; line-height: 1.45; color: var(--mute); max-width: 28ch; }
+.title { margin-top: 14px; font-size: 23px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; }
+.text { margin-top: 8px; font-size: var(--t-small); line-height: 1.45; color: var(--mute); max-width: 28ch; }
 .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 180px; background: linear-gradient(to bottom, transparent, var(--bg-2)); pointer-events: none; }
 @media (max-width: 1000px) { .cards { grid-template-columns: repeat(2, 1fr); margin-top: 72px; } .grid { grid-template-columns: repeat(2, 1fr); } .vline:nth-child(n+4) { display: none; } }
 @media (max-width: 560px) { .section { padding: 96px 0 100px; } .cards { grid-template-columns: 1fr; gap: 14px; } .card { min-height: 0; } .obj { height: 200px; } }

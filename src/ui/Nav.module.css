@@ -6,7 +6,7 @@
 .onDark { color: #fff; }
 .menu { display: flex; gap: 40px; }
 .link {
-  position: relative; font-size: 13.5px; font-weight: 500; letter-spacing: -0.01em;
+  position: relative; font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
   padding: 8px 0; opacity: 0.86; transition: opacity 0.4s var(--ease);
 }
 .link::after {

@@ -4,7 +4,7 @@ import { hero } from '../../content/texts';
 import { Sky } from '../../ui/Sky';
 import { Nav } from '../../ui/Nav';
 import { Button } from '../../ui/Button';
-import { Dot } from '../../ui/Tag';
+import { benefits } from '../../content/texts';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import { SkyRing } from '../../ui/SkyRing';
 import { useMedia } from '../../lib/useMedia';
@@ -105,10 +105,10 @@ function CardContent({ i }: { i: number }) {
         <div className={`${styles.inner} ${styles.white}`}>
           <Head label="Ниша" />
           <div className={styles.chips}>
-            {hero.niches.map((n, k) => <span key={n} className={`${styles.chip} ${k === 0 ? styles.chipOn : ''}`}>{n}</span>)}
+            {hero.niches.map((n, k) => <span key={n} className={`${styles.chip} ${styles.pop} ${k === 0 ? styles.chipOn : ''}`} style={{ animationDelay: `${0.3 + k * 0.12}s` }}>{n}</span>)}
           </div>
           <div className={styles.chipsBottom}>
-            {hero.channels.map((n) => <span key={n} className={`${styles.chip} ${styles.chipDark}`}><i className={styles.chipDot} />{n}</span>)}
+            {hero.channels.map((n, k) => <span key={n} className={`${styles.chip} ${styles.chipDark} ${styles.pop}`} style={{ animationDelay: `${1.0 + k * 0.12}s` }}><i className={styles.chipDot} />{n}</span>)}
           </div>
         </div>
       );
@@ -123,22 +123,19 @@ function CardContent({ i }: { i: number }) {
           </div>
         </div>
       );
-    case 2: // стеклянная карточка заявки
+    case 2: // уведомление как на iPhone
       return (
-        <div className={`${styles.inner} ${styles.glass}`}>
-          <span className={styles.bell}><Dot /></span>
-          <div>
-            <div className={styles.cardHead}><span className="label">{hero.card.label}</span><span className={`label num ${styles.time}`}>{hero.card.time}</span></div>
-            <p className={styles.cardText}>{hero.card.text}</p>
-          </div>
+        <div className={`${styles.inner} ${styles.glass} ${styles.notifWrap}`}>
+          <Notif />
         </div>
       );
-    case 3: // тёмная с главной мыслью
+    case 3: // тёмная: трое + главная мысль
       return (
         <div className={`${styles.inner} ${styles.dark}`}>
           <Head label="Поток" />
+          <Avatars />
           <p className={styles.idea}>
-            <span>{hero.mainIdea[0]}</span> <i className={styles.spark} aria-hidden /> <span className={styles.ideaMute}>{hero.mainIdea[1]}</span> <span>{hero.mainIdea[2]}</span>
+            <span>{hero.mainIdea[0]}</span> <span className={styles.ideaMute}>{hero.mainIdea[1]}</span> <span>{hero.mainIdea[2]}</span>
           </p>
         </div>
       );
@@ -154,6 +151,29 @@ function CardContent({ i }: { i: number }) {
         </div>
       );
   }
+}
+
+/* Уведомление iPhone: иконка приложения, имя, время, заголовок, текст. Прилетает сверху и повторяется */
+export function Notif() {
+  return (
+    <div className={styles.notif}>
+      <span className={styles.appIcon} aria-hidden><b>a</b></span>
+      <div className={styles.notifBody}>
+        <div className={styles.notifHead}><span className={styles.appName}>{hero.card.app}</span><span className={`num ${styles.notifTime}`}>{hero.card.time}</span></div>
+        <div className={styles.notifTitle}>{hero.card.label}</div>
+        <div className={styles.notifText}>{hero.card.text}</div>
+      </div>
+    </div>
+  );
+}
+
+/* Трое: три кружка под будущие фото, пока инициалы */
+export function Avatars({ className }: { className?: string }) {
+  return (
+    <div className={`${styles.avatars} ${className ?? ''}`} aria-hidden>
+      {benefits.team.map((t, k) => <span key={t.initials} className={styles.avatar} style={{ animationDelay: `${0.4 + k * 0.15}s` }}>{t.initials}</span>)}
+    </div>
+  );
 }
 
 /* 10 сегментов: 9 заполнены — читается мгновенно */
@@ -179,13 +199,16 @@ function Area() {
   return (
     <svg className={styles.area} viewBox={`-2 -6 ${w + 8} ${h + 14}`} aria-hidden>
       <defs>
-        <linearGradient id="af" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="var(--yellow)" stopOpacity=".9" /><stop offset="1" stopColor="var(--yellow)" stopOpacity="0" /></linearGradient>
+        <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink)" strokeWidth="0.7" strokeOpacity=".16" /></pattern>
         <pattern id="dots" width="16" height="12" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.8" fill="var(--mute-2)" /></pattern>
+        <linearGradient id="hf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fff" stopOpacity="1" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient>
+        <mask id="hm"><rect x="0" y="0" width={w} height={h} fill="url(#hf)" /></mask>
       </defs>
       <rect x="0" y="0" width={w} height={h} fill="url(#dots)" />
-      <path d={`${d} L${w},${h} L0,${h} Z`} fill="url(#af)" />
-      <path d={d} fill="none" stroke="var(--ink)" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx={ex} cy={ey} r="4.5" fill="var(--ink)" /><circle cx={ex} cy={ey} r="2" fill="var(--yellow)" />
+      <path d={`${d} L${w},${h} L0,${h} Z`} fill="url(#hatch)" mask="url(#hm)" />
+      <path d={d} fill="none" stroke="var(--ink)" strokeWidth="1.6" strokeLinecap="round" className={styles.areaLine} />
+      <circle cx={ex} cy={ey} r="9" fill="var(--yellow)" opacity=".35" className={styles.pulse} />
+      <circle cx={ex} cy={ey} r="4" fill="var(--yellow)" stroke="var(--ink)" strokeWidth="1.5" />
     </svg>
   );
 }

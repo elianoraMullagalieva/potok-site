@@ -34,25 +34,27 @@
 .photoShade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(5,20,70,.72), rgba(5,20,70,0) 60%); }
 
 .cardTop, .cardBody { position: relative; z-index: 1; }
-.cardTitle { display: flex; align-items: flex-start; gap: 8px; font-size: var(--t-card); font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; }
-.cardDot { flex: none; margin-top: 6px; }
-.cardText { margin-top: 10px; font-size: 13.5px; line-height: 1.4; color: var(--mute); max-width: 26ch; }
+.cardTitle { font-size: var(--t-card); font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; }
+.cardDot { display: block; width: 14px; height: 14px; margin-bottom: 12px; }
+.cardText { margin-top: 10px; font-size: var(--t-small); line-height: 1.4; color: var(--mute); max-width: 26ch; }
 .dark .cardText, .photo .cardText { color: rgba(244,243,239,.62); }
 
-.crm { position: relative; z-index: 1; display: grid; gap: 16px; margin: 28px 0 auto; }
-.crm li { display: grid; grid-template-columns: 92px 1fr; align-items: center; gap: 12px; font-size: 12px; color: var(--ink-2); }
+.crm { position: relative; z-index: 1; display: grid; gap: 18px; margin: 30px 0 auto; }
+.crm li { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 12px; font-size: 14px; color: var(--ink-2); }
 .crmHead { grid-template-columns: 1fr auto !important; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--mute) !important; }
 .live { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 3px rgba(255,225,77,.3); animation: pulse 2.4s var(--ease) infinite; }
 @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 3px rgba(255,225,77,.3); } 50% { box-shadow: 0 0 0 7px rgba(255,225,77,.08); } }
-.crm i { display: block; height: 12px; border-radius: 6px; background: var(--bg-2); position: relative; overflow: hidden; }
-.crm i::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform-origin: left; animation: fill 1.6s var(--ease) both; }
+.crm i { display: block; height: 14px; border-radius: 7px; background: var(--bg-2); position: relative; overflow: hidden; }
+.crm i::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform-origin: left; animation: fillLoop 5.2s var(--ease) infinite; }
+.crm li:nth-child(3) i::after { animation-delay: .15s; } .crm li:nth-child(4) i::after { animation-delay: .3s; } .crm li:nth-child(5) i::after { animation-delay: .45s; }
+@keyframes fillLoop { 0% { transform: scaleX(0); } 30%, 80% { transform: scaleX(1); } 92%, 100% { transform: scaleX(0); } }
 .crm i.barOn::after { background: var(--yellow); }
 @keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 .team { position: relative; z-index: 1; display: flex; margin: 20px 0 auto; }
 .ava {
-  display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
-  background: var(--ink); color: var(--on-dark); font-size: 13px; font-weight: 500; letter-spacing: 0.02em;
+  display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%;
+  background: var(--ink); color: var(--on-dark); font-size: 15px; font-weight: 500; letter-spacing: 0.02em;
   box-shadow: 0 0 0 3px var(--card-grey); margin-left: -12px;
 }
 .ava:first-child { margin-left: 0; }
@@ -72,23 +74,26 @@
 }
 
 /* Связки: цепочка */
-.chain { position: relative; z-index: 1; margin: 26px 0 auto; display: grid; gap: 10px; }
+.chain { position: relative; z-index: 1; margin: 28px 0 auto; display: grid; gap: 12px; }
 .chainRow { position: relative; display: flex; align-items: center; gap: 12px; }
-.chainNode { position: relative; z-index: 1; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; box-shadow: 0 0 0 1px var(--line-light) inset; background: var(--dark); }
-.chainNode i { width: 6px; height: 6px; border-radius: 50%; background: rgba(244,243,239,.6); }
+.chainNode { position: relative; z-index: 1; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; box-shadow: 0 0 0 1px var(--line-light) inset; background: var(--dark); }
+.chainNode i { width: 7px; height: 7px; border-radius: 50%; background: rgba(244,243,239,.6); }
 .chainNodeOn { background: var(--yellow); box-shadow: none; }
 .chainNodeOn i { background: var(--ink); }
-.chainPill { font-size: 12px; padding: 6px 10px; border-radius: var(--r-pill); box-shadow: 0 0 0 1px var(--line-light) inset; color: rgba(244,243,239,.85); }
+.chainPill { font-size: 14px; padding: 7px 12px; border-radius: var(--r-pill); box-shadow: 0 0 0 1px var(--line-light) inset; color: rgba(244,243,239,.85); }
 .chainPillOn { background: rgba(244,243,239,.1); color: #fff; }
-.chainLine { position: absolute; left: 8.5px; top: 18px; width: 1px; height: 12px; background: var(--line-light); }
+.chainLine { position: absolute; left: 10.5px; top: 22px; width: 1px; height: 14px; background: var(--line-light); }
+.chainRow { animation: chainIn 5.2s var(--ease) infinite; }
+.chainRow:nth-child(2) { animation-delay: .25s; } .chainRow:nth-child(3) { animation-delay: .5s; } .chainRow:nth-child(4) { animation-delay: .75s; }
+@keyframes chainIn { 0% { opacity: 0; transform: translateX(-8px); } 8%, 82% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; transform: translateX(-8px); } }
 
 /* Скорость: таймлайн */
 .tl { position: relative; z-index: 1; margin: 26px 0 auto; }
-.tlTrack { height: 6px; border-radius: 3px; background: rgba(255,255,255,.28); overflow: hidden; }
-.tlTrack i { display: block; height: 100%; background: var(--yellow); border-radius: 3px; transform-origin: left; animation: fill 1.8s var(--ease) both; }
-.tlMarks { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 10px; font-size: 11px; color: rgba(255,255,255,.9); }
+.tlTrack { height: 8px; border-radius: 4px; background: rgba(255,255,255,.28); overflow: hidden; }
+.tlTrack i { display: block; height: 100%; background: var(--yellow); border-radius: 4px; transform-origin: left; animation: fillLoop 5.2s var(--ease) infinite; }
+.tlMarks { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 12px; font-size: 13px; color: rgba(255,255,255,.9); }
 .tlMarks li { display: grid; gap: 6px; justify-items: start; }
 .tlMarks li:nth-child(2) { justify-items: center; text-align: center; }
 .tlMarks li:nth-child(3) { justify-items: end; }
-.tlMarks b { width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.tlMarks b { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
 .tlMarks li:nth-child(3) b { background: rgba(255,255,255,.4); }

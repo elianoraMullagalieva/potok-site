@@ -60,7 +60,7 @@ export function Benefits() {
             {c.kind === 'light' && <CrmRows />}
             {c.kind === 'grey' && <Team />}
             <div className={styles.cardBody}>
-              <h3 className={styles.cardTitle}><Dot className={styles.cardDot} />{c.title}</h3>
+              <Dot className={styles.cardDot} /><h3 className={styles.cardTitle}>{c.title}</h3>
               <p className={styles.cardText}>{c.text}</p>
             </div>
           </article>

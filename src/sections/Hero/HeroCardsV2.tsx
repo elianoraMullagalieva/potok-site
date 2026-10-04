@@ -1,6 +1,6 @@
 import { hero } from '../../content/texts';
 import { Curves } from '../../ui/Curves';
-import { Segments } from './Hero';
+import { Segments, Notif, Avatars } from './Hero';
 import s from './Hero.module.css';
 import v from './HeroV2.module.css';
 
@@ -22,7 +22,7 @@ export function HeroCardV2({ i }: { i: number }) {
           <Head label="Ниша" />
           <div className={v.pills}>
             {hero.niches.map((n, k) => (
-              <span key={n} className={`${v.pill} ${k === 0 ? v.pillOn : ''}`} style={{ width: ['88%', '72%', '54%', '62%', '58%'][k] }}>
+              <span key={n} className={`${v.pill} ${s.pop} ${k === 0 ? v.pillOn : ''}`} style={{ width: ['88%', '72%', '54%', '62%', '58%'][k], animationDelay: `${0.3 + k * 0.12}s` }}>
                 <i className={v.pillIcon} /><span>{n}</span>
               </span>
             ))}
@@ -43,22 +43,15 @@ export function HeroCardV2({ i }: { i: number }) {
       );
     case 2: // уведомление как на iPhone: прилетает сверху, повторяется
       return (
-        <div className={`${s.inner} ${s.glass} ${v.agent}`}>
-          <div className={v.notif}>
-            <span className={v.appIcon} aria-hidden><b>a</b></span>
-            <div className={v.notifBody}>
-              <div className={v.notifHead}><span className={v.appName}>amoCRM</span><span className={`num ${v.notifTime}`}>{hero.card.time}</span></div>
-              <div className={v.notifTitle}>{hero.card.label}</div>
-              <div className={v.notifText}>{hero.card.text}</div>
-            </div>
-          </div>
+        <div className={`${s.inner} ${s.glass} ${s.notifWrap}`}>
+          <Notif />
         </div>
       );
     case 3: // тёмная: светящееся кольцо + мысль
       return (
         <div className={`${s.inner} ${s.dark}`}>
           <Head label="Поток" />
-          <div className={v.glow}><i /></div>
+          <div className={v.glow}><i /><Avatars className={v.glowAvatars} /></div>
           <p className={s.idea}><span>{hero.mainIdea[0]}</span> <span className={s.ideaMute}>{hero.mainIdea[1]}</span> <span>{hero.mainIdea[2]}</span></p>
         </div>
       );

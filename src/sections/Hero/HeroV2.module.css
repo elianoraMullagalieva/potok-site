@@ -6,31 +6,11 @@
 
 .curves { position: absolute; left: 12px; right: 12px; top: 44px; height: 100px; }
 
-.agent { justify-content: flex-start; align-items: stretch; padding: 14px 12px; }
-.notif {
-  display: flex; gap: 10px; padding: 11px 12px; border-radius: 18px; color: var(--ink);
-  background: rgba(255,255,255,.78); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  box-shadow: 0 10px 30px -14px rgba(0,20,80,.45), 0 0 0 0.5px rgba(255,255,255,.6) inset;
-  animation: notifIn 6s cubic-bezier(.2,1.2,.3,1) infinite; transform-origin: top center;
-}
-@keyframes notifIn {
-  0% { transform: translateY(-140%) scale(.96); opacity: 0; }
-  7% { transform: translateY(0) scale(1); opacity: 1; }
-  82% { transform: translateY(0); opacity: 1; }
-  90%, 100% { transform: translateY(-140%); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) { .notif { animation: none; } }
-.appIcon { flex: none; width: 36px; height: 36px; border-radius: 9px; background: var(--blue); display: grid; place-items: center; color: #fff; }
-.appIcon b { font-size: 20px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; margin-top: -3px; }
-.notifBody { min-width: 0; flex: 1; }
-.notifHead { display: flex; justify-content: space-between; align-items: baseline; font-size: 11px; color: var(--mute); }
-.appName { text-transform: uppercase; letter-spacing: 0.02em; font-size: 10.5px; }
-.notifTime { font-size: 10.5px; }
-.notifTitle { margin-top: 2px; font-size: 13px; font-weight: 600; letter-spacing: -0.01em; }
-.notifText { font-size: 12.5px; line-height: 1.3; color: var(--ink-2); }
 
-.glow { position: absolute; left: 50%; top: 37%; width: 92px; height: 92px; transform: translate(-50%, -50%); border-radius: 50%; }
+.glow { position: absolute; left: 50%; top: 40%; width: 112px; height: 112px; display: grid; place-items: center; transform: translate(-50%, -50%); border-radius: 50%; }
 .glow::before { content: ''; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 1px rgba(31,108,255,.55) inset, 0 0 26px 2px rgba(31,108,255,.35), 0 0 60px 8px rgba(31,108,255,.18) inset; filter: blur(1px); }
 .glow i { position: absolute; inset: -4px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 70%, rgba(255,225,77,.9) 86%, transparent 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); animation: spin 5s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .glow i { animation: none; } }
+.glowAvatars { position: relative; margin: 0 !important; }
+.glowAvatars > span { width: 34px; height: 34px; font-size: 11px; }

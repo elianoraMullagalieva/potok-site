@@ -24,10 +24,10 @@
   --t-hero: clamp(44px, 6.2vw, 92px);
   --t-l: clamp(36px, 4.8vw, 72px);
   --t-m: clamp(26px, 3vw, 44px);
-  --t-card: 22px;
-  --t-body: 15px;
-  --t-small: 13px;
-  --t-label: 12px;
+  --t-card: 25px;
+  --t-body: 16px;
+  --t-small: 15px;
+  --t-label: 14px;
 
   --r-frame: 28px;
   --r-card: 20px;
