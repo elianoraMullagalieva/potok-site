@@ -30,22 +30,20 @@ export function Cases() {
         return;
       }
       const n = first.length;
-      const row = el.querySelector(`.${styles.row1}`) as HTMLElement;
-      const rr = row.getBoundingClientRect(); const rowCx = rr.left + rr.width / 2;
-      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=220%', pin: true, scrub: 1.2, anticipatePin: 1 } });
+      const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top top', end: '+=220%', pin: true, scrub: 1.2, anticipatePin: 1, invalidateOnRefresh: true } });
       first.forEach((c, i) => {
         const k = i - (n - 1) / 2;
-        const r = c.getBoundingClientRect(); const cx = r.left + r.width / 2;
-        // веер: все карточки стянуты к центру ряда, потом разъезжаются на свои места
-        gsap.set(c, { x: rowCx - cx + k * 48, rotate: k * 7, y: Math.abs(k) * 18, zIndex: 10 - Math.abs(k) });
-        tl.to(c, { x: 0, rotate: 0, y: 0, ease: 'power2.inOut', duration: 1 }, 0);
+        // веер: карточки стянуты к центру ряда (шаг = ширина + зазор), потом разъезжаются на свои места
+        const start = () => -k * (c.offsetWidth + 24) + k * 48;
+        gsap.set(c, { zIndex: 10 - Math.abs(k) });
+        tl.fromTo(c, { x: start, rotate: k * 7, y: Math.abs(k) * 18 }, { x: 0, rotate: 0, y: 0, ease: 'power2.inOut', duration: 1, immediateRender: true }, 0);
       });
       tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.22, scale: 1.04, yPercent: -50 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
         // заголовок уходит вверх и уменьшается, ряд карточек поднимается
         .to(`.${styles.big}`, { yPercent: -240, scale: 0.46, ease: 'power2.inOut', duration: 0.9 }, 0.5)
-        .to(`.${styles.row1}`, { y: -150, ease: 'power2.inOut', duration: 0.9 }, 0.5)
+        .to(`.${styles.row1}`, { y: -175, ease: 'power2.inOut', duration: 0.9 }, 0.5)
         // второй ряд поднимается снизу
-        .fromTo(second, { y: 420, opacity: 0 }, { y: 150, opacity: 1, ease: 'power2.out', duration: 0.9 }, 0.9)
+        .fromTo(second, { y: 460, opacity: 0 }, { y: 175, opacity: 1, ease: 'power2.out', duration: 0.9 }, 0.9)
         .fromTo(`.${styles.foot}`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 1.4);
       gsap.utils.toArray<HTMLElement>(`.${styles.to}`).forEach((nEl) => {
         const to = Number(nEl.dataset.to); const o = { v: Number(nEl.dataset.from) };
