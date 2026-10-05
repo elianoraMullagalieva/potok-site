@@ -40,7 +40,7 @@ export function Cases() {
       });
       tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.22, scale: 1.04 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
         // заголовок уходит вверх и уменьшается, ряд карточек поднимается
-        .to(`.${styles.big}`, { yPercent: -240, scale: 0.46, ease: 'power2.inOut', duration: 0.9 }, 0.5)
+        .to(`.${styles.big}`, { yPercent: -190, scale: 0.46, ease: 'power2.inOut', duration: 0.9 }, 0.5)
         .to(`.${styles.row1}`, { y: -175, ease: 'power2.inOut', duration: 0.9 }, 0.5)
         // второй ряд поднимается снизу
         .fromTo(second, { y: 460, opacity: 0 }, { y: 175, opacity: 1, ease: 'power2.out', duration: 0.9 }, 0.9)
