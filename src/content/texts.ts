@@ -37,9 +37,9 @@ export const benefits = {
   ],
   crmRows: ['Расход', 'Заявки', 'Цена заявки', 'Остаток'],
   team: [
-    { name: 'Андрей Семёнов', role: 'Стратег, основатель', initials: 'АС', face: 'team/andrey-face.jpg' },
-    { name: 'Ольга Кравец', role: 'Рекламщик', initials: 'ОК', face: 'team/olga-face.jpg' },
-    { name: 'Мира Лисовская', role: 'Дизайнер', initials: 'МЛ', face: 'team/mira-face.jpg' },
+    { name: 'Андрей Семёнов', role: 'Стратег, основатель', initials: 'АС', face: 'team/andrey-face.webp' },
+    { name: 'Ольга Кравец', role: 'Рекламщик', initials: 'ОК', face: 'team/olga-face.webp' },
+    { name: 'Мира Лисовская', role: 'Дизайнер', initials: 'МЛ', face: 'team/mira-face.webp' },
   ],
 };
 
@@ -59,9 +59,9 @@ export const services = {
   fitLabel: 'Подходит, если…',
   leadLabel: 'Ведёт',
   people: {
-    'Ольга': { name: 'Ольга Кравец', role: 'Директ и Avito Ads', exp: '8 лет в Яндекс Директе', initials: 'ОК', photo: 'team/olga.jpg', face: 'team/olga-face.jpg' },
-    'Мира': { name: 'Мира Лисовская', role: 'Дизайнер', exp: '6 лет в продуктовом дизайне. Квизы, которые проходят до конца', initials: 'МЛ', photo: 'team/mira.jpg', face: 'team/mira-face.jpg' },
-    'Андрей': { name: 'Андрей Семёнов', role: 'Стратег, основатель', exp: '11 лет в маркетинге. Находит, где теряются деньги', initials: 'АС', photo: 'team/andrey.jpg', face: 'team/andrey-face.jpg' },
+    'Ольга': { name: 'Ольга Кравец', role: 'Директ и Avito Ads', exp: '8 лет в Яндекс Директе', initials: 'ОК', photo: 'team/olga.webp', face: 'team/olga-face.webp' },
+    'Мира': { name: 'Мира Лисовская', role: 'Дизайнер', exp: '6 лет в продуктовом дизайне. Квизы, которые проходят до конца', initials: 'МЛ', photo: 'team/mira.webp', face: 'team/mira-face.webp' },
+    'Андрей': { name: 'Андрей Семёнов', role: 'Стратег, основатель', exp: '11 лет в маркетинге. Находит, где теряются деньги', initials: 'АС', photo: 'team/andrey.webp', face: 'team/andrey-face.webp' },
   } as Record<string, { name: string; role: string; exp: string; initials: string; photo: string; face: string }>,
 };
 

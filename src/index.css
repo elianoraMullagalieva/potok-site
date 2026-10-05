@@ -27,6 +27,7 @@ canvas { display: block; }
 .mute { color: var(--mute); }
 
 .wrap { padding-inline: var(--gutter); }
+@media (min-width: 1800px) { .wrap { padding-inline: max(var(--gutter), calc((100vw - 1720px) / 2)); } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

@@ -38,7 +38,7 @@ export function Process() {
   return (
     <section id="process" ref={root} className={styles.section}>
       <div className={styles.frame}>
-        <Sky seed={11.2} zoom={1.05} pan={[0.5, 0.15]} />
+        <Sky seed={11.2} zoom={1.05} pan={[0.5, 0.15]} animate={!small} />
         <div className={styles.shade} />
 
         <div className={styles.top}>
@@ -65,10 +65,10 @@ export function Process() {
             <div className={styles.stack}>
               {process.steps.map((st, i) => {
                 const d = active - i; // 0 — текущее, 1 — предыдущее…
-                const shown = d >= 0 && d < 3;
+                const shown = d >= 0 && d < 4;
                 return (
                   <div key={st.n} className={`${styles.notif} ${shown ? styles.shown : ''} ${d < 0 ? styles.pending : ''}`}
-                    style={{ '--d': Math.max(0, d) } as React.CSSProperties}>
+                    style={{ '--d': Math.max(0, d), '--i': i } as React.CSSProperties}>
                     <span className={`${styles.icon} ${APPS[i] === hero.card.app ? styles.iconCrm : ''}`} aria-hidden>{APPS[i] === hero.card.app ? 'a' : 'П'}</span>
                     <div className={styles.nBody}>
                       <div className={styles.nHead}><span>{APPS[i]}</span><span className="num">{['09:00', '10:42', '12:15', '12:16', 'пн, 09:00'][i]}</span></div>

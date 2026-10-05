@@ -11,7 +11,7 @@ import styles from './WorkSphere.module.css';
  * Крутится сама, от скролла (pin) и от перетаскивания. Плитки, повёрнутые
  * к зрителю лицом в центр, тают — так в сфере открывается окно под заголовок.
  */
-const IMAGES = ['c1.webp', 'c8.jpg', 'c2.webp', 'c9.jpg', 'c3.webp', 'c10.jpg', 'c4.webp', 'c11.jpg', 'c5.webp', 'c12.webp', 'c6.webp', 'c7.webp'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}`);
+const IMAGES = ['c1.webp', 'c8.webp', 'c2.webp', 'c9.webp', 'c3.webp', 'c10.webp', 'c4.webp', 'c11.webp', 'c5.webp', 'c12.webp', 'c6.webp', 'c7.webp'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}`);
 // пропорции ширина/высота каждого креатива, порядок чередует тёмные и светлые
 const RATIO = [16 / 9, 1, 16 / 9, 0.9, 16 / 9, 0.8, 16 / 9, 1.12, 16 / 9, 1, 16 / 9, 3 / 4];
 const M = IMAGES.length;
@@ -69,7 +69,7 @@ export function WorkSphere() {
         const edge = Math.max(0, Math.min(1, z / 0.25)); // края сферы мягко уходят
         const o = (1 - win) * (0.25 + 0.75 * edge);
         t.style.opacity = o.toFixed(3);
-        t.style.filter = win > 0.05 ? `blur(${(win * 12).toFixed(1)}px)` : 'none';
+        t.style.filter = !small && win > 0.05 ? `blur(${(win * 12).toFixed(1)}px)` : 'none';
         void y;
       }
     };
@@ -95,7 +95,7 @@ export function WorkSphere() {
     el.addEventListener('pointerdown', down); el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
     ScrollTrigger.refresh();
     return () => { running = false; cancelAnimationFrame(raf); ro.disconnect(); ctx.revert(); el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
-  }, [N, R, PERSP, reduced]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [N, R, PERSP, reduced, small]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section id="gallery" ref={root} className={styles.section}>

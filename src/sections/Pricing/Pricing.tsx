@@ -18,6 +18,7 @@ export function Pricing() {
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.plan}`, { y: 60, opacity: 0, duration: 1.3, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.grid}`, start: 'top 80%' } });
       gsap.from(`.${styles.compare}`, { y: 50, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.compare}`, start: 'top 85%' } });
+      gsap.from(`.${styles.table} tr`, { opacity: 0, x: -12, duration: 0.8, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.table}`, start: 'top 85%' } });
     }, root);
     ScrollTrigger.refresh();
     return () => ctx.revert();

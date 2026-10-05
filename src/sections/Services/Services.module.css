@@ -6,7 +6,7 @@
 .tail { color: var(--mute); }
 
 /* превью */
-.hint { display: none; margin: 40px 0 12px; }
+.hint { display: none; margin: 44px 0 8px; }
 .row { display: flex; gap: 12px; margin-top: 44px; }
 .item {
   cursor: pointer; position: relative; flex: 1; min-width: 0; height: 300px; border-radius: var(--r-card); overflow: hidden;

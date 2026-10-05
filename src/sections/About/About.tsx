@@ -22,6 +22,7 @@ export function About() {
           onUpdate: () => { n.textContent = o.v.toFixed(dec).replace('.', ','); } });
       });
       gsap.from(`.${styles.stat}`, { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.stats}`, start: 'top 82%' } });
+      gsap.from(`.${styles.promises} li, .${styles.quote}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.bottom}`, start: 'top 85%' } });
     }, root);
     ScrollTrigger.refresh();
     return () => ctx.revert();
