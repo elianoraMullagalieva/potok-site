@@ -6,6 +6,7 @@
 .img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; box-shadow: 0 14px 40px -16px rgba(0,0,0,.7); }
 
 .head { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; width: max-content; max-width: 90%; }
+.hint { display: flex; justify-content: center; margin-bottom: 14px; }
 .h2 { font-size: clamp(26px, 2.7vw, 40px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; }
 .tail { color: rgba(244,243,239,.55); }
 @media (max-width: 768px) { .section { min-height: 560px; } }

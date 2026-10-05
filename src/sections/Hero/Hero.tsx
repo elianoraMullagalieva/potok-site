@@ -9,6 +9,7 @@ import { useReducedMotion } from '../../lib/useReducedMotion';
 import { SkyRing } from '../../ui/SkyRing';
 import { useMedia } from '../../lib/useMedia';
 import { Face } from '../../ui/Face';
+import { SwipeHint } from '../../ui/SwipeHint';
 import styles from './Hero.module.css';
 
 
@@ -68,6 +69,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
         </div>
 
         <div className={styles.stage}>
+          <SwipeHint onDark className={styles.hint} />
           {/* 5 карточек × 3 = кольцо из 15: спереди читаются пять, края тают в небе */}
           <SkyRing
             count={15}

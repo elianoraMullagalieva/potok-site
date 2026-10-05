@@ -6,6 +6,7 @@
 .tail { color: var(--mute); }
 
 /* превью */
+.hint { display: none; margin: 40px 0 12px; }
 .row { display: flex; gap: 12px; margin-top: 44px; }
 .item {
   cursor: pointer; position: relative; flex: 1; min-width: 0; height: 300px; border-radius: var(--r-card); overflow: hidden;
@@ -64,7 +65,8 @@
   .title { font-size: 17px; }
 }
 @media (max-width: 1000px) {
-  .row { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: none; }
+  .hint { display: inline-flex; }
+  .row { margin-top: 0; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: none; }
   .row::-webkit-scrollbar { display: none; }
   .item { flex: 0 0 60vw; max-width: 280px; scroll-snap-align: start; }
   .detail { grid-template-columns: 1fr; padding: 24px; }

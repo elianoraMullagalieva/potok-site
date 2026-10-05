@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { services } from '../../content/texts';
 import { Tag } from '../../ui/Tag';
+import { SwipeHint } from '../../ui/SwipeHint';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Services.module.css';
@@ -49,6 +50,7 @@ export function Services() {
       </h2>
 
       {/* превью: пять клавиш */}
+      <SwipeHint className={styles.hint} />
       <div className={styles.row} role="tablist" aria-label={services.label}>
         {services.items.map((it, i) => {
           const on = i === active;

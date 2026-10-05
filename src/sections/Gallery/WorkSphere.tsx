@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '../../lib/lenis';
 import { gallery } from '../../content/texts';
 import { useMedia } from '../../lib/useMedia';
+import { SwipeHint } from '../../ui/SwipeHint';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './WorkSphere.module.css';
 
@@ -110,6 +111,7 @@ export function WorkSphere() {
         </div>
       </div>
       <div ref={headRef} className={styles.head}>
+        <SwipeHint onDark text="Потяните, чтобы покрутить" className={styles.hint} />
         <h2 className={`display ${styles.h2}`}>{gallery.title}<br /><span className={styles.tail}>{gallery.titleTail}</span></h2>
       </div>
     </section>
