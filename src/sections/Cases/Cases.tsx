@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { gsap } from '../../lib/lenis';
 import { cases } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { CaseLogo } from './Logos';
@@ -25,7 +25,7 @@ export function Cases() {
       const second = gsap.utils.toArray<HTMLElement>(`.${styles.row2}`);
       if (reduced || small) {
         gsap.set(first, { x: 0, rotate: 0, y: 0 });
-        gsap.set(`.${styles.big}`, { filter: 'blur(0px)', opacity: 1, yPercent: -50 });
+        gsap.set(`.${styles.big}`, { filter: 'blur(0px)', opacity: 1 });
         gsap.set(second, { opacity: 1, y: 0 });
         return;
       }
@@ -38,7 +38,7 @@ export function Cases() {
         gsap.set(c, { zIndex: 10 - Math.abs(k) });
         tl.fromTo(c, { x: start, rotate: k * 7, y: Math.abs(k) * 18 }, { x: 0, rotate: 0, y: 0, ease: 'power2.inOut', duration: 1, immediateRender: true }, 0);
       });
-      tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.22, scale: 1.04, yPercent: -50 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
+      tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.22, scale: 1.04 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
         // заголовок уходит вверх и уменьшается, ряд карточек поднимается
         .to(`.${styles.big}`, { yPercent: -240, scale: 0.46, ease: 'power2.inOut', duration: 0.9 }, 0.5)
         .to(`.${styles.row1}`, { y: -175, ease: 'power2.inOut', duration: 0.9 }, 0.5)
@@ -50,14 +50,13 @@ export function Cases() {
         gsap.to(o, { v: to, duration: 1.8, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 60%' }, onUpdate: () => { nEl.textContent = String(Math.round(o.v)); } });
       });
     }, el);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced, small]);
 
   const Card = ({ c }: { c: (typeof cases.items)[number] }) => {
     const isOpen = open === c.id;
     return (
-      <article className={`${styles.card} ${isOpen ? styles.open : ''}`} onClick={() => setOpen(isOpen ? null : c.id)}>
+      <article className={`${styles.card} ${isOpen ? styles.open : ''}`} role="button" tabIndex={0} aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : c.id)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(isOpen ? null : c.id); } }}>
         <header className={styles.cardHead}>
           <CaseLogo id={c.id} name={c.client} />
           <span className={styles.period}>{c.period}</span>
@@ -74,7 +73,7 @@ export function Cases() {
           <div>
             <p className={styles.did}>{c.did}</p>
             <blockquote className={styles.quote}>«{c.quote}»<footer>{c.who}</footer></blockquote>
-            <Button variant="primary" arrow className={styles.cta} onClick={(e) => e.stopPropagation()}>{cases.cta}</Button>
+            <Button variant="primary" arrow className={styles.cta} href="#lead" onClick={(e) => e.stopPropagation()}>{cases.cta}</Button>
           </div>
         </div>
       </article>

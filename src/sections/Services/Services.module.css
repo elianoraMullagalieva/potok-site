@@ -1,4 +1,4 @@
-.section { padding-top: 80px; padding-bottom: 140px; }
+.section { padding-top: 80px; padding-bottom: var(--sp-section); }
 .mark { display: grid; place-items: center; color: var(--ink); }
 .h2 { margin-top: 24px; text-align: center; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
 .mask { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }

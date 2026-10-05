@@ -1,6 +1,6 @@
-.section { padding-top: 40px; padding-bottom: 140px; }
+.section { padding-top: 40px; padding-bottom: var(--sp-section); }
 .h2 { text-align: center; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; max-width: 22ch; margin-inline: auto; text-wrap: balance; }
-.card { display: grid; grid-template-columns: 1.05fr 1fr; margin-top: 56px; border-radius: var(--r-frame); overflow: hidden; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.25); min-height: 620px; }
+.card { display: grid; grid-template-columns: 1.05fr 1fr; margin-top: var(--sp-head); border-radius: var(--r-frame); overflow: hidden; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.25); min-height: 620px; }
 .left { padding: 36px 40px 32px; display: flex; flex-direction: column; }
 .top { display: flex; justify-content: space-between; align-items: center; }
 .progressLabel { color: var(--mute); }

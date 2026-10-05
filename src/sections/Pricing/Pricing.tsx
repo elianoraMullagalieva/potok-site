@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { gsap } from '../../lib/lenis';
 import { pricing } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { SkyStatic } from '../../ui/Sky';
@@ -20,11 +20,12 @@ export function Pricing() {
       gsap.from(`.${styles.compare}`, { y: 50, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.compare}`, start: 'top 85%' } });
       gsap.from(`.${styles.table} tr`, { opacity: 0, x: -12, duration: 0.8, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.table}`, start: 'top 85%' } });
     }, root);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced]);
 
-  const pick = (i: number) => { if (i === col) return; setFlip(true); setTimeout(() => { setCol(i); setFlip(false); }, 220); };
+  const timer = useRef(0);
+  const pick = (i: number) => { if (i === col) return; clearTimeout(timer.current); setFlip(true); timer.current = window.setTimeout(() => { setCol(i); setFlip(false); }, 220); };
+  useEffect(() => () => clearTimeout(timer.current), []);
   const c = pricing.compare;
 
   return (
@@ -37,7 +38,7 @@ export function Pricing() {
       <div className={styles.grid}>
         {pricing.plans.map((p) => (
           <article key={p.id} className={`${styles.plan} ${p.featured ? styles.featured : ''}`}>
-            {p.featured && <div className={styles.bg} aria-hidden><SkyStatic seed={7.3} zoom={0.9} pan={[0.1, 0.2]} /><div className={styles.shade} /></div>}
+            {p.featured && <div className={styles.bg} aria-hidden><SkyStatic id="test" /><div className={styles.shade} /></div>}
             <div className={styles.planTop}>
               <h3 className={styles.name}>{p.name}</h3>
               {p.badge && <span className={styles.badge}>{p.badge}</span>}
@@ -45,7 +46,7 @@ export function Pricing() {
             <div className={`num ${styles.price}`}>{p.price}</div>
             <p className={styles.who}>{p.who}</p>
             <ul className={styles.inc}>{p.includes.map((x) => <li key={x}>{x}</li>)}</ul>
-            {p.featured && <Button variant="primary" arrow className={styles.cta}>{pricing.cta}</Button>}
+            {p.featured && <Button variant="primary" arrow className={styles.cta} href="#lead">{pricing.cta}</Button>}
           </article>
         ))}
         <p className={styles.budget}>{pricing.budget}</p>

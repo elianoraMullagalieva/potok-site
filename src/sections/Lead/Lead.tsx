@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { gsap } from '../../lib/lenis';
 import { lead, footer, nav } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { Sky } from '../../ui/Sky';
@@ -21,7 +21,6 @@ export function Lead() {
       gsap.from(`.${styles.frame}`, { scale: 0.96, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 75%' } });
       gsap.from(`.${styles.word}`, { yPercent: 100, duration: 1.2, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.footer}`, start: 'top 85%' } });
     }, root);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced]);
 
@@ -46,9 +45,9 @@ export function Lead() {
             <div className={styles.done}><span className={styles.check} aria-hidden>✓</span>{lead.done}</div>
           ) : (
             <form className={styles.form} onSubmit={submit}>
-              <input name="name" required placeholder={lead.name} className={styles.input} autoComplete="name" />
-              <input name="contact" required placeholder={lead.contact} className={styles.input} autoComplete="tel" />
-              <input name="niche" placeholder={lead.niche} className={styles.input} />
+              <input name="name" required placeholder={lead.name} aria-label={lead.name} className={styles.input} autoComplete="name" />
+              <input name="contact" required placeholder={lead.contact} aria-label={lead.contact} className={styles.input} autoComplete="tel" />
+              <input name="niche" placeholder={lead.niche} aria-label={lead.niche} className={styles.input} />
               <Button variant="primary" arrow type="submit" className={styles.cta}>{lead.cta}</Button>
               <label className={styles.consent}><input type="checkbox" required /> <span>{lead.consent}</span></label>
             </form>

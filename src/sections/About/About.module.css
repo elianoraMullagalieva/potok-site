@@ -1,10 +1,10 @@
-.section { padding-top: 140px; padding-bottom: 140px; }
+.section { padding-top: var(--sp-section); padding-bottom: var(--sp-section); }
 .head { max-width: 760px; }
 .h2 { margin-top: 14px; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; }
 .tail { color: var(--mute); }
 .sub { margin-top: 16px; font-size: 18px; color: var(--mute); max-width: 32ch; }
 
-.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: var(--sp-head); }
 .person { position: relative; height: 520px; border-radius: var(--r-card); overflow: hidden; background: var(--dark-2); color: #fff; }
 .person:nth-child(2) { margin-top: 40px; }
 .portrait { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; filter: grayscale(1); transition: filter .8s var(--ease), transform 1.4s var(--ease); }

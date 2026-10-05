@@ -29,7 +29,6 @@ export function Process() {
       });
       gsap.to(`.${styles.bar}`, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top top', end: '+=220%', scrub: 1 } });
     }, el);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced, small, n]);
 

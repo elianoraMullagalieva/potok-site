@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap } from '../lib/lenis';
+import { gsap } from '../lib/gsap';
 import { Wire } from './Wire';
 import styles from './Preloader.module.css';
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { gsap } from '../../lib/lenis';
 import { quiz } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
 import { Button } from '../../ui/Button';
@@ -29,7 +29,6 @@ export function Quiz() {
       gsap.from(`.${styles.card}`, { y: 80, opacity: 0, scale: 0.97, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 75%' } });
       gsap.from(`.${styles.h2}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 80%' } });
     }, root);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced]);
 
@@ -37,7 +36,8 @@ export function Quiz() {
   const pane = useRef<HTMLDivElement>(null);
   const busy = useRef(false);
   const go = (next: number) => {
-    if (reduced || !pane.current) { setStep(next); return; }
+    if (busy.current && !reduced) return;
+    if (reduced || !pane.current) { setStep(next); busy.current = false; return; }
     busy.current = true;
     gsap.killTweensOf(pane.current);
     gsap.to(pane.current, { x: next > step ? -24 : 24, opacity: 0, duration: 0.25, ease: 'power2.in', overwrite: true, onComplete: () => {
@@ -49,7 +49,8 @@ export function Quiz() {
     if (busy.current) return;
     busy.current = true;
     const a = [...answers]; a[step] = i; setAnswers(a);
-    setTimeout(() => go(Math.min(step + 1, 4)), 320);
+    const from = step;
+    setTimeout(() => { busy.current = false; go(Math.min(from + 1, 4)); }, 320);
   };
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,8 +107,8 @@ export function Quiz() {
                 </div>
                 <p className={styles.bonus}><i aria-hidden /><b>Бонус</b><span>{quiz.final.bonus}</span></p>
                 <div className={styles.fields}>
-                  <input name="name" required placeholder={quiz.final.name} className={styles.input} autoComplete="name" />
-                  <input name="contact" required placeholder={quiz.final.contact} className={styles.input} autoComplete="tel" />
+                  <input name="name" required placeholder={quiz.final.name} aria-label={quiz.final.name} className={styles.input} autoComplete="name" />
+                  <input name="contact" required placeholder={quiz.final.contact} aria-label={quiz.final.contact} className={styles.input} autoComplete="tel" />
                 </div>
                 <label className={styles.consent}><input type="checkbox" required /> <span>{quiz.final.consent}</span></label>
                 <Button variant="primary" arrow type="submit" className={styles.cta}>{quiz.final.cta}</Button>
@@ -119,10 +120,10 @@ export function Quiz() {
 
         {/* правая колонка: небо и «О», которая заливается за каждый ответ */}
         <div className={styles.right}>
-          <SkyStatic seed={5.5} zoom={0.9} pan={[0.2, 0.1]} />
+          <SkyStatic id="quiz" />
           <div className={styles.o} aria-hidden>
             <svg viewBox="0 0 200 200" width="100%" height="100%">
-              <defs><clipPath id="oFill"><rect x="0" y={200 - fill * 2} width="200" height="200" style={{ transition: 'y 1s cubic-bezier(.16,1,.3,1)' }} /></clipPath></defs>
+              <defs><clipPath id="oFill"><rect x="0" y="0" width="200" height="200" style={{ transform: `translateY(${200 - fill * 2}px)`, transition: 'transform 1s cubic-bezier(.16,1,.3,1)' }} /></clipPath></defs>
               <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,.55)" strokeWidth="26" />
               <circle cx="100" cy="100" r="78" fill="none" stroke="var(--yellow)" strokeWidth="26" clipPath="url(#oFill)" />
             </svg>

@@ -12,7 +12,7 @@ export function Nav({ onDark = true }: { onDark?: boolean }) {
           <a key={m.label} href={m.href} className={styles.link}><span>{m.label}</span></a>
         ))}
       </nav>
-      <Button variant="primary" className={styles.cta}>{nav.cta}</Button>
+      <Button variant="primary" className={styles.cta} href="#lead">{nav.cta}</Button>
     </header>
   );
 }

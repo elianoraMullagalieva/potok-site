@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { gsap } from '../../lib/lenis';
+import { gsap } from '../../lib/gsap';
 import { hero } from '../../content/texts';
 import { Sky } from '../../ui/Sky';
 import { Nav } from '../../ui/Nav';
@@ -17,12 +17,13 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const small = useMedia('(max-width: 768px)');
+  const delayRef = useRef(delay); // первое значение: интро не перезапускается, когда прелоадер закрывается
 
   useEffect(() => {
     const el = root.current!;
     const ctx = gsap.context(() => {
       if (reduced) return;
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay });
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: delayRef.current });
       tl.from(`.${styles.frame}`, { scale: 0.96, borderRadius: 60, duration: 1.4 }, 0)
         .from(`.${styles.word}`, { yPercent: 110, opacity: 0, filter: 'blur(8px)', duration: 1.1, stagger: 0.05 }, 0.25)
         .from(`.${styles.sub}, .${styles.actions}, .${styles.under}`, { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 0.7)
@@ -36,7 +37,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
     }, el);
 
     return () => { ctx.revert(); };
-  }, [reduced, delay]);
+  }, [reduced]);
 
   const words = hero.title.split(' ');
   const tail = hero.titleTail.split(' ');
@@ -62,8 +63,8 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
           </h1>
           <p className={styles.sub}>{hero.sub}</p>
           <div className={styles.actions}>
-            <Button variant="glass">{hero.secondary}</Button>
-            <Button variant="primary" arrow>{hero.cta}</Button>
+            <Button variant="glass" href="#benefits">{hero.secondary}</Button>
+            <Button variant="primary" arrow href="#lead">{hero.cta}</Button>
           </div>
           <p className={`label ${styles.under}`}>{hero.underCta}</p>
         </div>
@@ -74,7 +75,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
           <SkyRing
             count={15}
             cardWidth={small ? 160 : 228} cardHeight={small ? 204 : 268} gap={small ? 14 : 30}
-            speed={2.2} clearArc={46} haze={12}
+            speed={2.2} clearArc={46} haze={small ? 0 : 12}
             cardClassName={styles.card}
             render={(i) => (renderCard ? renderCard(i % 5) : <CardContent i={i % 5} />)}
           />

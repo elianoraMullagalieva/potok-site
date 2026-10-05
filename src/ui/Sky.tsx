@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useReducedMotion } from '../lib/useReducedMotion';
 import styles from './Sky.module.css';
 
@@ -54,18 +54,20 @@ export function Sky({ seed = 1.7, zoom = 1, pan = [0, 0], animate = true, classN
     const loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     const uR = gl.getUniformLocation(prog, 'r'), uT = gl.getUniformLocation(prog, 't'), uS = gl.getUniformLocation(prog, 'seed'), uZ = gl.getUniformLocation(prog, 'zoom'), uP = gl.getUniformLocation(prog, 'pan');
     gl.uniform1f(uS, seed); gl.uniform1f(uZ, zoom); gl.uniform2f(uP, pan[0], pan[1]);
-    const scale = Math.min(dpr ?? devicePixelRatio, 1.5) * 0.6; // шейдер мягкий, полное разрешение не нужно
+    const mobile = matchMedia('(max-width: 768px)').matches;
+    const scale = Math.min(dpr ?? devicePixelRatio, 1.5) * (mobile ? 0.45 : 0.6); // шейдер мягкий, полное разрешение не нужно
     let raf = 0, running = true, visible = true;
     const resize = () => {
       const w = Math.max(2, Math.floor(cv.clientWidth * scale)), h = Math.max(2, Math.floor(cv.clientHeight * scale));
       if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
       gl.uniform2f(uR, w, h);
     };
-    const draw = (ms: number) => { resize(); gl.uniform1f(uT, ms / 1000 + seed * 40); gl.drawArrays(gl.TRIANGLES, 0, 3); };
+    resize();
+    const draw = (ms: number) => { gl.uniform1f(uT, ms / 1000 + seed * 40); gl.drawArrays(gl.TRIANGLES, 0, 3); };
     const loop = (ms: number) => { if (!running) return; if (visible) draw(ms); raf = requestAnimationFrame(loop); };
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
     io.observe(cv);
-    const ro = new ResizeObserver(() => draw(performance.now()));
+    const ro = new ResizeObserver(() => { resize(); draw(performance.now()); });
     ro.observe(cv);
     if (animate && !reduced) raf = requestAnimationFrame(loop); else draw(performance.now());
     return () => { running = false; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect(); };
@@ -74,35 +76,8 @@ export function Sky({ seed = 1.7, zoom = 1, pan = [0, 0], animate = true, classN
 }
 
 
-/* Статичные копии неба: один общий WebGL-контекст → dataURL. Не плодим контексты. */
-let shared: { cv: HTMLCanvasElement; gl: WebGLRenderingContext; u: Record<string, WebGLUniformLocation | null> } | null = null;
-function getShared() {
-  if (shared) return shared;
-  const cv = document.createElement('canvas');
-  const gl = cv.getContext('webgl', { preserveDrawingBuffer: true, antialias: false })!;
-  const sh = (type: number, src: string) => { const x = gl.createShader(type)!; gl.shaderSource(x, src); gl.compileShader(x); return x; };
-  const prog = gl.createProgram()!;
-  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VERT)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FRAG)); gl.linkProgram(prog); gl.useProgram(prog);
-  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-  const loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-  const u = Object.fromEntries(['r', 't', 'seed', 'zoom', 'pan'].map((k) => [k, gl.getUniformLocation(prog, k)]));
-  shared = { cv, gl, u };
-  return shared;
-}
-const cache = new Map<string, string>();
-export function skyImage(seed: number, zoom: number, pan: [number, number], w = 640, h = 480) {
-  const key = `${seed}|${zoom}|${pan}|${w}x${h}`;
-  const hit = cache.get(key); if (hit) return hit;
-  const { cv, gl, u } = getShared();
-  cv.width = w; cv.height = h; gl.viewport(0, 0, w, h);
-  gl.uniform2f(u.r, w, h); gl.uniform1f(u.t, seed * 40); gl.uniform1f(u.seed, seed); gl.uniform1f(u.zoom, zoom); gl.uniform2f(u.pan, pan[0], pan[1]);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
-  const url = cv.toDataURL('image/jpeg', 0.86);
-  cache.set(key, url);
-  return url;
-}
-export function SkyStatic({ seed = 2, zoom = 0.8, pan = [0, 0] as [number, number], className }: { seed?: number; zoom?: number; pan?: [number, number]; className?: string }) {
-  const url = useMemo(() => skyImage(seed, zoom, pan), [seed, zoom, pan[0], pan[1]]); // eslint-disable-line react-hooks/exhaustive-deps
-  return <div className={`${styles.sky} ${className ?? ''}`} style={{ backgroundImage: `url(${url})`, backgroundSize: 'cover', backgroundPosition: 'center' }} aria-hidden />;
+/* Статичные копии неба: заранее отрендеренные webp, без WebGL и readback на главном потоке */
+export type SkyId = 'manifest1' | 'manifest2' | 'speed' | 'quiz' | 'test';
+export function SkyStatic({ id, className }: { id: SkyId; className?: string }) {
+  return <div className={`${styles.sky} ${className ?? ''}`} style={{ backgroundImage: `url(${import.meta.env.BASE_URL}sky/${id}.webp)`, backgroundSize: 'cover', backgroundPosition: 'center' }} aria-hidden />;
 }

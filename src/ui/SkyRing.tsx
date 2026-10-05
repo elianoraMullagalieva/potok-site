@@ -61,7 +61,11 @@ export function SkyRing({
     };
     paint();
     if (reduced) return;
+    let visible = true;
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) last.current = 0; });
+    io.observe(arc);
     const tick = (now: number) => {
+      if (!visible) { raf.current = requestAnimationFrame(tick); return; }
       const dt = last.current ? Math.min((now - last.current) / 1000, 0.1) : 0; last.current = now;
       if (!grab.current.on) {
         if (Math.abs(vel.current) > 0.5) { rot.current += vel.current * dt; vel.current *= 0.94; }
@@ -72,7 +76,7 @@ export function SkyRing({
     raf.current = requestAnimationFrame(tick);
     const wake = () => { if (document.visibilityState === 'visible') last.current = 0; };
     document.addEventListener('visibilitychange', wake);
-    return () => { cancelAnimationFrame(raf.current); document.removeEventListener('visibilitychange', wake); };
+    return () => { cancelAnimationFrame(raf.current); io.disconnect(); document.removeEventListener('visibilitychange', wake); };
   }, [R, step, count, speed, breath, clearArc, haze, reduced]);
 
   const down = (e: React.PointerEvent) => { if (!draggable) return; e.currentTarget.setPointerCapture?.(e.pointerId); grab.current = { on: true, x: e.clientX }; vel.current = 0; };

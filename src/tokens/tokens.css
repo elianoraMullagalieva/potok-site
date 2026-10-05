@@ -35,6 +35,8 @@
   --r-pill: 999px;
 
   --gutter: 48px;
+  --sp-section: clamp(80px, 9vw, 140px);
+  --sp-head: 56px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (max-width: 768px) {

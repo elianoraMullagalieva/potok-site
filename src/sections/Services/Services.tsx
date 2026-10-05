@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { gsap } from '../../lib/lenis';
 import { services } from '../../content/texts';
 import { Tag } from '../../ui/Tag';
 import { SwipeHint } from '../../ui/SwipeHint';
@@ -22,17 +22,18 @@ export function Services() {
       gsap.from(`.${styles.item}`, { opacity: 0, scale: 0.96, duration: 1.0, ease: 'expo.out', stagger: 0.07, scrollTrigger: { trigger: `.${styles.row}`, start: 'top 85%' } });
       gsap.from(`.${styles.detail}`, { opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.detail}`, start: 'top 90%' } });
     }, root);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced]);
 
   // смена услуги: содержимое карточки мягко перетекает
+  const busy = useRef(false);
   const pick = (i: number) => {
-    if (i === active) return;
+    if (i === active || busy.current) return;
     if (reduced || !detail.current) { setActive(i); return; }
-    gsap.to(`.${styles.swap}`, { y: -10, opacity: 0, duration: 0.2, ease: 'power2.in', onComplete: () => {
+    busy.current = true;
+    gsap.to(`.${styles.swap}`, { y: -10, opacity: 0, duration: 0.2, ease: 'power2.in', overwrite: true, onComplete: () => {
       setActive(i);
-      gsap.fromTo(`.${styles.swap}`, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05 });
+      requestAnimationFrame(() => gsap.fromTo(`.${styles.swap}`, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05, overwrite: true, onComplete: () => { busy.current = false; } }));
     } });
   };
 
@@ -79,7 +80,7 @@ export function Services() {
             <blockquote>«{s.quote}»</blockquote>
             <figcaption><img src={photo(person.face)} alt="" /><span>{person.name}</span></figcaption>
           </figure>
-          <Button variant="primary" arrow className={styles.dCta}>{services.cta}</Button>
+          <Button variant="primary" arrow className={styles.dCta} href="#quiz">{services.cta}</Button>
         </div>
         <div className={styles.dVisual}>
           <img key={person.photo} className={`${styles.dPhoto} ${styles.swap}`} src={photo(person.photo)} alt={person.name} />

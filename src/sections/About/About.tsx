@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { gsap } from '../../lib/lenis';
 import { about, services } from '../../content/texts';
 import { Face } from '../../ui/Face';
 import { useReducedMotion } from '../../lib/useReducedMotion';
@@ -24,7 +24,6 @@ export function About() {
       gsap.from(`.${styles.stat}`, { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.stats}`, start: 'top 82%' } });
       gsap.from(`.${styles.promises} li, .${styles.quote}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.bottom}`, start: 'top 85%' } });
     }, root);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced]);
 

@@ -40,6 +40,8 @@ export function WorkSphere() {
   useEffect(() => {
     const g = globe.current!; const el = root.current!;
     const st = { rot: 0, vel: 0, drag: false, x: 0, scroll: 0, scrollTarget: 0, tilt: -12 };
+    const hoverFine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const prevF: string[] = new Array(N).fill(''), prevO: string[] = new Array(N).fill('');
     // прямоугольник заголовка: размываем только то, что его задевает
     let hw = 300, hh = 60;
     const measure = () => { const r = headRef.current?.getBoundingClientRect(); if (r) { hw = r.width / 2 + 24; hh = r.height / 2 + 20; } };
@@ -68,8 +70,9 @@ export function WorkSphere() {
         const win = Math.max(0, Math.min(1, 1 - gap / 48));
         const edge = Math.max(0, Math.min(1, z / 0.25)); // края сферы мягко уходят
         const o = (1 - win) * (0.25 + 0.75 * edge);
-        t.style.opacity = o.toFixed(3);
-        t.style.filter = !small && win > 0.05 ? `blur(${(win * 12).toFixed(1)}px)` : 'none';
+        const os = o.toFixed(2); if (os !== prevO[i]) { t.style.opacity = os; prevO[i] = os; }
+        const f = hoverFine && !small && win > 0.05 ? `blur(${(win * 12).toFixed(1)}px)` : 'none';
+        if (f !== prevF[i]) { t.style.filter = f; prevF[i] = f; }
         void y;
       }
     };
@@ -93,19 +96,18 @@ export function WorkSphere() {
     const move = (e: PointerEvent) => { if (!st.drag) return; const d = (e.clientX - st.x) * 0.25; st.x = e.clientX; st.rot += d; st.vel = d * 60; };
     const up = () => { st.drag = false; };
     el.addEventListener('pointerdown', down); el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
-    ScrollTrigger.refresh();
     return () => { running = false; cancelAnimationFrame(raf); ro.disconnect(); ctx.revert(); el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
   }, [N, R, PERSP, reduced, small]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <section id="gallery" ref={root} className={styles.section}>
+    <section id="gallery" ref={root} className={styles.section} aria-label={gallery.sub}>
       <div className={styles.stage} style={{ perspective: PERSP }}>
         <div ref={globe} className={styles.globe}>
           {pos.map((p, i) => (
             <div key={i} ref={(n) => { tiles.current[i] = n; }} className={styles.tile}
               style={{ width: TILE * (RATIO[i % M] < 1 ? 0.78 : 1), height: (TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M], marginLeft: -(TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / 2, marginTop: -((TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M]) / 2,
                 transform: `rotateY(${p.lon}deg) rotateX(${-p.lat}deg) translateZ(${R}px)` }}>
-              <img className={styles.img} src={IMAGES[i % M]} alt={gallery.captions[i % gallery.captions.length]} loading="lazy" draggable={false} />
+              <img className={styles.img} src={IMAGES[i % M]} alt="" loading="lazy" draggable={false} />
             </div>
           ))}
         </div>

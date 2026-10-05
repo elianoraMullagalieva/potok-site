@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger } from '../../lib/lenis';
+import { gsap } from '../../lib/lenis';
 import { benefits } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
 import { Wire, type WireKind } from '../../ui/Wire';
@@ -29,7 +29,6 @@ export function BenefitsV2() {
       gsap.from(`.${v.vline}`, { scaleY: 0, duration: 1.6, ease: 'expo.out', stagger: 0.06, transformOrigin: 'top',
         scrollTrigger: { trigger: root.current, start: 'top 70%' } });
     }, root);
-    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, [reduced]);
 
@@ -41,7 +40,7 @@ export function BenefitsV2() {
         <h2 className={`display ${b.manifest}`}>
           {benefits.manifest.map((chunk, i) =>
             chunk === '▬'
-              ? <span key={i} className={b.capsule} aria-hidden><SkyStatic seed={2.3 + i} zoom={0.6} pan={[0.4 * i, 0.2]} /></span>
+              ? <span key={i} className={b.capsule} aria-hidden><SkyStatic id={i === 1 ? 'manifest1' : 'manifest2'} /></span>
               : chunk.split(' ').map((w, j) => <span key={`${i}-${j}`} className={`${b.w} ${i >= 2 ? b.wMute : ''}`}>{w}</span>),
           )}
         </h2>

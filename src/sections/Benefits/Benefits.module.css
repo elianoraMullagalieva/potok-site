@@ -1,4 +1,4 @@
-.section { padding-top: 140px; padding-bottom: 120px; }
+.section { padding-top: var(--sp-section); padding-bottom: var(--sp-section); }
 .head { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .manifest {
   margin: 28px auto 0; max-width: 1240px; text-align: center; text-wrap: balance;
@@ -13,14 +13,14 @@
 }
 
 .cards {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 110px; align-items: start;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 96px; align-items: start;
 }
 .card {
   position: relative; height: 420px; border-radius: var(--r-card); overflow: hidden; isolation: isolate;
   display: flex; flex-direction: column; justify-content: space-between; padding: 20px;
   transition: transform 0.7s var(--ease), box-shadow 0.7s var(--ease);
 }
-.card:hover { transform: translateY(-4px) !important; }
+.card:hover { translate: 0 -4px; }
 /* разные уровни, как у референса */
 .card:nth-child(1) { margin-top: 0; }
 .card:nth-child(2) { margin-top: 96px; height: 360px; }
@@ -49,7 +49,6 @@
 .crm li:nth-child(3) i::after { animation-delay: .15s; } .crm li:nth-child(4) i::after { animation-delay: .3s; } .crm li:nth-child(5) i::after { animation-delay: .45s; }
 @keyframes fillLoop { 0% { transform: scaleX(0); } 30%, 80% { transform: scaleX(1); } 92%, 100% { transform: scaleX(0); } }
 .crm i.barOn::after { background: var(--yellow); }
-@keyframes fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 .team { position: relative; z-index: 1; display: flex; margin: 20px 0 auto; }
 .ava {
