@@ -11,12 +11,12 @@
   position: absolute; left: 50%; top: 13%; transform: translateX(-50%); z-index: 2; width: min(1100px, 92%);
   display: flex; flex-direction: column; align-items: center; text-align: center; color: #fff;
 }
-.h1 { font-size: clamp(36px, 5vw, 72px); }
+.h1 { font-size: clamp(36px, 5vw, 72px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.04; }
 .line { display: inline; }
 .h1 { max-width: 30ch; margin-inline: auto; text-wrap: balance; }
 .tail { display: inline; }
 .mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0 0.08em 0.06em; margin: 0 -0.08em -0.06em; }
-.word { display: inline-block; margin-right: 0.22em; will-change: transform; }
+.word { display: inline-block; margin-right: 0.26em; will-change: transform; }
 .sel { position: relative; }
 .selBg { position: absolute; left: -0.04em; right: -0.04em; top: 0.12em; bottom: 0.02em; background: rgba(31,108,255,.28); border-radius: 0.06em; transform-origin: left; transform: scaleX(0); z-index: -1; }
 .selHandle { position: absolute; top: 0.1em; width: 2px; height: 0.86em; background: var(--blue); opacity: 0; }
