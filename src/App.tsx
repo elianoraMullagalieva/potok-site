@@ -6,7 +6,7 @@ const params = new URLSearchParams(location.search);
 const V1 = params.get('v') === '1' || /\/v1(\/|$)/.test(location.pathname);
 // /v1/3/ или ?n=3 — показать только первые N блоков (отдельная ссылка для показа)
 const LIMIT = Number(params.get('n')) || (location.pathname.match(/\/(\d+)\/?$/)?.[1] ? Number(location.pathname.match(/\/(\d+)\/?$/)![1]) : 99);
-const skipLoader = params.has('nopre') || matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('potok:seen') === '1';
+const skipLoader = params.has('nopre') || matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('potok:seen:v2') === '1';
 
 // Первый экран едет одним чанком; всё остальное, включая выгоды нужной версии, подгружается отдельно
 const HeroCardV2 = lazy(() => import('./sections/Hero/HeroCardsV2').then((m) => ({ default: m.HeroCardV2 })));
@@ -37,7 +37,7 @@ function RefreshOnce() {
 export default function App() {
   const [loading, setLoading] = useState(!skipLoader);
   useEffect(() => { import('./lib/lenis').then((m) => m.initLenis()); }, []);
-  const done = useCallback(() => { sessionStorage.setItem('potok:seen', '1'); setLoading(false); }, []);
+  const done = useCallback(() => { sessionStorage.setItem('potok:seen:v2', '1'); setLoading(false); }, []);
 
   return (
     <main>
