@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from '../../lib/lenis';
 import { services } from '../../content/texts';
 import { Tag } from '../../ui/Tag';
+import { LogoMark } from '../../ui/Logo';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
@@ -42,9 +43,7 @@ export function Services() {
 
   return (
     <section id="services" ref={root} className={`wrap ${styles.section}`}>
-      <div className={styles.mark} aria-hidden>
-        <svg width="26" height="26" viewBox="0 0 30 30" fill="none"><path d="M4 25V9c0-2.2 1.8-4 4-4h3v20" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round"/><path d="M11 5h8c2.2 0 4 1.8 4 4v3.5c0 2.8-2.3 5-5 5h-4" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round"/><path d="M17.5 17.5c3.5 0 6.5 1.6 8.5 7.5" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round"/></svg>
-      </div>
+      <div className={styles.mark} aria-hidden><LogoMark size={26} /></div>
       <h2 className={`display ${styles.h2}`}>
         <span className={styles.mask}><span className={styles.line}>{services.title}</span></span>
         <span className={styles.mask}><span className={`${styles.line} ${styles.tail}`}>{services.titleTail}</span></span>
