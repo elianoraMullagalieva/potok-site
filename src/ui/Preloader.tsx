@@ -12,7 +12,7 @@ import styles from './Preloader.module.css';
  * 4. Шторка растворяется, под ней герой с тем же небом: переход бесшовный.
  */
 // вложенные квадраты-маски с небом внутри: доли от меньшей стороны экрана, снаружи внутрь
-const RINGS = [0.56, 0.45, 0.36, 0.285, 0.22, 0.165];
+const RINGS = [0.45, 0.36, 0.29, 0.23, 0.18, 0.135];
 
 export function Preloader({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null);
@@ -31,6 +31,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
     const ins = (size: number, r: number) => `inset(${(H - size) / 2}px ${(W - size) / 2 + 0.01}px ${(H - size) / 2 + 0.02}px ${(W - size) / 2 + 0.03}px round ${r}px)`;
     const rings = q(`.${styles.ring}`);
     const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
+    tl.timeScale(1.1);
     // тоннель: квадраты всплывают из глубины и мягко схлопываются к центру, внутренние первыми
     RINGS.forEach((f, i) => {
       const from = ins(M * f, Math.max(14, M * f * 0.08));
