@@ -1,20 +1,22 @@
 .pills { display: grid; gap: 5px; margin: 8px 0; }
 .pill { display: flex; align-items: center; gap: 6px; height: 22px; padding: 0 9px 0 6px; border-radius: 999px; background: var(--bg-2); font-size: 11px; font-weight: 500; white-space: nowrap; overflow: hidden; }
 .pillOn { background: var(--yellow); }
-[data-live] .pills .pill { animation: pillCycle 12.5s ease-in-out infinite; }
-[data-live] .pills .pill:nth-child(2) { animation-delay: 2.5s; } [data-live] .pills .pill:nth-child(3) { animation-delay: 5s; } [data-live] .pills .pill:nth-child(4) { animation-delay: 7.5s; } [data-live] .pills .pill:nth-child(5) { animation-delay: 10s; }
+[data-live] .pills .pill { animation: pillCycle 7.5s ease-in-out infinite; }
+[data-live] .pills .pill:nth-child(2) { animation-delay: 1.5s; } [data-live] .pills .pill:nth-child(3) { animation-delay: 3s; } [data-live] .pills .pill:nth-child(4) { animation-delay: 4.5s; } [data-live] .pills .pill:nth-child(5) { animation-delay: 6s; }
 [data-live] .pills .pillOn { background: var(--bg-2); }
 @keyframes pillCycle { 0%, 2% { background: var(--bg-2); } 6%, 18% { background: var(--yellow); } 22%, 100% { background: var(--bg-2); } }
 .pillIcon { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--ink); opacity: .8; }
 .pillOn .pillIcon { background: var(--ink); border-color: var(--ink); }
 
 .curves { position: absolute; left: 12px; right: 12px; top: 44px; height: 100px; }
+[data-live] .curves path:last-of-type { animation: curveLoop 3.6s var(--ease) infinite; stroke-dasharray: 400; }
+@keyframes curveLoop { 0% { stroke-dashoffset: 400; } 50%, 80% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 400; } }
 
 
 .glow { position: absolute; left: 50%; top: 40%; width: 112px; height: 112px; display: grid; place-items: center; transform: translate(-50%, -50%); border-radius: 50%; }
 .glow::before { content: ''; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 1px rgba(31,108,255,.55) inset, 0 0 26px 2px rgba(31,108,255,.35), 0 0 60px 8px rgba(31,108,255,.18) inset; filter: blur(1px); }
 .glow i { position: absolute; inset: -4px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 70%, rgba(255,225,77,.9) 86%, transparent 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px)); }
-[data-live] .glow i { animation: spin 5s linear infinite; }
+[data-live] .glow i { animation: spin 3s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .glow i { animation: none; } }
 .glowAvatars { position: relative; margin: 0 !important; }

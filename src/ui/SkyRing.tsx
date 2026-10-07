@@ -21,13 +21,14 @@ type Props = {
   perspective?: number;
   draggable?: boolean;
   cardClassName?: string;
+  alwaysLive?: boolean; // анимации внутри карточек идут всё время, не только в резкой зоне
   className?: string;
   style?: CSSProperties;
 };
 
 export function SkyRing({
   count, render, cardWidth = 200, cardHeight = 260, gap = 26, speed = 2.6, breath = 0.2,
-  clearArc = 30, haze = 10, tilt = -4, perspective = 2200, draggable = true, cardClassName, className, style,
+  clearArc = 30, haze = 10, tilt = -4, perspective = 2200, draggable = true, cardClassName, alwaysLive = false, className, style,
 }: Props) {
   const arcRef = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLElement | null)[]>([]);
@@ -54,7 +55,7 @@ export function SkyRing({
         el.style.opacity = String(1 - sink * 0.98);
         el.style.filter = soft > 0.02 ? `blur(${(soft * haze).toFixed(1)}px)` : 'none';
         // анимации внутри карточки идут только в резкой зоне; при входе они стартуют заново
-        const live = soft < 0.02;
+        const live = alwaysLive || soft < 0.02;
         if (live !== el.hasAttribute('data-live')) el.toggleAttribute('data-live', live);
         el.style.transform = `rotateY(${i * step}deg) translateZ(${R - soft * 50}px)`;
       }
@@ -77,7 +78,7 @@ export function SkyRing({
     const wake = () => { if (document.visibilityState === 'visible') last.current = 0; };
     document.addEventListener('visibilitychange', wake);
     return () => { cancelAnimationFrame(raf.current); io.disconnect(); document.removeEventListener('visibilitychange', wake); };
-  }, [R, step, count, speed, breath, clearArc, haze, reduced]);
+  }, [R, step, count, speed, breath, clearArc, haze, reduced, alwaysLive]);
 
   const down = (e: React.PointerEvent) => { if (!draggable) return; e.currentTarget.setPointerCapture?.(e.pointerId); grab.current = { on: true, x: e.clientX }; vel.current = 0; };
   const move = (e: React.PointerEvent) => { if (!grab.current.on) return; const d = (e.clientX - grab.current.x) * 0.2; grab.current.x = e.clientX; rot.current += d; vel.current = d * 60; };

@@ -41,6 +41,16 @@ article:nth-child(3n+1) [data-live] .inner, [data-live]:nth-child(3n+1) .inner {
 [data-live]:nth-child(3n+2) .inner { animation-delay: -4s; animation-duration: 8s; }
 [data-live]:nth-child(3n) .inner { animation-delay: -2.6s; animation-duration: 6.5s; }
 @keyframes breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+/* динамичная версия: заметнее и быстрее */
+.dynamic [data-live] .inner { animation-duration: 4.2s; }
+.dynamic [data-live]:nth-child(3n+2) .inner { animation-duration: 4.8s; }
+.dynamic [data-live]:nth-child(3n) .inner { animation-duration: 3.8s; }
+.dynamic [data-live] .segOn { animation-duration: 2.6s; }
+.dynamic [data-live] .notif { animation-duration: 5s; }
+.dynamic [data-live] .chips .chip { animation-duration: 7.5s; }
+.dynamic [data-live] .chips .chip:nth-child(2) { animation-delay: 1.5s; } .dynamic [data-live] .chips .chip:nth-child(3) { animation-delay: 3s; } .dynamic [data-live] .chips .chip:nth-child(4) { animation-delay: 4.5s; } .dynamic [data-live] .chips .chip:nth-child(5) { animation-delay: 6s; }
+.dynamic [data-live] .areaLine { animation: drawLoop 4s var(--ease) infinite; }
+@keyframes drawLoop { 0% { stroke-dashoffset: 400; } 55%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 400; } }
 .white { background: var(--card); color: var(--ink); }
 .dark { background: var(--dark); color: var(--on-dark); }
 .glass { background: linear-gradient(165deg, #4a86f3 0%, #3570e6 55%, #2a5fd4 100%); color: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.34) inset, 0 18px 40px -22px rgba(0,20,80,.6); }

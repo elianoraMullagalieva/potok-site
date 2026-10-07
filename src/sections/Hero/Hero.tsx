@@ -43,7 +43,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
   const tail = hero.titleTail.split(' ');
 
   return (
-    <section ref={root} className={styles.hero}>
+    <section ref={root} className={`${styles.hero} ${renderCard ? styles.dynamic : ''}`}>
       <div className={styles.frame}>
         <Sky seed={1.7} />
         <div className={styles.shade} />
@@ -76,6 +76,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
             cardWidth={small ? 160 : 228} cardHeight={small ? 204 : 268} gap={small ? 14 : 30}
             speed={2.2} clearArc={46} haze={small ? 0 : 12}
             cardClassName={styles.card}
+            alwaysLive={!!renderCard}
             render={(i) => (renderCard ? renderCard(i % 5) : <CardContent i={i % 5} />)}
           />
         </div>
