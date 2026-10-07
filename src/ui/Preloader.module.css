@@ -1,11 +1,8 @@
 .root { position: fixed; inset: 0; z-index: 100; background: var(--bg); overflow: hidden; }
-.frames { position: absolute; left: 50%; top: 50%; width: min(72vw, 72vh); aspect-ratio: 1; transform: translate(-50%, -50%); }
-.frame {
-  position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block;
-  border-radius: 12%; box-shadow: 0 0 0 1.5px rgba(31,108,255,.55) inset, 0 0 40px -10px rgba(31,108,255,.25);
-  background: linear-gradient(160deg, rgba(31,108,255,.10), rgba(31,108,255,.02));
-  will-change: transform, opacity;
-}
+/* слои тоннеля: одно и то же небо под разными масками, через один чуть глубже по тону */
+.ring { position: absolute; inset: 0; background: var(--blue) center / cover no-repeat; will-change: clip-path; }
+.ringDeep::after { content: ''; position: absolute; inset: 0; background: rgba(0, 14, 60, .22); }
+.ring:nth-child(1) { filter: brightness(1.06); }
 .win { position: absolute; inset: 0; will-change: clip-path; background: var(--blue); }
 .shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,20,80,.22), transparent 26%, transparent 68%, rgba(0,10,50,.32)); pointer-events: none; }
 .mark { position: absolute; left: 50%; top: 50%; translate: -50% -50%; color: #fff; display: grid; place-items: center; }

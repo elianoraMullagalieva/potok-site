@@ -10,7 +10,8 @@ import styles from './Preloader.module.css';
  * 3. Квадрат раскрывается окном ровно до рамки героя (отступ 12px, радиус 28), небо занимает экран.
  * 4. Шторка растворяется, под ней герой с тем же небом: переход бесшовный.
  */
-const FRAMES = [1, 0.8, 0.62, 0.46, 0.32, 0.2];
+// вложенные квадраты-маски с небом внутри: доли от меньшей стороны экрана, снаружи внутрь
+const RINGS = [1.0, 0.78, 0.6, 0.45, 0.33, 0.23];
 
 export function Preloader({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null);
@@ -25,13 +26,17 @@ export function Preloader({ onDone }: { onDone: () => void }) {
     const full = `inset(12px 12.01px 12.02px 12.03px round 28px)`;
     gsap.set(w, { clipPath: small, opacity: 0 });
 
-    const tl = gsap.timeline({ defaults: { ease: 'power2.in' } });
-    // рамки уходят в центр одна за другой
-    FRAMES.forEach((_, i) => {
-      tl.fromTo(q(`.${styles.frame}`)[i], { scale: 1, opacity: 0.0 }, { opacity: 1, duration: 0.25, ease: 'power1.out' }, i * 0.12)
-        .to(q(`.${styles.frame}`)[i], { scale: 0.04, opacity: 0, duration: 0.9 }, 0.2 + i * 0.12);
+    const M = Math.min(W, H);
+    const ins = (size: number, r: number) => `inset(${(H - size) / 2}px ${(W - size) / 2 + 0.01}px ${(H - size) / 2 + 0.02}px ${(W - size) / 2 + 0.03}px round ${r}px)`;
+    const rings = q(`.${styles.ring}`);
+    const tl = gsap.timeline({ defaults: { ease: 'power3.in' } });
+    // тоннель: квадраты схлопываются к центру, внутренние первыми
+    RINGS.forEach((f, i) => {
+      const from = ins(M * f, Math.max(14, M * f * 0.06));
+      gsap.set(rings[i], { clipPath: from });
+      tl.fromTo(rings[i], { clipPath: from }, { clipPath: ins(S, 14), duration: 1.0 + i * 0.08 }, 0.15 + (RINGS.length - 1 - i) * 0.09);
     });
-    tl.to(w, { opacity: 1, duration: 0.3, ease: 'power1.out' }, 0.9)
+    tl.to(w, { opacity: 1, duration: 0.2, ease: 'power1.out' }, 1.0)
       .fromTo(q(`.${styles.mark}`), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, 1.15)
       .fromTo(q(`.${styles.meta} > *`), { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.08 }, 0.6)
       // окно раскрывается до рамки героя
@@ -44,9 +49,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
 
   return (
     <div ref={root} className={styles.root} aria-hidden>
-      <div className={styles.frames}>
-        {FRAMES.map((s, i) => <i key={i} className={styles.frame} style={{ width: `${s * 100}%`, height: `${s * 100}%`, opacity: 0 }} />)}
-      </div>
+      {RINGS.map((_, i) => <div key={i} className={`${styles.ring} ${i % 2 ? styles.ringDeep : ''}`} style={{ backgroundImage: `url(${import.meta.env.BASE_URL}sky/quiz.webp)` }} />)}
       <div ref={win} className={styles.win}>
         <Sky seed={1.7} />
         <div className={styles.shade} />
