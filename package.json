@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "build:pages": "PAGES=1 tsc -b && PAGES=1 vite build && mkdir -p dist/v1/3 dist/v2/3 && cp dist/index.html dist/v1/index.html && cp dist/index.html dist/v2/index.html && cp dist/index.html dist/v1/3/index.html && cp dist/index.html dist/v2/3/index.html && touch dist/.nojekyll"
+    "build:pages": "PAGES=1 tsc -b && PAGES=1 vite build && mkdir -p dist/v1/3 && cp dist/index.html dist/v1/3/index.html && printf '<!doctype html><meta charset=utf-8><meta http-equiv=refresh content=\"0;url=/potok-site/v1/3/\"><title>Поток</title>' > dist/index.html && cp dist/index.html dist/404.html && touch dist/.nojekyll"
   },
   "dependencies": {
     "gsap": "^3.15.0",
