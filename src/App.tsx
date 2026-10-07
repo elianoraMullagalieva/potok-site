@@ -3,7 +3,9 @@ import { Hero } from './sections/Hero/Hero';
 import { Preloader } from './ui/Preloader';
 
 const params = new URLSearchParams(location.search);
-const V1 = params.get('v') === '1' || /\/v1\/?$/.test(location.pathname);
+const V1 = params.get('v') === '1' || /\/v1(\/|$)/.test(location.pathname);
+// /v1/3/ или ?n=3 — показать только первые N блоков (отдельная ссылка для показа)
+const LIMIT = Number(params.get('n')) || (location.pathname.match(/\/(\d+)\/?$/)?.[1] ? Number(location.pathname.match(/\/(\d+)\/?$/)![1]) : 99);
 const skipLoader = params.has('nopre') || matchMedia('(prefers-reduced-motion: reduce)').matches || sessionStorage.getItem('potok:seen') === '1';
 
 // Первый экран едет одним чанком; всё остальное, включая выгоды нужной версии, подгружается отдельно
@@ -41,16 +43,17 @@ export default function App() {
     <main>
       {loading && <Preloader onDone={done} />}
       <Hero renderCard={V1 ? undefined : (i) => <Suspense fallback={null}><HeroCardV2 i={i} /></Suspense>} delay={loading ? 3.0 : 0} />
-      <Block><Benefits /></Block>
-      <Block><Quiz /></Block>
-      <Block><Services /></Block>
-      <Block><WorkSphere /></Block>
-      <Block><Cases /></Block>
-      <Block><Process /></Block>
-      <Block><Pricing /></Block>
-      <Block><About /></Block>
-      <Block h="80vh"><Lead /><RefreshOnce /></Block>
-      <a className="label" href={V1 ? `${import.meta.env.BASE_URL}v2/` : `${import.meta.env.BASE_URL}v1/`} style={{ position: 'fixed', left: 16, bottom: 14, zIndex: 50, color: 'var(--ink)', background: 'rgba(244,243,239,.85)', backdropFilter: 'blur(8px)', padding: '6px 10px', borderRadius: 999, boxShadow: '0 0 0 1px var(--line) inset' }}>{V1 ? 'Версия 2 →' : 'Версия 1 →'}</a>
+      {LIMIT > 1 && <Block><Benefits /></Block>}
+      {LIMIT > 2 && <Block><Quiz /></Block>}
+      {LIMIT > 3 && <Block><Services /></Block>}
+      {LIMIT > 4 && <Block><WorkSphere /></Block>}
+      {LIMIT > 5 && <Block><Cases /></Block>}
+      {LIMIT > 6 && <Block><Process /></Block>}
+      {LIMIT > 7 && <Block><Pricing /></Block>}
+      {LIMIT > 8 && <Block><About /></Block>}
+      {LIMIT > 9 && <Block h="80vh"><Lead /></Block>}
+      <RefreshOnce />
+      <a className="label" href={(V1 ? `${import.meta.env.BASE_URL}v2/` : `${import.meta.env.BASE_URL}v1/`) + (LIMIT < 99 ? `${LIMIT}/` : '')} style={{ position: 'fixed', left: 16, bottom: 14, zIndex: 50, color: 'var(--ink)', background: 'rgba(244,243,239,.85)', backdropFilter: 'blur(8px)', padding: '6px 10px', borderRadius: 999, boxShadow: '0 0 0 1px var(--line) inset' }}>{V1 ? 'Версия 2 →' : 'Версия 1 →'}</a>
     </main>
   );
 }
