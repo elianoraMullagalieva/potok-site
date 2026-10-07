@@ -32,7 +32,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
         .fromTo(`.${styles.selBg}`, { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, 1.5)
         .fromTo(`.${styles.selHandle}`, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' }, 1.7)
         .to(`.${styles.selBg}, .${styles.selHandle}`, { opacity: 0, duration: 0.5 }, 3.1)
-        .from(`.${styles.facts} > *`, { y: 12, opacity: 0, duration: 0.8, stagger: 0.08 }, 1.3)
+        .from(`.${styles.hint}`, { y: 12, opacity: 0, duration: 0.8 }, 1.3)
         .from(`header`, { y: -16, opacity: 0, duration: 1 }, 0.4);
     }, el);
 
@@ -70,7 +70,6 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
         </div>
 
         <div className={styles.stage}>
-          <SwipeHint onDark className={styles.hint} />
           {/* 5 карточек × 3 = кольцо из 15: спереди читаются пять, края тают в небе */}
           <SkyRing
             count={15}
@@ -81,9 +80,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
           />
         </div>
 
-        <ul className={styles.facts}>
-          {hero.facts.map((f) => <li key={f}>{f}</li>)}
-        </ul>
+        <SwipeHint onDark className={styles.hint} />
       </div>
     </section>
   );

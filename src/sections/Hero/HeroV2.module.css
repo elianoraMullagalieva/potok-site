@@ -1,6 +1,10 @@
 .pills { display: grid; gap: 5px; margin: 8px 0; }
 .pill { display: flex; align-items: center; gap: 6px; height: 22px; padding: 0 9px 0 6px; border-radius: 999px; background: var(--bg-2); font-size: 11px; font-weight: 500; white-space: nowrap; overflow: hidden; }
 .pillOn { background: var(--yellow); }
+[data-live] .pills .pill { animation: pillCycle 12.5s ease-in-out infinite; }
+[data-live] .pills .pill:nth-child(2) { animation-delay: 2.5s; } [data-live] .pills .pill:nth-child(3) { animation-delay: 5s; } [data-live] .pills .pill:nth-child(4) { animation-delay: 7.5s; } [data-live] .pills .pill:nth-child(5) { animation-delay: 10s; }
+[data-live] .pills .pillOn { background: var(--bg-2); }
+@keyframes pillCycle { 0%, 2% { background: var(--bg-2); } 6%, 18% { background: var(--yellow); } 22%, 100% { background: var(--bg-2); } }
 .pillIcon { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--ink); opacity: .8; }
 .pillOn .pillIcon { background: var(--ink); border-color: var(--ink); }
 
