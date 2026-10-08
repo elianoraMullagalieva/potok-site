@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { gsap } from '../../lib/lenis';
 import { quiz } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
+import { Face } from '../../ui/Face';
+import { services } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Quiz.module.css';
@@ -121,34 +123,7 @@ export function Quiz() {
         {/* правая колонка: небо и «О», которая заливается за каждый ответ */}
         <div className={styles.right}>
           <SkyStatic id="quiz" />
-          <div className={styles.valueHead}>
-            <span className={`label ${styles.valueLabel}`}>{quiz.value.label}</span>
-            <h3 className={styles.valueTitle}>{quiz.value.title}</h3>
-            <p className={styles.valueText}>{quiz.value.text}</p>
-          </div>
-          {/* ценность связки: объявление, квиз, бот, CRM */}
-          <div className={styles.minis} aria-hidden>
-            <div className={`${styles.mini} ${styles.miniAd}`}>
-              <span className={styles.miniTag}>{quiz.value.minis.ad.tag}</span>
-              <i className={styles.miniPic}><SkyStatic id="speed" /></i>
-              <b>{quiz.value.minis.ad.title}</b>
-              <small>{quiz.value.minis.ad.line}</small>
-            </div>
-            <div className={`${styles.mini} ${styles.miniQuiz}`}>
-              <span className={styles.miniTag}>{quiz.value.minis.quiz.tag}</span>
-              <b>{quiz.value.minis.quiz.q}</b>
-              <span className={styles.miniOpts}>{quiz.value.minis.quiz.a.map((x, i) => <i key={x} className={i === 1 ? styles.miniOptOn : ''}>{x}</i>)}</span>
-            </div>
-            <div className={`${styles.mini} ${styles.miniBot}`}>
-              <span className={styles.miniTag}>{quiz.value.minis.bot.tag}</span>
-              <span className={styles.bubble}>{quiz.value.minis.bot.msg}</span>
-            </div>
-            <div className={`${styles.mini} ${styles.miniCrm}`}>
-              <span className={styles.miniTag}>{quiz.value.minis.crm.tag}</span>
-              <b className="num">{quiz.value.minis.crm.value}</b>
-              <span className={styles.bars}>{[40, 55, 48, 70, 64, 86, 100].map((h, i) => <i key={i} style={{ height: `${h}%`, animationDelay: `${i * 0.1}s` }} />)}</span>
-            </div>
-          </div>
+          <Calc answers={answers} step={step} />
           <div className={styles.o} aria-hidden>
             <svg viewBox="0 0 200 200" width="100%" height="100%">
               <defs><clipPath id="oFill"><rect x="0" y="0" width="200" height="200" style={{ transform: `translateY(${200 - fill * 2}px)`, transition: 'transform 1s cubic-bezier(.16,1,.3,1)' }} /></clipPath></defs>
@@ -163,5 +138,40 @@ export function Quiz() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* Ориентиры из кейсов: цена заявки по нише, бюджет на тест из ответа про день */
+const LEAD_PRICE = ['870–980 ₽', '276–950 ₽', 'от 900 ₽', ''];
+const TEST_BUDGET = ['28–42 тыс. ₽', '42–70 тыс. ₽', 'от 70 тыс. ₽', 'от 28 тыс. ₽'];
+
+function Calc({ answers, step }: { answers: (number | null)[]; step: number }) {
+  const c = quiz.calc; const person = services.people[c.speaker];
+  const vals = answers.map((a, i) => (a === null ? '' : quiz.questions[i].a[a]));
+  const leadPrice = answers[0] === null ? '' : (LEAD_PRICE[answers[0]] || c.tbd);
+  const test = answers[2] === null ? '' : TEST_BUDGET[answers[2]];
+  const done = answers.every((a) => a !== null);
+  return (
+    <div className={styles.calc}>
+      <div className={styles.say} key={step}>
+        <Face src={person.face} name={person.name} size={40} />
+        <div>
+          <div className={styles.sayName}>{person.name} <span>· {person.role}</span></div>
+          <p className={styles.sayText}>{c.say[Math.min(step, 4)]}</p>
+        </div>
+      </div>
+      <div className={styles.doc}>
+        <div className={styles.docHead}><span className="label mute">{c.title}</span>{done && <span className={styles.docPlan}>{plan(answers)}</span>}</div>
+        <ul className={styles.rows}>
+          {c.rows.map((r, i) => (
+            <li key={r} className={vals[i] ? styles.rowOn : ''}><span>{r}</span><b key={vals[i]}>{vals[i] || <i />}</b></li>
+          ))}
+        </ul>
+        <div className={styles.totals}>
+          <div className={styles.total}><span>{c.lead}</span><b key={leadPrice} className="num">{leadPrice || <i />}</b></div>
+          <div className={styles.total}><span>{c.test}</span><b key={test} className="num">{test || <i />}</b></div>
+        </div>
+      </div>
+    </div>
   );
 }
