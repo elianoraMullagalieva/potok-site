@@ -45,5 +45,5 @@
 }
 
 /* варианты акцента на согласование: /lime/ и /white/ */
-:root[data-accent="lime"] { --yellow: #e4ff52; --yellow-soft: #f1ff9a; }
+:root[data-accent="lime"] { --yellow: #f0ff78; --yellow-soft: #f8ffb8; }
 :root[data-accent="white"] { --yellow: #ffffff; --yellow-soft: #ecebe6; }

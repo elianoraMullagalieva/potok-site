@@ -5,9 +5,10 @@ import { Preloader } from './ui/Preloader';
 const params = new URLSearchParams(location.search);
 const V1 = params.get('v') === '1' || /\/v1(\/|$)/.test(location.pathname);
 // /v1/3/ или ?n=3 — показать только первые N блоков (отдельная ссылка для показа)
-const LIMIT = Number(params.get('n')) || (location.pathname.match(/\/(\d+)(\/|$)/)?.[1] ? Number(location.pathname.match(/\/(\d+)(\/|$)/)![1]) : 99);
+const FULL = /\/full(\/|$)/.test(location.pathname) || params.has('full');
+const LIMIT = Number(params.get('n')) || (location.pathname.match(/\/(\d+)(\/|$)/)?.[1] ? Number(location.pathname.match(/\/(\d+)(\/|$)/)![1]) : (import.meta.env.PAGES && !FULL ? 3 : 99));
 // вариант акцента: /lime/ или /white/ в пути, либо ?accent=
-const ACCENT = params.get('accent') || location.pathname.match(/\/(lime|white)\/?$/)?.[1] || '';
+const ACCENT = params.get('accent') || location.pathname.match(/\/(lime|white)(\/|$)/)?.[1] || '';
 if (ACCENT) document.documentElement.dataset.accent = ACCENT;
 // прелоадер показывается при каждой загрузке; ?nopre отключает его
 const skipLoader = params.has('nopre') || matchMedia('(prefers-reduced-motion: reduce)').matches;
