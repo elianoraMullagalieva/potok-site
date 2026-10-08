@@ -1,5 +1,5 @@
 .hint { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--mute); letter-spacing: -0.01em; }
-.onDark { color: rgba(255,255,255,.9); text-shadow: 0 1px 12px rgba(0,20,80,.45); }
+.onDark { color: rgba(255,255,255,.9); }
 .hand { animation: swipe 2.2s var(--ease) infinite; }
 .arrow { opacity: .7; }
 @keyframes swipe { 0%, 100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(6px) rotate(-6deg); } }

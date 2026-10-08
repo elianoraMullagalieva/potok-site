@@ -17,6 +17,7 @@
   --blue: #1f6cff;
   --blue-deep: #0b3fb6;
   --yellow: #ffe14d;
+  --yellow-soft: #ffe98a;
 
   --font-sans: 'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-sans);
@@ -42,3 +43,7 @@
 @media (max-width: 768px) {
   :root { --gutter: 16px; --r-frame: 18px; --r-card: 16px; }
 }
+
+/* варианты акцента на согласование: /lime/ и /white/ */
+:root[data-accent="lime"] { --yellow: #e4ff52; --yellow-soft: #f1ff9a; }
+:root[data-accent="white"] { --yellow: #ffffff; --yellow-soft: #ecebe6; }

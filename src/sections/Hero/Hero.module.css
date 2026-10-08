@@ -25,7 +25,7 @@
 .selR { right: -0.05em; } .selR::after { bottom: -0.09em; }
 .sub { margin-top: 24px; max-width: 600px; font-size: 18px; color: rgba(255,255,255,.86); }
 .actions { display: flex; gap: 10px; margin-top: 28px; }
-.under { margin-top: 16px; color: rgba(255,255,255,.85); text-shadow: 0 1px 14px rgba(0,20,80,.45); }
+.under { margin-top: 16px; color: rgba(255,255,255,.9); }
 
 .stage { position: absolute; left: 0; right: 0; bottom: clamp(72px, 9%, 100px); z-index: 2; }
 @media (max-height: 820px) and (min-width: 769px) { .center { top: 15%; } .h1 { font-size: clamp(36px, 4.4vw, 60px); } .sub { margin-top: 14px; } .actions { margin-top: 20px; } }
@@ -70,15 +70,15 @@ article:nth-child(3n+1) [data-live] .inner, [data-live]:nth-child(3n+1) .inner {
 .segs { display: flex; gap: 4px; margin-top: 12px; }
 .segs i { flex: 1; height: 12px; border-radius: 4px; background: var(--bg-2); }
 /* мягкие сегменты: зажигаются по очереди от первого к последнему, держатся и гаснут */
-.segOn { background: #ffe98a; }
+.segOn { background: var(--yellow-soft); }
 [data-live] .segOn { animation: ignite 4.2s var(--ease) infinite; }
 .segOff { box-shadow: 0 0 0 1px var(--line) inset; background: transparent; }
 @keyframes ignite {
   0%, 4% { background: var(--bg-2); }
-  12%, 70% { background: #ffe98a; box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 0 0 1px rgba(0,0,0,.04); }
+  12%, 70% { background: var(--yellow-soft); box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 0 0 1px rgba(0,0,0,.04); }
   85%, 100% { background: var(--bg-2); box-shadow: none; }
 }
-@media (prefers-reduced-motion: reduce) { .segOn { animation: none; background: #ffe98a; } }
+@media (prefers-reduced-motion: reduce) { .segOn { animation: none; background: var(--yellow-soft); } }
 .chipOn { background: var(--yellow); }
 /* подсветка медленно переходит с чипа на чип */
 [data-live] .chips .chip { animation: chipCycle 12.5s ease-in-out infinite; }
