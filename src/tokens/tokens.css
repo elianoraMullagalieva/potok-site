@@ -16,8 +16,8 @@
   /* бренд: только фото и кнопки */
   --blue: #1f6cff;
   --blue-deep: #0b3fb6;
-  --yellow: #ffe14d;
-  --yellow-soft: #ffe98a;
+  --yellow: #f3eb7a; /* Pantone 12-0719 Yellow Jasper */
+  --yellow-soft: #f9f3b0;
 
   --font-sans: 'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-sans);
