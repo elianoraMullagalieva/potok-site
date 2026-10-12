@@ -3,7 +3,8 @@ import { gsap } from '../../lib/lenis';
 import { quiz } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
-import { services } from '../../content/texts';
+import { services, hero, benefits } from '../../content/texts';
+import { Segments } from '../Hero/Hero';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Quiz.module.css';
@@ -123,7 +124,7 @@ export function Quiz() {
         {/* правая колонка: небо и «О», которая заливается за каждый ответ */}
         <div className={styles.right}>
           <SkyStatic id="quiz" />
-          <Calc answers={answers} step={step} />
+          <Value answers={answers} step={step} />
           <div className={styles.o} aria-hidden>
             <svg viewBox="0 0 200 200" width="100%" height="100%">
               <defs><clipPath id="oFill"><rect x="0" y="0" width="200" height="200" style={{ transform: `translateY(${200 - fill * 2}px)`, transition: 'transform 1s cubic-bezier(.16,1,.3,1)' }} /></clipPath></defs>
@@ -141,37 +142,90 @@ export function Quiz() {
   );
 }
 
-/* Ориентиры из кейсов: цена заявки по нише, бюджет на тест из ответа про день */
-const LEAD_PRICE = ['870–980 ₽', '276–950 ₽', 'от 900 ₽', ''];
-const TEST_BUDGET = ['28–42 тыс. ₽', '42–70 тыс. ₽', 'от 70 тыс. ₽', 'от 28 тыс. ₽'];
 
-function Calc({ answers, step }: { answers: (number | null)[]; step: number }) {
-  const c = quiz.calc; const person = services.people[c.speaker];
-  const vals = answers.map((a, i) => (a === null ? '' : quiz.questions[i].a[a]));
-  const leadPrice = answers[0] === null ? '' : (LEAD_PRICE[answers[0]] || c.tbd);
-  const test = answers[2] === null ? '' : TEST_BUDGET[answers[2]];
-  const done = answers.every((a) => a !== null);
+/* Правая панель: один аргумент на шаг, доказательство цифрой, живой элемент и растущий список выгод */
+function Value({ answers, step }: { answers: (number | null)[]; step: number }) {
+  const i = Math.min(step, 4);
+  const st = quiz.steps[i];
+  const person = services.people[quiz.speaker];
+  const answered = answers.filter((a) => a !== null).length;
   return (
-    <div className={styles.calc}>
-      <div className={styles.say} key={step}>
+    <div className={styles.val}>
+      <div className={styles.say} key={`s${i}`}>
         <Face src={person.face} name={person.name} size={40} />
         <div>
           <div className={styles.sayName}>{person.name} <span>· {person.role}</span></div>
-          <p className={styles.sayText}>{c.say[Math.min(step, 4)]}</p>
+          <p className={styles.sayText}>{quiz.say[i]}</p>
         </div>
       </div>
-      <div className={styles.doc}>
-        <div className={styles.docHead}><span className="label mute">{c.title}</span>{done && <span className={styles.docPlan}>{plan(answers)}</span>}</div>
-        <ul className={styles.rows}>
-          {c.rows.map((r, i) => (
-            <li key={r} className={vals[i] ? styles.rowOn : ''}><span>{r}</span><b key={vals[i]}>{vals[i] || <i />}</b></li>
-          ))}
-        </ul>
-        <div className={styles.totals}>
-          <div className={styles.total}><span>{c.lead}</span><b key={leadPrice} className="num">{leadPrice || <i />}</b></div>
-          <div className={styles.total}><span>{c.test}</span><b key={test} className="num">{test || <i />}</b></div>
+
+      <div className={styles.slide} key={`v${i}`}>
+        <div className={styles.slideText}>
+          <h3 className={styles.vTitle}>{st.title}</h3>
+          <p className={styles.vSub}>{st.sub}</p>
+          <div className={styles.proof}><b className="num">{st.proof}</b><span>{st.proofLabel}</span></div>
+        </div>
+        <div className={styles.visual}><Visual kind={st.visual} /></div>
+      </div>
+
+      <ul className={styles.gains}>
+        <li className={styles.gainsLabel}>{quiz.gainsLabel}</li>
+        {quiz.steps.slice(0, 4).map((g, k) => (
+          <li key={g.gain} className={k < answered ? styles.gainOn : ''}>
+            <i aria-hidden>{k < answered && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.6 2.6L9 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>}</i>
+            <span>{g.gain}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* Живые элементы в стиле карточек героя */
+function Visual({ kind }: { kind: string }) {
+  if (kind === 'ad') return (
+    <div className={`${styles.vcard} ${styles.vcDark}`}>
+      <span className={styles.vcTag}>Avito Ads</span>
+      <i className={styles.vcPic}><SkyStatic id="speed" /></i>
+      <b>Промышленные ворота</b>
+      <small>Н. Новгород · связка готова</small>
+    </div>
+  );
+  if (kind === 'crm') return (
+    <div className={`${styles.vcard} ${styles.vcGlass}`}>
+      <div className={styles.notif}>
+        <span className={styles.appIcon}>a</span>
+        <div>
+          <div className={styles.nHead}><span>{hero.card.app}</span><span>{hero.card.time}</span></div>
+          <div className={styles.nTitle}>{hero.card.label}</div>
+          <div className={styles.nText}>{hero.card.text}</div>
         </div>
       </div>
+      <small className={styles.vcUnder}>{hero.card.under}</small>
+    </div>
+  );
+  if (kind === 'budget') return (
+    <div className={styles.vcard}>
+      <span className={styles.vcTag}>Бюджет на рекламу</span>
+      <b className={`num ${styles.vcBig}`}>от 2 000 ₽</b>
+      <small>в день</small>
+      <span className={styles.bars}>{[30, 44, 40, 58, 54, 72, 68, 90, 100].map((h, k) => <i key={k} style={{ height: `${h}%`, animationDelay: `${k * 0.07}s` }} />)}</span>
+    </div>
+  );
+  if (kind === 'team') return (
+    <div className={`${styles.vcard} ${styles.vcDark}`}>
+      <span className={styles.vcTag}>Поток</span>
+      <span className={styles.faces}>{benefits.team.map((t) => <Face key={t.initials} src={t.face} name={t.name} size={44} />)}</span>
+      <b>{hero.mainIdea[0]}</b>
+      <small>{hero.mainIdea[1]}</small>
+    </div>
+  );
+  return (
+    <div className={styles.vcard}>
+      <span className={styles.vcTag}>Запуски</span>
+      <b className={`num ${styles.vcBig}`}>9 <span>из 10</span></b>
+      <span data-live="1" className={styles.segWrap}><Segments total={10} filled={9} /></span>
+      <small>запусков — заявки в 1-й день</small>
     </div>
   );
 }
