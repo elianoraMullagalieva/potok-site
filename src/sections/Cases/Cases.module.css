@@ -1,13 +1,12 @@
 .section { position: relative; background: var(--bg); color: var(--ink); }
-.pin { position: relative; height: 100svh; min-height: 760px; overflow: hidden; display: grid; place-items: center; }
+.pin { position: relative; min-height: 100svh; padding-bottom: var(--sp-section); }
 .big {
-  position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; text-align: center; pointer-events: none; z-index: 0;
+  position: absolute; left: 0; right: 0; top: 50svh; translate: 0 -50%; text-align: center; pointer-events: none; z-index: 0;
   font-size: clamp(56px, 9.6vw, 150px); font-weight: 500; letter-spacing: -0.05em; line-height: 0.95; padding-inline: var(--gutter); text-wrap: balance;
   will-change: filter, transform, opacity;
 }
-.stage { position: relative; width: 100%; display: grid; place-items: center; will-change: transform; }
+.stage { position: relative; width: 100%; padding-top: max(calc(50svh - 250px), 220px); }
 .row1, .row2 { display: flex; justify-content: center; align-items: stretch; gap: 24px; width: 100%; }
-.rest { padding-bottom: var(--sp-section); }
 .row2 { margin-top: 24px; }
 .card {
   position: relative; width: min(430px, calc((100vw - 2 * var(--gutter) - 48px) / 3)); padding: 24px 24px 22px; border-radius: var(--r-card);
@@ -39,12 +38,12 @@
 .moreSub { font-size: 14px; color: var(--mute); }
 @media (max-width: 1280px) { .card { padding: 20px; } .head { font-size: 20px; } .logoBox { height: 100px; } }
 @media (max-width: 900px) {
-  .pin { height: auto; min-height: 0; padding: 96px 0 0; display: block; }
+  .pin { min-height: 0; padding: 96px 0 var(--sp-section); }
+  .stage { padding-top: 0; }
   .big { position: static; translate: none; transform: none !important; font-size: clamp(40px, 11vw, 72px); margin-bottom: 36px; }
   .stage { transform: none !important; padding-inline: var(--gutter); }
   .row1, .row2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
   .row2 { margin-top: 14px; }
-  .rest { padding-top: 0; }
   .card { width: 100%; transform: none !important; }
   .more { margin-top: 32px; }
   .moreBtn { width: 100%; justify-content: space-between; }

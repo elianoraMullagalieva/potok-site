@@ -51,8 +51,8 @@ export default function App() {
       {LIMIT > 2 && <Block><Quiz /></Block>}
       {LIMIT > 3 && <Block><Services /></Block>}
       {LIMIT > 4 && <Block><Cases /></Block>}
-      {LIMIT > 5 && <Block><WorkSphere /></Block>}
-      {LIMIT > 6 && <Block><Process /></Block>}
+      {LIMIT > 5 && <Block><Process /></Block>}
+      {LIMIT > 6 && <Block><WorkSphere /></Block>}
       {LIMIT > 7 && <Block><Pricing /></Block>}
       {LIMIT > 8 && <Block><About /></Block>}
       {LIMIT > 9 && <Block h="80vh"><Lead /></Block>}

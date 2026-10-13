@@ -26,22 +26,27 @@ export function Cases() {
       if (reduced || small) {
         gsap.set(cards, { x: 0, rotate: 0, y: 0 });
         gsap.set(`.${styles.big}`, { filter: 'blur(0px)', opacity: 1 });
+        gsap.set(`.${styles.row2} .${styles.card}, .${styles.more}`, { opacity: 1, y: 0 });
         return;
       }
       const n = cards.length;
-      const tl = gsap.timeline({ scrollTrigger: { trigger: `.${styles.pin}`, start: 'top top', end: '+=160%', pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true } });
+      const big = el.querySelector<HTMLElement>(`.${styles.big}`)!;
+      const row1 = el.querySelector<HTMLElement>(`.${styles.row1}`)!;
+      const tl = gsap.timeline({ scrollTrigger: { trigger: `.${styles.pin}`, start: 'top top', end: '+=170%', pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true } });
       cards.forEach((c, i) => {
         const k = i - (n - 1) / 2;
         const start = () => -k * (c.offsetWidth + 24) + k * 48;
         gsap.set(c, { zIndex: 10 - Math.abs(k) });
         tl.fromTo(c, { x: start, rotate: k * 7, y: Math.abs(k) * 18 }, { x: 0, rotate: 0, y: 0, ease: 'power2.inOut', duration: 1, immediateRender: true }, 0);
       });
-      tl.fromTo(`.${styles.big}`, { filter: 'blur(18px)', opacity: 0.18, scale: 1.04 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
-        .to(`.${styles.big}`, { yPercent: -92, ease: 'power2.inOut', duration: 0.8 }, 0.35)
-        .to(`.${styles.stage}`, { y: 90, ease: 'power2.inOut', duration: 0.8 }, 0.35);
-      // второй ряд: приходит дозированно, когда дошли до него
-      gsap.from(`.${styles.row2} .${styles.card}`, { y: 80, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: `.${styles.row2}`, start: 'top 85%' } });
-      gsap.from(`.${styles.more}`, { y: 30, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.more}`, start: 'top 92%' } });
+      // заголовок проявляется, затем поднимается так, чтобы его низ встал над первым рядом
+      const lift = () => -((row1.getBoundingClientRect().top - big.getBoundingClientRect().top) - big.offsetHeight - 24) - (gsap.getProperty(big, 'y') as number);
+      tl.fromTo(big, { filter: 'blur(18px)', opacity: 0.18, scale: 1.04 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
+        .to(big, { y: () => { const cur = gsap.getProperty(big, 'y') as number; gsap.set(big, { y: 0 }); const v = (row1.getBoundingClientRect().top - big.getBoundingClientRect().top) - big.offsetHeight - 24; gsap.set(big, { y: cur }); return Math.min(0, v); }, ease: 'power2.inOut', duration: 0.8 }, 0.4)
+        // второй ряд приходит, как только карточки встали и заголовок ушёл вверх
+        .fromTo(`.${styles.row2} .${styles.card}`, { y: 90, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out', duration: 0.6, stagger: 0.08 }, 1.0)
+        .fromTo(`.${styles.more}`, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 1.25);
+      void lift;
     }, el);
     return () => ctx.revert();
   }, [reduced, small]);
@@ -52,13 +57,11 @@ export function Cases() {
         <h2 className={`display ${styles.big}`} aria-label={cases.title}>{cases.title}</h2>
         <div className={styles.stage}>
           <div className={styles.row1}>{cases.items.slice(0, 3).map((c) => <Card key={c.id} c={c} />)}</div>
-        </div>
-      </div>
-      <div className={`wrap ${styles.rest}`}>
-        <div className={styles.row2}>{cases.items.slice(3).map((c) => <Card key={c.id} c={c} />)}</div>
-        <div className={styles.more}>
-          <Button variant="dark" arrow className={styles.moreBtn} href="#lead">{cases.more}</Button>
-          <span className={styles.moreSub}>{cases.moreSub}</span>
+          <div className={styles.row2}>{cases.items.slice(3).map((c) => <Card key={c.id} c={c} />)}</div>
+          <div className={styles.more}>
+            <Button variant="dark" arrow className={styles.moreBtn} href="#lead">{cases.more}</Button>
+            <span className={styles.moreSub}>{cases.moreSub}</span>
+          </div>
         </div>
       </div>
     </section>

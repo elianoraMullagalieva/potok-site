@@ -1,17 +1,17 @@
 :root {
-  --bg: #f4f3ef;
-  --bg-2: #e9e8e3;
+  --bg: #f3f3f2;
+  --bg-2: #e8e8e7;
   --card: #ffffff;
-  --card-grey: #e4e3df;
+  --card-grey: #e4e4e3;
   --dark: #121316;
   --dark-2: #1c1d21;
-  --ink: #121316;
-  --ink-2: #4a4c52;
+  --ink: #1f2026;
+  --ink-2: #4f5158;
   --mute: #8a8c92;
   --mute-2: #b9bbc0;
   --line: rgba(18, 19, 22, 0.1);
   --line-light: rgba(255, 255, 255, 0.18);
-  --on-dark: #f4f3ef;
+  --on-dark: #f4f4f3;
 
   /* бренд: только фото и кнопки */
   --blue: #1f6cff;
