@@ -122,15 +122,15 @@ export function Quiz() {
 
         {/* правая колонка: небо и «О», которая заливается за каждый ответ */}
         <div className={styles.right}>
-          <SkyStatic id="quiz" />
+          <SkyStatic id="quiz" className={styles.sky} />
           <Value answers={answers} step={step} />
           <div className={styles.o} aria-hidden>
             <svg viewBox="0 0 200 200" width="100%" height="100%">
               <defs><clipPath id="oFill"><rect x="0" y="0" width="200" height="200" style={{ transform: `translateY(${200 - fill * 2}px)`, transition: 'transform 1s cubic-bezier(.16,1,.3,1)' }} /></clipPath></defs>
               <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(255,255,255,.4)" strokeWidth="18" />
               <circle cx="100" cy="100" r="82" fill="none" stroke="var(--yellow)" strokeWidth="18" clipPath="url(#oFill)" />
+              <text x="100" y="100" textAnchor="middle" dominantBaseline="central" className={styles.pct}>{fill}%</text>
             </svg>
-            <span className={`num ${styles.pct}`}>{fill}%</span>
           </div>
           <ul className={styles.picked}>
             {answers.map((a, i) => a === null ? null : <li key={i} className={styles.pick}>{quiz.questions[i].a[a]}</li>)}
@@ -151,7 +151,7 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
   return (
     <div className={styles.val}>
       <div className={styles.say} key={`s${Math.min(step, 4)}`}>
-        <Face src={person.face} name={person.name} size={44} />
+        <Face src={person.face} name={person.name} size={56} ring="rgba(255,255,255,.55)" />
         <div>
           <div className={styles.sayName}>{person.name} <span>· {person.role}</span></div>
           <p className={styles.sayText}>{quiz.say[Math.min(step, 4)]}</p>
@@ -168,12 +168,12 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
           const open = answered >= k + 2 || step >= 4;
           return (
             <li key={it.n} className={`${styles.gift} ${open ? styles.giftOn : ''}`}>
-              <span className={`num ${styles.giftN}`}>{it.n}</span>
               <div className={styles.giftVisual}><GiftVisual kind={it.visual} on={open} /></div>
               <div className={styles.giftText}>
                 <b>{it.title}</b>
                 <span className={styles.giftState}>{open ? 'в расчёте' : 'после ответов'}</span>
               </div>
+              <span className={`num ${styles.giftN}`}>{it.n}</span>
             </li>
           );
         })}

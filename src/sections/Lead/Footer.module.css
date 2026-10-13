@@ -1,0 +1,60 @@
+.footer { position: relative; padding: 56px var(--gutter) 0; overflow: hidden; }
+.grid { position: relative; z-index: 1; display: grid; grid-template-columns: 360px 1fr; gap: 16px; align-items: stretch; }
+.hand { font-family: 'Caveat', cursive; font-weight: 600; letter-spacing: .01em; }
+
+/* левая карточка с небом */
+.left { position: relative; min-height: 360px; padding: 30px; border-radius: 28px; overflow: hidden; isolation: isolate; background: var(--blue); color: #fff; display: flex; flex-direction: column; box-shadow: 0 30px 60px -36px rgba(0,30,120,.5); }
+.sky { z-index: 0 !important; }
+.shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,80,.45), rgba(0,20,80,0) 60%); pointer-events: none; }
+.left > :not(.sky, .shade) { position: relative; z-index: 1; }
+.tagline { margin-top: auto; margin-bottom: 26px; font-size: 19px; line-height: 1.4; letter-spacing: -0.01em; }
+.tagline span { color: rgba(255,255,255,.7); }
+.socialRow { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.socialRow .hand { font-size: 20px; color: rgba(255,255,255,.92); }
+.socials { display: flex; gap: 7px; }
+.socials a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--ink); color: #fff; box-shadow: 0 8px 20px -8px rgba(0,0,0,.6); transition: transform .3s var(--ease), background .3s; }
+.socials a:hover { transform: translateY(-2px); background: #000; }
+
+/* правая карточка */
+.right { position: relative; padding: 40px; border-radius: 28px; background: var(--card-grey, #eeeeea); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 1px rgba(10,10,10,.03); }
+.lucky { position: absolute; top: -34px; right: 40px; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; color: var(--mute); }
+.cube { display: grid; place-items: center; width: 92px; height: 92px; border-radius: 22px; background: var(--yellow); transform: rotate(-10deg); box-shadow: inset 3px 3px 8px rgba(255,255,255,.5), inset -3px -3px 12px rgba(120,110,0,.18), 8px 14px 28px -8px rgba(120,110,0,.35); transition: transform .6s var(--ease); }
+.lucky:hover .cube { transform: rotate(-6deg) translateY(-3px); }
+.cubeMark { color: var(--ink); transform: rotate(10deg); display: grid; }
+.luckyRow { display: flex; align-items: center; gap: 6px; transform: rotate(-4deg); margin-top: 2px; }
+.luckyRow .hand { font-size: 21px; white-space: nowrap; }
+.cols { display: flex; gap: 72px; padding-top: 8px; }
+.col { display: flex; flex-direction: column; }
+.colTitle { font-size: 25px; font-style: italic; color: var(--mute); margin-bottom: 16px; }
+.col a { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 13px; transition: color .2s; }
+.col a:hover { color: var(--mute); }
+.bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-top: 48px; }
+.legal { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; font-weight: 500; color: var(--mute); white-space: nowrap; }
+.mini { display: flex; flex-direction: column; gap: 14px; }
+.mini h4 { font-size: 15px; font-weight: 400; line-height: 1.45; color: var(--mute); }
+.mini strong { display: block; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); }
+.sub { display: flex; width: 330px; padding: 5px; border-radius: 14px; background: #fff; box-shadow: 0 0 0 1px var(--line) inset, 0 2px 10px rgba(0,0,0,.04); }
+.sub input { flex: 1; min-width: 0; padding: 11px 14px; border: 0; background: transparent; font: inherit; font-size: 14px; color: var(--ink); outline: 0; }
+.sub input::placeholder { color: var(--mute); }
+.sub button { padding: 11px 20px; border-radius: 10px; background: var(--ink); color: var(--on-dark); font: inherit; font-size: 14px; font-weight: 600; white-space: nowrap; box-shadow: 0 6px 20px -8px rgba(0,0,0,.5); transition: transform .2s, background .2s; }
+.sub button:hover { background: #000; transform: translateY(-1px); }
+.done { font-size: 15px; font-weight: 500; }
+
+/* водяной знак во всю ширину */
+.watermark { position: relative; z-index: 0; margin: -48px auto 0; pointer-events: none; user-select: none; line-height: 0; }
+.watermark svg { display: block; width: 100%; height: auto; overflow: visible; }
+.watermark text { font-family: 'Inter Tight', sans-serif; font-weight: 600; letter-spacing: -0.04em; fill: rgba(10,10,10,.05); }
+
+@media (max-width: 900px) {
+  .footer { padding-top: 32px; }
+  .grid { grid-template-columns: 1fr; }
+  .left { min-height: 0; gap: 40px; }
+  .tagline { margin-top: 8px; }
+  .right { padding: 24px; padding-top: 56px; }
+  .lucky { right: 14px; top: -26px; }
+  .cube { width: 72px; height: 72px; border-radius: 18px; }
+  .cols { gap: 36px; }
+  .bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .sub { width: 100%; }
+  .watermark { margin-top: -20px; }
+}

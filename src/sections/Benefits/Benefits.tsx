@@ -116,7 +116,7 @@ function CrmRows() {
 function Team() {
   return (
     <div className={styles.team} aria-hidden>
-      {benefits.team.map((t) => <span key={t.initials} className={styles.ava}><Face src={t.face} name={t.name} size={60} /></span>)}
+      {benefits.team.map((t) => <span key={t.initials} className={styles.ava}><Face src={t.face} name={t.name} size={54} /></span>)}
       <span className={`${styles.ava} ${styles.avaEmpty}`} />
     </div>
   );

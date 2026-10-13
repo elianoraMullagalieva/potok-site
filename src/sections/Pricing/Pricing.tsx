@@ -6,7 +6,7 @@ import { SkyStatic } from '../../ui/Sky';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Pricing.module.css';
 
-/* Тарифы: бенто, «Тест 14 дней» на две колонки с небом. Ниже сравнение с переключателем, ячейки меняются вертикальным flip */
+/* Тарифы: четыре колонки, «Тест 14 дней» выделен небом и жёлтой кнопкой, списки в отдельных панелях. Ниже сравнение с переключателем, ячейки меняются вертикальным flip */
 export function Pricing() {
   const root = useRef<HTMLElement>(null);
   const [col, setCol] = useState(1);
@@ -40,13 +40,19 @@ export function Pricing() {
           <article key={p.id} className={`${styles.plan} ${p.featured ? styles.featured : ''}`}>
             {p.featured && <div className={styles.bg} aria-hidden><SkyStatic id="test" /><div className={styles.shade} /></div>}
             <div className={styles.planTop}>
-              <h3 className={styles.name}>{p.name}</h3>
+              <div>
+                <h3 className={styles.name}>{p.name}</h3>
+                <p className={styles.who}>{p.who}</p>
+              </div>
               {p.badge && <span className={styles.badge}>{p.badge}</span>}
             </div>
-            <div className={`num ${styles.price}`}>{p.price}</div>
-            <p className={styles.who}>{p.who}</p>
-            <ul className={styles.inc}>{p.includes.map((x) => <li key={x}>{x}</li>)}</ul>
-            {p.featured && <Button variant="primary" arrow className={styles.cta} href="#lead">{pricing.cta}</Button>}
+            <div className={styles.priceRow}><span className={`num ${styles.price}`}>{p.price}</span><span className={styles.per}>{p.per}</span></div>
+            <Button variant={p.featured ? 'primary' : 'ghost'} arrow className={styles.cta} href={p.featured ? '#quiz' : '#lead'}>{p.cta}</Button>
+            <div className={styles.panel}>
+              <span className={styles.incLabel}>{p.includesLabel}</span>
+              <ul className={styles.inc}>{p.includes.map((x) => <li key={x}><i aria-hidden /><span>{x}</span></li>)}</ul>
+              {p.note && <p className={styles.note}>{p.note}</p>}
+            </div>
           </article>
         ))}
         <p className={styles.budget}>{pricing.budget}</p>

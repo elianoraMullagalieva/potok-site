@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { gsap } from '../../lib/lenis';
-import { lead, footer, nav } from '../../content/texts';
+import { lead } from '../../content/texts';
+import { Footer } from './Footer';
 import { Button } from '../../ui/Button';
 import { Sky } from '../../ui/Sky';
-import { Logo } from '../../ui/Logo';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import { useMedia } from '../../lib/useMedia';
 import styles from './Lead.module.css';
@@ -19,7 +19,6 @@ export function Lead() {
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.pills} li, .${styles.form}, .${styles.alt}`, { y: 20, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: root.current, start: 'top 60%' } });
       gsap.from(`.${styles.frame}`, { scale: 0.96, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 75%' } });
-      gsap.from(`.${styles.word}`, { yPercent: 100, duration: 1.2, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.footer}`, start: 'top 85%' } });
     }, root);
     return () => ctx.revert();
   }, [reduced]);
@@ -56,21 +55,7 @@ export function Lead() {
         </div>
       </div>
 
-      <footer className={styles.footer}>
-        <div className={styles.fTop}>
-          <div><Logo /><p className={styles.fLine}>{footer.line}</p></div>
-          <ul className={styles.fContacts}>{footer.contacts.map((c) => <li key={c}><a href="#">{c}</a></li>)}</ul>
-          <ul className={styles.fMenu}>{nav.menu.map((m) => <li key={m.label}><a href={m.href}>{m.label}</a></li>)}</ul>
-        </div>
-        <div className={styles.words} aria-hidden>
-          <span className={styles.mask}><span className={styles.word}>{footer.wordA}</span></span>
-          <span className={styles.mask}><span className={styles.word}>{footer.wordB}</span></span>
-        </div>
-        <div className={styles.fBottom}>
-          <ul>{footer.legal.map((l) => <li key={l}>{l}</li>)}</ul>
-          <span>{footer.copy}</span>
-        </div>
-      </footer>
+      <Footer />
     </section>
   );
 }

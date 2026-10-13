@@ -38,35 +38,37 @@
 .check { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; background: var(--yellow); font-size: 30px; }
 
 .right { position: relative; overflow: hidden; background: var(--blue); min-height: 620px; color: #fff; }
-.right::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,20,80,.28), transparent 35%, transparent 70%, rgba(0,10,50,.3)); pointer-events: none; }
+.sky { transform: scale(-1, -1); }
+.right::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, transparent 28%, rgba(0,20,80,.22) 48%, rgba(0,14,60,.42) 100%); pointer-events: none; }
 .val { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; min-height: 620px; padding: 28px 28px 24px; }
 /* реплика сотрудника */
-.say { display: flex; gap: 12px; align-items: flex-start; padding-right: 100px; animation: sayIn .7s var(--ease) both; }
+.say { display: flex; gap: 14px; align-items: flex-start; padding-right: 110px; animation: sayIn .7s var(--ease) both; }
 @keyframes sayIn { from { opacity: 0; transform: translateY(8px); } }
 .sayName { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
 .sayName span { font-weight: 400; color: rgba(255,255,255,.7); }
-.sayText { margin-top: 4px; font-size: 15px; line-height: 1.35; color: rgba(255,255,255,.95); max-width: 30ch; }
+.sayText { margin-top: 4px; font-size: 16px; line-height: 1.3; color: rgba(255,255,255,.95); max-width: 30ch; white-space: pre-line; }
 /* заголовок подарков */
 .giftHead { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 14px; margin-top: 30px; }
-.giftTitle { font-size: clamp(28px, 2.6vw, 40px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
+.giftTitle { text-wrap: balance; }
+.giftTitle { font-size: clamp(26px, 2.3vw, 34px); max-width: 16ch; font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
 .usually { font-size: 13px; font-weight: 500; padding: 7px 11px; border-radius: 999px; background: rgba(255,255,255,.18); backdrop-filter: blur(8px); box-shadow: 0 0 0 1px rgba(255,255,255,.35) inset; }
 .usually::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 8px; vertical-align: 2px; }
 /* три подарка */
-.gifts { display: grid; gap: 10px; margin-top: 22px; flex: 1; align-content: start; }
-.gift { display: grid; grid-template-columns: 28px 128px 1fr; gap: 14px; align-items: center; padding: 12px 14px 12px 12px; border-radius: 18px; background: rgba(255,255,255,.14); backdrop-filter: blur(10px); box-shadow: 0 0 0 1px rgba(255,255,255,.22) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
+.gifts { display: grid; gap: 10px; margin-top: 22px; flex: 1; align-content: start; max-width: 520px; }
+.gift { display: grid; grid-template-columns: 168px 1fr 28px; gap: 16px; align-items: center; padding: 12px 14px 12px 12px; border-radius: 18px; background: rgba(0,18,70,.22); backdrop-filter: blur(12px); box-shadow: 0 0 0 1px rgba(255,255,255,.14) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
 .giftOn { background: rgba(255,255,255,.96); color: var(--ink); box-shadow: 0 24px 50px -28px rgba(0,20,80,.6); }
-.giftN { font-size: 12px; color: rgba(255,255,255,.7); align-self: start; padding-top: 4px; }
+.giftN { font-size: 12px; color: rgba(255,255,255,.7); align-self: start; justify-self: end; padding-top: 2px; }
 .giftOn .giftN { color: var(--mute); }
 .giftText { display: flex; flex-direction: column; gap: 5px; }
-.giftText b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
+.giftText b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; text-wrap: balance; }
 .giftState { font-size: 12px; color: rgba(255,255,255,.65); }
 .giftOn .giftState { color: var(--mute); }
 .giftOn .giftState::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); margin-right: 6px; }
-.gv { position: relative; display: block; height: 84px; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
+.gv { position: relative; display: block; height: 108px; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
 .gv img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; filter: grayscale(.6) brightness(1.04); opacity: .85; transition: filter .6s var(--ease), opacity .6s var(--ease); }
 .gvLive img { filter: none; opacity: 1; }
 .o { position: absolute; right: 24px; top: 24px; z-index: 2; width: 92px; aspect-ratio: 1; filter: drop-shadow(0 16px 24px rgba(0,20,80,.35)); }
-.pct { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 15px; font-weight: 500; letter-spacing: -0.03em; }
+.pct { fill: #fff; font-size: 32px; font-weight: 500; letter-spacing: -0.03em; font-family: inherit; }
 .picked { display: none; }
 .pick { font-size: 13px; padding: 7px 11px; border-radius: 999px; background: rgba(255,255,255,.85); color: var(--ink); animation: pickIn .7s var(--ease) both; }
 @keyframes pickIn { from { opacity: 0; transform: translateY(8px) scale(.9); } }
@@ -76,8 +78,9 @@
   .right { order: -1; min-height: 0; }
   .val { min-height: 0; padding: 20px 16px 20px; }
   .say { padding-right: 70px; }
-  .gift { grid-template-columns: 24px 100px 1fr; gap: 10px; }
-  .gv { height: 72px; }
+  .gift { grid-template-columns: 112px 1fr 24px; gap: 10px; }
+  .gifts { max-width: none; }
+  .gv { height: 76px; }
   .o { width: 56px; right: 14px; top: 14px; }
   .picked { display: none; }
   .left { padding: 24px 20px; }

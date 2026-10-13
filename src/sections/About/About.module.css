@@ -4,9 +4,9 @@
 .tail { color: var(--mute); }
 .sub { margin-top: 16px; font-size: 18px; color: var(--mute); max-width: 32ch; }
 
-.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: var(--sp-head); }
-.person { position: relative; height: 520px; border-radius: var(--r-card); overflow: hidden; background: var(--dark-2); color: #fff; }
-.person:nth-child(2) { margin-top: 40px; }
+.team { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: var(--sp-head); }
+.person { position: relative; height: 460px; border-radius: var(--r-card); overflow: hidden; background: var(--dark-2); color: #fff; }
+.person:nth-child(even) { margin-top: 40px; }
 .portrait { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; filter: grayscale(1); transition: filter .8s var(--ease), transform 1.4s var(--ease); }
 .person:hover .portrait { filter: none; transform: scale(1.03); }
 .personBody { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px; background: linear-gradient(to top, rgba(10,10,14,.9), rgba(10,10,14,0)); }
@@ -33,5 +33,5 @@
 .quote figcaption { display: flex; align-items: center; gap: 12px; margin-top: 24px; font-size: 16px; font-weight: 500; }
 .quote figcaption small { display: block; font-size: 13px; font-weight: 400; color: var(--mute); }
 .partners { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: auto; padding-top: 28px; font-size: 14px; font-weight: 500; color: var(--mute); }
-@media (max-width: 1000px) { .team, .stats { grid-template-columns: 1fr 1fr; } .stat:nth-child(3) { border-left: 0; padding-left: 0; } .stat { padding-bottom: 12px; } .person:nth-child(2) { margin-top: 0; } .bottom { grid-template-columns: 1fr; } }
+@media (max-width: 1000px) { .team, .stats { grid-template-columns: 1fr 1fr; } .stat:nth-child(3) { border-left: 0; padding-left: 0; } .stat { padding-bottom: 12px; } .person:nth-child(even) { margin-top: 0; } .bottom { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .team, .stats { grid-template-columns: 1fr; } .person { height: 420px; } }
