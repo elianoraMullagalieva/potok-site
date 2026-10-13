@@ -3,8 +3,7 @@ import { gsap } from '../../lib/lenis';
 import { quiz } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
-import { services, hero, benefits } from '../../content/texts';
-import { Segments } from '../Hero/Hero';
+import { services } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Quiz.module.css';
@@ -143,89 +142,66 @@ export function Quiz() {
 }
 
 
-/* Правая панель: один аргумент на шаг, доказательство цифрой, живой элемент и растущий список выгод */
+
+/* Правая панель: три подарка за ответы. Открываются по ходу: после 2-го, 3-го и 4-го ответа */
 function Value({ answers, step }: { answers: (number | null)[]; step: number }) {
-  const i = Math.min(step, 4);
-  const st = quiz.steps[i];
   const person = services.people[quiz.speaker];
   const answered = answers.filter((a) => a !== null).length;
+  const g = quiz.gift;
   return (
     <div className={styles.val}>
-      <div className={styles.say} key={`s${i}`}>
-        <Face src={person.face} name={person.name} size={40} />
+      <div className={styles.say} key={`s${Math.min(step, 4)}`}>
+        <Face src={person.face} name={person.name} size={44} />
         <div>
           <div className={styles.sayName}>{person.name} <span>· {person.role}</span></div>
-          <p className={styles.sayText}>{quiz.say[i]}</p>
+          <p className={styles.sayText}>{quiz.say[Math.min(step, 4)]}</p>
         </div>
       </div>
 
-      <div className={styles.slide} key={`v${i}`}>
-        <div className={styles.slideText}>
-          <h3 className={styles.vTitle}>{st.title}</h3>
-          <p className={styles.vSub}>{st.sub}</p>
-          <div className={styles.proof}><b className="num">{st.proof}</b><span>{st.proofLabel}</span></div>
-        </div>
-        <div className={styles.visual}><Visual kind={st.visual} /></div>
+      <div className={styles.giftHead}>
+        <h3 className={styles.giftTitle}>{g.title}</h3>
+        <span className={styles.usually}>{g.usually}</span>
       </div>
 
-      <ul className={styles.gains}>
-        <li className={styles.gainsLabel}>{quiz.gainsLabel}</li>
-        {quiz.steps.slice(0, 4).map((g, k) => (
-          <li key={g.gain} className={k < answered ? styles.gainOn : ''}>
-            <i aria-hidden>{k < answered && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.6 2.6L9 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>}</i>
-            <span>{g.gain}</span>
-          </li>
-        ))}
+      <ul className={styles.gifts}>
+        {g.items.map((it, k) => {
+          const open = answered >= k + 2 || step >= 4;
+          return (
+            <li key={it.n} className={`${styles.gift} ${open ? styles.giftOn : ''}`}>
+              <span className={`num ${styles.giftN}`}>{it.n}</span>
+              <div className={styles.giftVisual}><GiftVisual kind={it.visual} on={open} /></div>
+              <div className={styles.giftText}>
+                <b>{it.title}</b>
+                <span className={styles.giftState}>{open ? 'в расчёте' : 'после ответов'}</span>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
 }
 
-/* Живые элементы в стиле карточек героя */
-function Visual({ kind }: { kind: string }) {
-  if (kind === 'ad') return (
-    <div className={`${styles.vcard} ${styles.vcDark}`}>
-      <span className={styles.vcTag}>Avito Ads</span>
-      <i className={styles.vcPic}><SkyStatic id="speed" /></i>
-      <b>Промышленные ворота</b>
-      <small>Н. Новгород · связка готова</small>
-    </div>
-  );
-  if (kind === 'crm') return (
-    <div className={`${styles.vcard} ${styles.vcGlass}`}>
-      <div className={styles.notif}>
-        <span className={styles.appIcon}>a</span>
-        <div>
-          <div className={styles.nHead}><span>{hero.card.app}</span><span>{hero.card.time}</span></div>
-          <div className={styles.nTitle}>{hero.card.label}</div>
-          <div className={styles.nText}>{hero.card.text}</div>
-        </div>
-      </div>
-      <small className={styles.vcUnder}>{hero.card.under}</small>
+/* Визуализации подарков: таблица расчёта, график бюджета, таймлайн запуска */
+function GiftVisual({ kind, on }: { kind: string; on: boolean }) {
+  if (kind === 'calc') return (
+    <div className={styles.gv}>
+      <span className={styles.gvLabel}>Город · спрос · цена</span>
+      {[82, 56, 68].map((w, i) => <span key={i} className={styles.gvRow}><i style={{ width: `${w}%` }} className={on && i === 0 ? styles.gvOn : ''} /><em>{['920', '640', '710'][i]}</em></span>)}
     </div>
   );
   if (kind === 'budget') return (
-    <div className={styles.vcard}>
-      <span className={styles.vcTag}>Бюджет на рекламу</span>
-      <b className={`num ${styles.vcBig}`}>от 2 000 ₽</b>
-      <small>в день</small>
-      <span className={styles.bars}>{[30, 44, 40, 58, 54, 72, 68, 90, 100].map((h, k) => <i key={k} style={{ height: `${h}%`, animationDelay: `${k * 0.07}s` }} />)}</span>
-    </div>
-  );
-  if (kind === 'team') return (
-    <div className={`${styles.vcard} ${styles.vcDark}`}>
-      <span className={styles.vcTag}>Поток</span>
-      <span className={styles.faces}>{benefits.team.map((t) => <Face key={t.initials} src={t.face} name={t.name} size={44} />)}</span>
-      <b>{hero.mainIdea[0]}</b>
-      <small>{hero.mainIdea[1]}</small>
+    <div className={styles.gv}>
+      <span className={styles.gvLabel}>14 дней</span>
+      <span className={styles.gvBars}>{[30, 44, 40, 58, 54, 72, 68, 90, 100, 86, 94, 100, 96, 100].map((h, i) => <i key={i} style={{ height: `${h}%`, animationDelay: `${i * 0.05}s` }} className={on && i > 9 ? styles.gvOn : ''} />)}</span>
     </div>
   );
   return (
-    <div className={styles.vcard}>
-      <span className={styles.vcTag}>Запуски</span>
-      <b className={`num ${styles.vcBig}`}>9 <span>из 10</span></b>
-      <span data-live="1" className={styles.segWrap}><Segments total={10} filled={9} /></span>
-      <small>запусков — заявки в 1-й день</small>
+    <div className={styles.gv}>
+      <span className={styles.gvLabel}>День 1 · День 2</span>
+      <span className={styles.gvLine}><i className={on ? styles.gvOn : ''} /></span>
+      <span className={styles.gvDots}><b className={on ? styles.gvOn : ''} /><b className={on ? styles.gvOn : ''} /><b /></span>
+      <span className={styles.gvSteps}><em>Директ</em><em>Avito</em><em>Заявки</em></span>
     </div>
   );
 }

@@ -46,48 +46,47 @@
 .sayName { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
 .sayName span { font-weight: 400; color: rgba(255,255,255,.7); }
 .sayText { margin-top: 4px; font-size: 15px; line-height: 1.35; color: rgba(255,255,255,.95); max-width: 30ch; }
-/* слайд-аргумент */
-.slide { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; align-items: center; margin-top: 34px; flex: 1; animation: slideIn .8s var(--ease) both; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(26px); } }
-.vTitle { font-size: clamp(26px, 2.3vw, 34px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.04; text-wrap: balance; }
-.vSub { margin-top: 10px; font-size: 15.5px; line-height: 1.4; color: rgba(255,255,255,.85); max-width: 28ch; }
-.proof { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.3); display: flex; flex-direction: column; gap: 4px; }
-.proof b { font-size: clamp(32px, 3vw, 44px); font-weight: 500; letter-spacing: -0.045em; line-height: 1; }
-.proof span { font-size: 13.5px; color: rgba(255,255,255,.8); max-width: 26ch; }
-.visual { display: grid; place-items: center; }
-/* карточки-элементы */
-.vcard { position: relative; width: 100%; max-width: 230px; min-height: 230px; padding: 18px; border-radius: 20px; background: #fff; color: var(--ink); display: flex; flex-direction: column; gap: 8px; box-shadow: 0 30px 60px -30px rgba(0,20,80,.6); animation: cardIn .9s var(--ease) both; }
-@keyframes cardIn { from { opacity: 0; transform: translateY(20px) rotate(2deg); } }
-.vcard b { font-size: 16px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
-.vcard small { font-size: 12.5px; color: var(--mute); }
-.vcTag { align-self: flex-start; font-size: 11px; font-weight: 500; padding: 5px 9px; border-radius: 999px; box-shadow: 0 0 0 1px var(--line) inset; color: var(--ink-2); }
-.vcDark { background: var(--dark); color: #fff; }
-.vcDark small { color: rgba(244,243,239,.6); }
-.vcDark .vcTag { color: rgba(255,255,255,.8); box-shadow: 0 0 0 1px rgba(255,255,255,.2) inset; }
-.vcPic { position: relative; display: block; height: 88px; border-radius: 12px; overflow: hidden; margin: 4px 0; }
-.vcBig { font-size: 34px !important; font-weight: 500 !important; letter-spacing: -0.05em !important; line-height: 1 !important; margin-top: auto; }
-.vcBig span { font-size: 0.5em; color: var(--mute); }
-.bars { display: flex; align-items: flex-end; gap: 4px; height: 56px; margin-top: 8px; }
-.bars i { flex: 1; border-radius: 3px; background: var(--ink); opacity: .85; transform-origin: bottom; animation: barGrow 1.1s var(--ease) both; }
-.bars i:last-child { background: var(--yellow); opacity: 1; }
+/* заголовок подарков */
+.giftHead { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 14px; margin-top: 30px; }
+.giftTitle { font-size: clamp(28px, 2.6vw, 40px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
+.usually { font-size: 13px; font-weight: 500; padding: 7px 11px; border-radius: 999px; background: rgba(255,255,255,.18); backdrop-filter: blur(8px); box-shadow: 0 0 0 1px rgba(255,255,255,.35) inset; }
+.usually::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 8px; vertical-align: 2px; }
+/* три подарка */
+.gifts { display: grid; gap: 10px; margin-top: 22px; flex: 1; align-content: start; }
+.gift { display: grid; grid-template-columns: 28px 128px 1fr; gap: 14px; align-items: center; padding: 12px 14px 12px 12px; border-radius: 18px; background: rgba(255,255,255,.14); backdrop-filter: blur(10px); box-shadow: 0 0 0 1px rgba(255,255,255,.22) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
+.giftOn { background: rgba(255,255,255,.96); color: var(--ink); box-shadow: 0 24px 50px -28px rgba(0,20,80,.6); }
+.giftN { font-size: 12px; color: rgba(255,255,255,.7); align-self: start; padding-top: 4px; }
+.giftOn .giftN { color: var(--mute); }
+.giftText { display: flex; flex-direction: column; gap: 5px; }
+.giftText b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
+.giftState { font-size: 12px; color: rgba(255,255,255,.65); }
+.giftOn .giftState { color: var(--mute); }
+.giftOn .giftState::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); margin-right: 6px; }
+/* визуализации */
+.gv { position: relative; height: 84px; padding: 10px; border-radius: 12px; background: rgba(255,255,255,.12); display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.giftOn .gv { background: var(--bg); }
+.gvLabel { font-size: 9.5px; color: rgba(255,255,255,.7); letter-spacing: .01em; }
+.giftOn .gvLabel { color: var(--mute); }
+.gvRow { display: flex; align-items: center; gap: 6px; }
+.gvRow i { display: block; height: 7px; border-radius: 4px; background: rgba(255,255,255,.45); }
+.giftOn .gvRow i { background: var(--mute-2); }
+.gvRow em { font-style: normal; font-size: 9px; color: rgba(255,255,255,.7); margin-left: auto; font-variant-numeric: tabular-nums; }
+.giftOn .gvRow em { color: var(--ink-2); }
+.gvBars { display: flex; align-items: flex-end; gap: 3px; flex: 1; }
+.gvBars i { flex: 1; border-radius: 2px; background: rgba(255,255,255,.45); transform-origin: bottom; animation: barGrow 1s var(--ease) both; }
+.giftOn .gvBars i { background: var(--mute-2); }
 @keyframes barGrow { from { transform: scaleY(0); } }
-.faces { display: flex; margin: auto 0 6px; } .faces img { margin-left: -10px; box-shadow: 0 0 0 2px var(--dark); } .faces img:first-child { margin-left: 0; }
-.segWrap { display: block; margin: 8px 0; }
-.vcGlass { background: linear-gradient(165deg, #4a86f3 0%, #2f66dc 100%); color: #fff; justify-content: center; }
-.vcUnder { color: rgba(255,255,255,.85) !important; font-size: 14px !important; margin-top: 12px; }
-.notif { display: flex; gap: 10px; padding: 11px 12px; border-radius: 16px; background: rgba(255,255,255,.9); color: var(--ink); animation: notifIn 5.5s cubic-bezier(.22,1,.36,1) infinite; }
-@keyframes notifIn { 0% { transform: translateY(-120%); opacity: 0; } 14% { transform: none; opacity: 1; } 84% { transform: none; opacity: 1; } 94%, 100% { transform: translateY(-120%); opacity: 0; } }
-.appIcon { flex: none; width: 32px; height: 32px; border-radius: 8px; background: var(--blue); color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 17px; }
-.nHead { display: flex; justify-content: space-between; gap: 10px; font-size: 10px; color: var(--mute); text-transform: uppercase; }
-.nTitle { font-size: 13px; font-weight: 600; } .nText { font-size: 12px; color: var(--ink-2); }
-/* растущий список выгод */
-.gains { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 16px; margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.3); }
-.gainsLabel { grid-column: 1 / -1; font-size: 12px; color: rgba(255,255,255,.7); }
-.gains li:not(.gainsLabel) { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,.55); transition: color .5s var(--ease); }
-.gains i { width: 18px; height: 18px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(255,255,255,.45) inset; display: grid; place-items: center; color: var(--ink); transition: background .4s var(--ease), box-shadow .4s var(--ease); }
-.gainOn { color: #fff !important; }
-.gainOn i { background: var(--yellow); box-shadow: none; animation: tick .6s var(--ease); }
-@keyframes tick { 0% { transform: scale(.6); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+.gvLine { display: block; height: 4px; border-radius: 2px; background: rgba(255,255,255,.35); margin-top: 8px; overflow: hidden; }
+.giftOn .gvLine { background: var(--bg-2); }
+.gvLine i { display: block; width: 66%; height: 100%; border-radius: 2px; background: rgba(255,255,255,.7); }
+.gvDots { display: flex; justify-content: space-between; margin-top: -9px; padding: 0 1px; }
+.gvDots b { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.7); box-shadow: 0 0 0 2px rgba(255,255,255,.12); }
+.giftOn .gvDots b { background: var(--mute-2); box-shadow: 0 0 0 2px var(--bg); }
+.gvSteps { display: flex; justify-content: space-between; font-size: 9px; color: rgba(255,255,255,.7); }
+.giftOn .gvSteps { color: var(--ink-2); }
+.gvSteps em { font-style: normal; }
+/* подсветка открытого подарка жёлтым */
+.giftOn .gvOn, .giftOn i.gvOn, .giftOn b.gvOn { background: var(--yellow) !important; }
 .o { position: absolute; right: 24px; top: 24px; z-index: 2; width: 92px; aspect-ratio: 1; filter: drop-shadow(0 16px 24px rgba(0,20,80,.35)); }
 .pct { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 15px; font-weight: 500; letter-spacing: -0.03em; }
 .picked { display: none; }
@@ -99,10 +98,8 @@
   .right { order: -1; min-height: 0; }
   .val { min-height: 0; padding: 20px 16px 20px; }
   .say { padding-right: 70px; }
-  .slide { grid-template-columns: 1fr; gap: 16px; margin-top: 22px; }
-  .visual { justify-items: start; }
-  .vcard { max-width: 220px; min-height: 0; }
-  .gains { grid-template-columns: 1fr; }
+  .gift { grid-template-columns: 24px 100px 1fr; gap: 10px; }
+  .gv { height: 72px; }
   .o { width: 56px; right: 14px; top: 14px; }
   .picked { display: none; }
   .left { padding: 24px 20px; }
