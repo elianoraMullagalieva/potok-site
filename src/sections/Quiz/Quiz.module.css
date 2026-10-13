@@ -62,31 +62,9 @@
 .giftState { font-size: 12px; color: rgba(255,255,255,.65); }
 .giftOn .giftState { color: var(--mute); }
 .giftOn .giftState::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); margin-right: 6px; }
-/* визуализации */
-.gv { position: relative; height: 84px; padding: 10px; border-radius: 12px; background: rgba(255,255,255,.12); display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
-.giftOn .gv { background: var(--bg); }
-.gvLabel { font-size: 9.5px; color: rgba(255,255,255,.7); letter-spacing: .01em; }
-.giftOn .gvLabel { color: var(--mute); }
-.gvRow { display: flex; align-items: center; gap: 6px; }
-.gvRow i { display: block; height: 7px; border-radius: 4px; background: rgba(255,255,255,.45); }
-.giftOn .gvRow i { background: var(--mute-2); }
-.gvRow em { font-style: normal; font-size: 9px; color: rgba(255,255,255,.7); margin-left: auto; font-variant-numeric: tabular-nums; }
-.giftOn .gvRow em { color: var(--ink-2); }
-.gvBars { display: flex; align-items: flex-end; gap: 3px; flex: 1; }
-.gvBars i { flex: 1; border-radius: 2px; background: rgba(255,255,255,.45); transform-origin: bottom; animation: barGrow 1s var(--ease) both; }
-.giftOn .gvBars i { background: var(--mute-2); }
-@keyframes barGrow { from { transform: scaleY(0); } }
-.gvLine { display: block; height: 4px; border-radius: 2px; background: rgba(255,255,255,.35); margin-top: 8px; overflow: hidden; }
-.giftOn .gvLine { background: var(--bg-2); }
-.gvLine i { display: block; width: 66%; height: 100%; border-radius: 2px; background: rgba(255,255,255,.7); }
-.gvDots { display: flex; justify-content: space-between; margin-top: -9px; padding: 0 1px; }
-.gvDots b { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.7); box-shadow: 0 0 0 2px rgba(255,255,255,.12); }
-.giftOn .gvDots b { background: var(--mute-2); box-shadow: 0 0 0 2px var(--bg); }
-.gvSteps { display: flex; justify-content: space-between; font-size: 9px; color: rgba(255,255,255,.7); }
-.giftOn .gvSteps { color: var(--ink-2); }
-.gvSteps em { font-style: normal; }
-/* подсветка открытого подарка жёлтым */
-.giftOn .gvOn, .giftOn i.gvOn, .giftOn b.gvOn { background: var(--yellow) !important; }
+.gv { position: relative; display: block; height: 84px; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
+.gv img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; filter: grayscale(.6) brightness(1.04); opacity: .85; transition: filter .6s var(--ease), opacity .6s var(--ease); }
+.gvLive img { filter: none; opacity: 1; }
 .o { position: absolute; right: 24px; top: 24px; z-index: 2; width: 92px; aspect-ratio: 1; filter: drop-shadow(0 16px 24px rgba(0,20,80,.35)); }
 .pct { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 15px; font-weight: 500; letter-spacing: -0.03em; }
 .picked { display: none; }

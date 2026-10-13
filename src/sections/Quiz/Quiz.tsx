@@ -182,26 +182,11 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
   );
 }
 
-/* Визуализации подарков: таблица расчёта, график бюджета, таймлайн запуска */
+/* Картинки подарков: отчёт, кампания, посадочная — как есть, без перевёрстки */
 function GiftVisual({ kind, on }: { kind: string; on: boolean }) {
-  if (kind === 'calc') return (
-    <div className={styles.gv}>
-      <span className={styles.gvLabel}>Город · спрос · цена</span>
-      {[82, 56, 68].map((w, i) => <span key={i} className={styles.gvRow}><i style={{ width: `${w}%` }} className={on && i === 0 ? styles.gvOn : ''} /><em>{['920', '640', '710'][i]}</em></span>)}
-    </div>
-  );
-  if (kind === 'budget') return (
-    <div className={styles.gv}>
-      <span className={styles.gvLabel}>14 дней</span>
-      <span className={styles.gvBars}>{[30, 44, 40, 58, 54, 72, 68, 90, 100, 86, 94, 100, 96, 100].map((h, i) => <i key={i} style={{ height: `${h}%`, animationDelay: `${i * 0.05}s` }} className={on && i > 9 ? styles.gvOn : ''} />)}</span>
-    </div>
-  );
   return (
-    <div className={styles.gv}>
-      <span className={styles.gvLabel}>День 1 · День 2</span>
-      <span className={styles.gvLine}><i className={on ? styles.gvOn : ''} /></span>
-      <span className={styles.gvDots}><b className={on ? styles.gvOn : ''} /><b className={on ? styles.gvOn : ''} /><b /></span>
-      <span className={styles.gvSteps}><em>Директ</em><em>Avito</em><em>Заявки</em></span>
-    </div>
+    <span className={`${styles.gv} ${on ? styles.gvLive : ''}`}>
+      <img src={`${import.meta.env.BASE_URL}gifts/${kind}.jpg`} alt="" loading="lazy" draggable={false} />
+    </span>
   );
 }
