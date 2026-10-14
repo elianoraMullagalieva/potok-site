@@ -36,13 +36,17 @@ export function Process() {
     return () => ctx.revert();
   }, [reduced, small]);
 
-  // карточка «оживает», когда видна больше чем наполовину: запускаем её инфографику
+  // инфографика в карточках запускается, когда блок попал в экран
   useEffect(() => {
     const cards = Array.from(root.current?.querySelectorAll<HTMLElement>(`.${styles.card}`) ?? []);
-    if (reduced) { cards.forEach((c) => c.setAttribute('data-live', '')); return; }
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && e.intersectionRatio > 0.5) e.target.setAttribute('data-live', ''); }), { threshold: [0.5] });
-    cards.forEach((c) => io.observe(c));
+    const on = () => cards.forEach((c) => c.setAttribute('data-live', ''));
+    if (reduced) { on(); return; }
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { on(); io.disconnect(); } }, { threshold: 0.2 });
+    if (root.current) io.observe(root.current);
     return () => io.disconnect();
+  }, [reduced]);
+
+  return () => io.disconnect();
   }, [reduced]);
 
   return (

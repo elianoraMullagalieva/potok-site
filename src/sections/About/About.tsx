@@ -24,8 +24,7 @@ export function About() {
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.h2}`, { y: 24, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 78%' } });
       gsap.from(`.${styles.grid} > *`, { y: 50, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.07, scrollTrigger: { trigger: `.${styles.grid}`, start: 'top 82%' } });
-      gsap.from(`.${styles.fixItem}`, { y: 30, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: `.${styles.fix}`, start: 'top 80%' } });
-      gsap.from(`.${styles.stamp}`, { scale: 1.6, opacity: 0, rotate: -20, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.fix}`, start: 'top 65%' } });
+      gsap.from(`.${styles.stamp}`, { scale: 1.6, opacity: 0, rotate: -20, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.contract}`, start: 'top 75%' } });
     }, root);
     return () => ctx.revert();
   }, [reduced]);
@@ -75,26 +74,6 @@ export function About() {
         </div>
       </div>
 
-      {/* что фиксируем в договоре */}
-      <div className={styles.fix}>
-        <h3 className={`display ${styles.h3}`}>{about.fixTitle} <span>{about.fixTail}</span></h3>
-        <div className={styles.fixGrid}>
-          <div className={styles.fixPaper}><Paper /><p className={styles.sampleNote}>{about.sampleNote}</p></div>
-          <div className={styles.fixList}>
-            {about.fix.map((f) => (
-              <div key={f.t} className={styles.fixItem}>
-                <span className={styles.fixIcon}><FixIcon id={f.icon} /></span>
-                <div>
-                  <h4>{f.t}</h4>
-                  <p>{mark(f.d)}</p>
-                  <p className={styles.cond}><b>{about.condLabel}</b> {f.cond}</p>
-                </div>
-              </div>
-            ))}
-            <Button variant="primary" arrow href="#lead" className={styles.sampleBtn}>{about.sampleCta}</Button>
-          </div>
-        </div>
-      </div>
     </section>
   );
 }
@@ -112,15 +91,4 @@ function Paper({ compact = false }: { compact?: boolean }) {
       <span className={styles.stamp} aria-hidden><span>{p.stamp}</span></span>
     </div>
   );
-}
-
-function FixIcon({ id }: { id: string }) {
-  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  if (id === 'timer') return <svg viewBox="0 0 24 24" width="22" height="22"><circle {...p} cx="12" cy="13" r="8" /><path {...p} d="M12 9v4l3 2M9 3h6" /></svg>;
-  if (id === 'wallet') return <svg viewBox="0 0 24 24" width="22" height="22"><rect {...p} x="3" y="6" width="18" height="13" rx="3" /><path {...p} d="M3 10h18M16 15h2" /></svg>;
-  return <svg viewBox="0 0 24 24" width="22" height="22"><rect {...p} x="4" y="4" width="16" height="16" rx="3" /><path {...p} d="M8 15v-4M12 15V8M16 15v-2" /></svg>;
-}
-
-function mark(s: string) {
-  return s.split(/==/).map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
 }
