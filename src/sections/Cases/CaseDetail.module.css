@@ -48,6 +48,8 @@
 }
 @media (max-width: 700px) {
   .card { padding: 20px; }
+  .headline, .ts div { white-space: normal; }
+  .numMain span { white-space: normal; }
   .tabs { justify-content: flex-start; width: 100%; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
   .tabRow { flex: none; white-space: nowrap; }
   .tab { height: 44px; }
