@@ -104,9 +104,11 @@ export function Quiz() {
                 <p className={styles.sub}>{quiz.final.sub}</p>
                 <div className={styles.insideBlock}>
                   <span className="label mute">{quiz.final.insideLabel}</span>
-                  <ul className={styles.inside}>{quiz.final.inside.map((x) => <li key={x}>{x}</li>)}</ul>
+                  <ul className={styles.inside}>
+                    {quiz.final.inside.map((x) => <li key={x}>{x}</li>)}
+                    <li className={styles.bonusLi}><i aria-hidden /><b>Бонус</b>{quiz.final.bonus}</li>
+                  </ul>
                 </div>
-                <p className={styles.bonus}><i aria-hidden /><b>Бонус</b><span>{quiz.final.bonus}</span></p>
                 <div className={styles.fields}>
                   <input name="name" required placeholder={quiz.final.name} aria-label={quiz.final.name} className={styles.input} autoComplete="name" />
                   <input name="contact" required placeholder={quiz.final.contact} aria-label={quiz.final.contact} className={styles.input} autoComplete="tel" />

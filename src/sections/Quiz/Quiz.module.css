@@ -22,13 +22,13 @@
 .form { display: flex; flex-direction: column; flex: 1; }
 .sub { margin-top: 14px; font-size: 18px; color: var(--mute); }
 .plan { font-size: 14px; font-weight: 500; padding: 7px 12px; border-radius: 999px; background: var(--yellow); }
-.insideBlock { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); }
+.insideBlock { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); }
 .inside { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .inside li { font-size: 15px; font-weight: 500; padding: 9px 14px; border-radius: 999px; box-shadow: 0 0 0 1px var(--line) inset; }
-.bonus { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: var(--bg); font-size: 15px; color: var(--ink-2); }
-.bonus i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-dot); box-shadow: 0 0 0 3px var(--yellow-glow); }
-.bonus b { font-weight: 500; color: var(--ink); }
-.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+.bonusLi { display: inline-flex; align-items: center; gap: 8px; background: var(--bg); box-shadow: none !important; color: var(--ink-2); font-weight: 400 !important; }
+.bonusLi i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-dot); box-shadow: 0 0 0 3px var(--yellow-glow); }
+.bonusLi b { font-weight: 500; color: var(--ink); }
+.fields { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 22px; max-width: 440px; } /* поля одно под другим, по просьбе клиента */
 .input { height: 52px; padding: 0 16px; border-radius: 14px; border: 0; background: var(--bg); font: inherit; font-size: 15px; outline: 0; box-shadow: 0 0 0 1px transparent inset; transition: box-shadow .3s; }
 .input:focus { box-shadow: 0 0 0 1.5px var(--ink) inset; background: #fff; }
 .consent { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; font-size: 13px; color: var(--mute); }
