@@ -186,7 +186,7 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
 function GiftVisual({ kind, on }: { kind: string; on: boolean }) {
   return (
     <span className={`${styles.gv} ${on ? styles.gvLive : ''}`}>
-      <img src={`${import.meta.env.BASE_URL}gifts/${kind}.jpg`} alt="" loading="lazy" draggable={false} />
+      <img src={`${import.meta.env.BASE_URL}gifts/v2/${kind}.jpg`} alt="" loading="lazy" draggable={false} />
     </span>
   );
 }

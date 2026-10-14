@@ -93,7 +93,7 @@ export function Services() {
           <div className={`${styles.shots} ${styles.swap}`} aria-hidden>
             {s.shots.map((sh, k) => (
               <span key={sh} className={`${styles.shot} ${k === 1 ? styles.shotBack : ''}`}>
-                <img src={asset(`gifts/${sh}.jpg`)} alt="" loading="lazy" draggable={false} />
+                <img src={asset(`gifts/v2/${sh}.jpg`)} alt="" loading="lazy" draggable={false} />
               </span>
             ))}
           </div>
