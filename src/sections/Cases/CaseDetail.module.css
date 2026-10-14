@@ -7,19 +7,19 @@
 .tabOn { background: var(--ink); color: var(--on-dark); }
 
 .card { margin-top: 20px; padding: 48px; border-radius: var(--r-frame); background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.22); }
-.main { display: grid; grid-template-columns: 1.35fr 1fr; gap: 48px; align-items: stretch; }
+.main { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: stretch; }
 .left { display: flex; flex-direction: column; min-width: 0; }
 .client { display: flex; align-items: center; gap: 14px; }
 .logoBox { display: grid; place-items: center; height: 60px; padding: 0 16px; border-radius: 16px; background: var(--bg); flex: none; }
 .logoBox img { height: 30px; width: auto; max-width: 170px; object-fit: contain; }
 .client b { display: block; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
 .client small { display: block; margin-top: 2px; font-size: 13.5px; color: var(--mute); }
-.headline { margin-top: 30px; font-size: clamp(28px, 2.8vw, 44px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.06; text-wrap: balance; max-width: 22ch; }
+.headline { margin-top: 30px; font-size: clamp(28px, 2.8vw, 44px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.06; white-space: pre-line; }
 .ts { display: grid; gap: 16px; margin: 48px 0 0; }
 .ts div { display: grid; grid-template-columns: 96px 1fr; gap: 16px; font-size: 17px; line-height: 1.4; white-space: pre-line; }
 .ts dt { font-weight: 600; color: var(--ink); }
 .ts dd { margin: 0; color: var(--ink-2); }
-.actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: auto; padding-top: 72px; }
+.actions { display: flex; align-items: center; justify-content: flex-start; gap: 48px; flex-wrap: wrap; margin-top: auto; padding-top: 72px; }
 .full { text-align: left; }
 .fullT { display: block; font-size: 18px; font-weight: 500; letter-spacing: -0.01em; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; transition: text-decoration-color .3s; }
 .full:hover .fullT { text-decoration-color: transparent; }
@@ -33,7 +33,7 @@
 .numSky { z-index: 0 !important; transform: scale(-1, -1); }
 .numMain b { color: #fff; text-shadow: 0 2px 12px rgba(0,20,80,.35); }
 .numMain::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,20,80,.5), rgba(0,20,80,.08) 65%); }
-.numMain span { color: #fff; font-weight: 500; font-size: 16px; }
+.numMain span { color: #fff; font-weight: 500; font-size: 15px; white-space: nowrap; }
 /* этапы */
 .stepsWrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s var(--ease); }
 .stepsWrap[aria-hidden='false'] { grid-template-rows: 1fr; }
