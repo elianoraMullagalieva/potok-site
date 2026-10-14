@@ -53,7 +53,7 @@ p, li, dd, figcaption { text-wrap: pretty; }
 @media (min-width: 1800px) { :root { --gutter: max(48px, calc((100vw - 1720px) / 2)); } }
 
 /* небесный пояс: этапы + сфера на одном фоне */
-.skyBand { position: relative; margin: var(--sp-section) var(--gutter); background: var(--blue); clip-path: inset(0 round var(--r-frame)); color: #fff; }
+.skyBand { position: relative; margin: var(--sp-section) var(--gutter); background: var(--blue); border-radius: var(--r-frame); overflow: clip; color: #fff; } /* overflow: clip не ломает sticky и дешевле clip-path */
 .skyBand > .blk { position: relative; z-index: 1; }
 .skyBand__sky { position: sticky; top: 0; height: 0; z-index: 0; }
 .skyBand__view { position: relative; height: 100svh; }

@@ -89,7 +89,7 @@ export function WorkSphere() {
         const edge = Math.max(0, Math.min(1, z / 0.25)); // края сферы мягко уходят
         const o = (1 - win) * (0.25 + 0.75 * edge);
         const os = o.toFixed(2); if (os !== prevO[i]) { t.style.opacity = os; prevO[i] = os; }
-        const f = hoverFine && !small && win > 0.05 ? `blur(${(win * 12).toFixed(1)}px)` : 'none';
+        const f = hoverFine && !small && win > 0.05 ? `blur(${Math.round(win * 6) * 2}px)` : 'none'; // шаг 2px: меньше перерисовок
         if (f !== prevF[i]) { t.style.filter = f; prevF[i] = f; }
         void y;
       }
