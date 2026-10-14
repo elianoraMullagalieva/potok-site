@@ -54,11 +54,11 @@ export function Pricing() {
       <p className={styles.budget}>{pricing.budget}</p>
 
       {/* сравнение: все четыре варианта открыты сразу, у каждого свой «аватар» */}
+      <div className={styles.cmpHead}>
+        <h3 className={`display ${styles.cmpTitle}`}>{c.title}</h3>
+        <p className={styles.cmpSub}>{c.honest}</p>
+      </div>
       <div className={styles.compare}>
-        <div className={styles.cmpHead}>
-          <h3 className={`display ${styles.cmpTitle}`}>{c.title}</h3>
-          <p className={styles.cmpSub}>{c.honest}</p>
-        </div>
         <table className={styles.table}>
           <thead>
             <tr>
