@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { gsap } from '../../lib/lenis';
 import { quiz } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
-import { Face } from '../../ui/Face';
 import { services } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
@@ -151,9 +150,9 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
   return (
     <div className={styles.val}>
       <div className={styles.say} key={`s${Math.min(step, 4)}`}>
-        <Face src={person.face} name={person.name} size={56} ring="rgba(255,255,255,.55)" />
+        <img className={styles.ava} src={`${import.meta.env.BASE_URL}${person.photo}`} alt={person.name} width={76} height={76} loading="lazy" draggable={false} />
         <div>
-          <div className={styles.sayName}>{person.name} <span>· {person.role}</span></div>
+          <div className={styles.sayName}>{person.name} · {person.role}</div>
           <p className={styles.sayText}>{quiz.say[Math.min(step, 4)]}</p>
         </div>
       </div>
@@ -186,7 +185,7 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
 function GiftVisual({ kind, on }: { kind: string; on: boolean }) {
   return (
     <span className={`${styles.gv} ${on ? styles.gvLive : ''}`}>
-      <img src={`${import.meta.env.BASE_URL}gifts/v2/${kind}.jpg`} alt="" loading="lazy" draggable={false} />
+      <img src={`${import.meta.env.BASE_URL}${kind}`} alt="" loading="lazy" draggable={false} />
     </span>
   );
 }

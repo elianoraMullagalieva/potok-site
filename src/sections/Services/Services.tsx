@@ -23,6 +23,8 @@ export function Services() {
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.item}`, { opacity: 0, scale: 0.96, duration: 1.0, ease: 'expo.out', stagger: 0.07, scrollTrigger: { trigger: `.${styles.row}`, start: 'top 85%' } });
       gsap.from(`.${styles.detail}`, { opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.detail}`, start: 'top 90%' } });
+      // реплики клиентов всплывают по очереди, как сообщения
+      gsap.from(`.${styles.says} li`, { y: 14, opacity: 0, scale: 0.97, duration: 0.7, ease: 'expo.out', stagger: 0.35, scrollTrigger: { trigger: `.${styles.says}`, start: 'top 85%' } });
     }, root);
     return () => ctx.revert();
   }, [reduced]);
@@ -100,7 +102,7 @@ export function Services() {
           <div className={`${styles.says} ${styles.swap}`}>
             <span className="label mute">{services.saysLabel}</span>
             <ul>
-              {s.says.map((q) => <li key={q}>{q}</li>)}
+              {s.says.map((q, k) => <li key={q} data-time={['10:42', '16:05'][k]}>{q}</li>)}
             </ul>
           </div>
         </div>
