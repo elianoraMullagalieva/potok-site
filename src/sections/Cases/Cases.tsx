@@ -3,6 +3,7 @@ import { gsap } from '../../lib/lenis';
 import { cases } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { CaseDetail } from './CaseDetail';
+import { SkyStatic } from '../../ui/Sky';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Cases.module.css';
@@ -48,7 +49,7 @@ export function Cases() {
       // заголовок проявляется, затем поднимается так, чтобы его низ встал над первым рядом
       const lift = () => -((row1.getBoundingClientRect().top - big.getBoundingClientRect().top) - big.offsetHeight - 24) - (gsap.getProperty(big, 'y') as number);
       tl.fromTo(big, { filter: 'blur(18px)', opacity: 0.18, scale: 1.04 }, { filter: 'blur(0px)', opacity: 1, scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
-        .to(big, { y: () => { const cur = gsap.getProperty(big, 'y') as number; gsap.set(big, { y: 0 }); const v = (row1.getBoundingClientRect().top - big.getBoundingClientRect().top) - big.offsetHeight - 24; gsap.set(big, { y: cur }); return Math.min(0, v); }, ease: 'power2.inOut', duration: 0.8 }, 0.4)
+        .to(big, { y: () => { const cur = gsap.getProperty(big, 'y') as number; gsap.set(big, { y: 0 }); const v = (row1.getBoundingClientRect().top - big.getBoundingClientRect().top) - big.offsetHeight - 56; gsap.set(big, { y: cur }); return Math.min(0, v); }, ease: 'power2.inOut', duration: 0.8 }, 0.4)
         // второй ряд приходит, как только карточки встали и заголовок ушёл вверх
         .fromTo(`.${styles.row2} .${styles.card}`, { y: 90, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out', duration: 0.6, stagger: 0.08 }, 1.0)
         .fromTo(`.${styles.more}`, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 1.25);
@@ -60,7 +61,11 @@ export function Cases() {
   return (
     <section id="cases" ref={root} className={styles.section}>
       <div className={styles.pin}>
-        <h2 className={`display ${styles.big}`} aria-label={cases.title}>{cases.title}</h2>
+        <h2 className={`display ${styles.big}`} aria-label={cases.title}>
+          {cases.titleChunks.map((ch, i) => ch === '▬'
+            ? <span key={i} className={styles.capsule} aria-hidden><SkyStatic id={i === 1 ? 'manifest1' : 'manifest2'} /></span>
+            : <span key={i}>{ch}</span>)}
+        </h2>
         <div className={styles.stage}>
           <div className={styles.row1}>{cases.items.slice(0, 3).map((c) => <Card key={c.id} c={c} onStudy={study} />)}</div>
           <div className={styles.row2}>{cases.items.slice(3).map((c) => <Card key={c.id} c={c} onStudy={study} />)}</div>

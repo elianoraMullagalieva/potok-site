@@ -21,6 +21,7 @@ const WorkSphere = lazy(() => import('./sections/Gallery/WorkSphere').then((m) =
 const Cases = lazy(() => import('./sections/Cases/Cases').then((m) => ({ default: m.Cases })));
 const Process = lazy(() => import('./sections/Process/Process').then((m) => ({ default: m.Process })));
 const Pricing = lazy(() => import('./sections/Pricing/Pricing').then((m) => ({ default: m.Pricing })));
+const About = lazy(() => import('./sections/About/About').then((m) => ({ default: m.About })));
 const Faq = lazy(() => import('./sections/Faq/Faq').then((m) => ({ default: m.Faq })));
 const Footer = lazy(() => import('./sections/Lead/Footer').then((m) => ({ default: m.Footer })));
 const Lead = lazy(() => import('./sections/Lead/Lead').then((m) => ({ default: m.Lead })));
@@ -56,11 +57,12 @@ export default function App() {
       {LIMIT > 5 && <Block><Process /></Block>}
       {LIMIT > 6 && <Block><WorkSphere /></Block>}
       {LIMIT > 7 && <Block><Pricing /></Block>}
-      {LIMIT > 8 && <Block><Faq /></Block>}
-      {LIMIT > 9 && <Block h="80vh"><Lead /></Block>}
+      {LIMIT > 8 && <Block><About /></Block>}
+      {LIMIT > 9 && <Block><Faq /></Block>}
+      {LIMIT > 10 && <Block h="80vh"><Lead /></Block>}
       <RefreshOnce />
     </main>
-    {LIMIT > 9 && <div className="footerSlot"><Suspense fallback={null}><Footer /></Suspense></div>}
+    {LIMIT > 10 && <div className="footerSlot"><Suspense fallback={null}><Footer /></Suspense></div>}
       {!import.meta.env.PAGES && <a className="label" href={(V1 ? `${import.meta.env.BASE_URL}v2/` : `${import.meta.env.BASE_URL}v1/`) + (LIMIT < 99 ? `${LIMIT}/` : '')} style={{ position: 'fixed', left: 16, bottom: 14, zIndex: 50, color: 'var(--ink)', background: 'rgba(244,243,239,.85)', backdropFilter: 'blur(8px)', padding: '6px 10px', borderRadius: 999, boxShadow: '0 0 0 1px var(--line) inset' }}>{V1 ? 'Версия 2 →' : 'Версия 1 →'}</a>}
     </>
   );
