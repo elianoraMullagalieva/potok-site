@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { cases } from '../../content/texts';
 import { Button } from '../../ui/Button';
-import { CaseDetail } from './CaseDetail';
 import { SkyStatic } from '../../ui/Sky';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
@@ -20,9 +19,9 @@ export function Cases() {
   const root = useRef<HTMLElement>(null);
   const small = useMedia('(max-width: 900px)');
   const reduced = useReducedMotion();
-  const [active, setActive] = useState(cases.items[0].id);
+  // «Изучить кейс»: открываем вкладку в блоке «Кейс подробно» и едем к нему
   const study = (id: string) => {
-    setActive(id);
+    window.dispatchEvent(new CustomEvent('case:open', { detail: id }));
     document.getElementById('case')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -69,7 +68,6 @@ export function Cases() {
         <div className={styles.stage}>
           <div className={styles.row1}>{cases.items.slice(0, 3).map((c) => <Card key={c.id} c={c} onStudy={study} />)}</div>
           <div className={styles.row2}>{cases.items.slice(3).map((c) => <Card key={c.id} c={c} onStudy={study} />)}</div>
-          <div className={styles.detail}><CaseDetail active={active} onPick={setActive} /></div>
           <div className={styles.more}>
             <Button variant="dark" arrow className={styles.moreBtn} href="#lead">{cases.more}</Button>
             <span className={styles.moreSub}>{cases.moreSub}</span>

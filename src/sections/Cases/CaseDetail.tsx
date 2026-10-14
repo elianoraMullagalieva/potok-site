@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from '../../lib/lenis';
 import { cases, caseDetail } from '../../content/texts';
 import { Button } from '../../ui/Button';
+import { SkyStatic } from '../../ui/Sky';
+import { Manifest } from '../../ui/Manifest';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './CaseDetail.module.css';
 
@@ -11,9 +13,15 @@ const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
  * Открытый кейс: вкладки по нишам, слева логотип, заголовок результата, задача и решение,
  * справа четыре компактные цифры. Ниже переписка с клиентом и, по кнопке, пять этапов проекта.
  */
-export function CaseDetail({ active, onPick }: { active: string; onPick: (id: string) => void }) {
+export function CaseDetail() {
   const root = useRef<HTMLDivElement>(null);
+  const [active, onPick] = useState(cases.items[0].id);
   const [steps, setSteps] = useState(false);
+  useEffect(() => {
+    const h = (e: Event) => onPick((e as CustomEvent<string>).detail);
+    window.addEventListener('case:open', h);
+    return () => window.removeEventListener('case:open', h);
+  }, []);
   const reduced = useReducedMotion();
   const c = cases.items.find((x) => x.id === active) ?? cases.items[0];
   const d = caseDetail.items[c.id];
@@ -40,10 +48,11 @@ export function CaseDetail({ active, onPick }: { active: string; onPick: (id: st
   }, [reduced]);
 
   return (
-    <div ref={root} id="case" className={styles.wrap}>
+    <section id="case" className={`wrap ${styles.section}`}>
+      <Manifest label={caseDetail.label} chunks={caseDetail.manifest} skies={['manifest2', 'speed']} />
+      <div ref={root} className={styles.wrap}>
       {/* вкладки */}
       <div className={styles.tabs} role="tablist" aria-label={caseDetail.label}>
-        <span className="label mute">{caseDetail.label}</span>
         <div className={styles.tabRow}>
           {cases.items.map((it) => (
             <button key={it.id} role="tab" type="button" aria-selected={it.id === active} className={`${styles.tab} ${it.id === active ? styles.tabOn : ''}`} onClick={() => pick(it.id)}>{caseDetail.items[it.id].tab}</button>
@@ -73,7 +82,7 @@ export function CaseDetail({ active, onPick }: { active: string; onPick: (id: st
           </div>
           <ul className={styles.nums}>
             {d.nums.map(([v, l], k) => (
-              <li key={l} className={`${styles.num} ${k === 0 ? styles.numMain : ''} ${styles.swap}`}><b className="num">{v}</b><span>{l}</span></li>
+              <li key={l} className={`${styles.num} ${k === 0 ? styles.numMain : ''} ${styles.swap}`}>{k === 0 && <SkyStatic id="quiz" className={styles.numSky} />}<b className="num">{v}</b><span>{l}</span></li>
             ))}
           </ul>
         </div>
@@ -88,25 +97,9 @@ export function CaseDetail({ active, onPick }: { active: string; onPick: (id: st
           </div>
         </div>
 
-        {/* переписка */}
-        <div className={styles.chats}>
-          <div className={styles.chatsHead}><h4>{caseDetail.chatsTitle}</h4><p>{caseDetail.chatsSub}</p></div>
-          <div className={styles.chatRow}>
-            {d.chats.map((ch, k) => (
-              <div key={k} className={`${styles.chat} ${styles.swap}`}>
-                <div className={styles.chatTop}><i>{ch.who.slice(0, 1)}</i><span><b>{ch.who}</b><small>{ch.role}</small></span><em className="num">{['10:42', '18:05'][k]}</em></div>
-                {ch.msgs.map((m) => <p key={m} className={styles.msg}>{mark(m)}</p>)}
-                <p className={`${styles.msg} ${styles.ours}`}>{ch.reply}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
-    </div>
+      </div>
+    </section>
   );
 }
 
-/* ==главное== в сообщении выделяется маркером */
-function mark(s: string) {
-  return s.split(/==/).map((part, i) => (i % 2 ? <mark key={i}>{part}</mark> : part));
-}
