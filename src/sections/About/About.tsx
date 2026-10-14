@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { about } from '../../content/texts';
 import { Manifest } from '../../ui/Manifest';
+import { SkyStatic } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
 import { services } from '../../content/texts';
 import { Button } from '../../ui/Button';
@@ -35,7 +36,10 @@ export function About() {
 
       <div className={styles.grid}>
         <div className={`${styles.card} ${styles.projects}`}>
-          <div className={styles.dots} aria-hidden>{Array.from({ length: 35 }, (_, i) => <i key={i} style={{ '--i': i } as React.CSSProperties} />)}</div>
+          <div className={styles.ring} aria-hidden>
+            <svg viewBox="0 0 64 64" width="64" height="64"><circle cx="32" cy="32" r="27" fill="none" stroke="var(--bg-2)" strokeWidth="5" /><circle className={styles.ringArc} cx="32" cy="32" r="27" fill="none" stroke="var(--yellow)" strokeWidth="5" strokeLinecap="round" strokeDasharray="170" strokeDashoffset="170" transform="rotate(-90 32 32)" /></svg>
+            <span className="num">140</span>
+          </div>
           <b className={`num ${styles.big}`}>{c.projects.big}</b>
           <p>{c.projects.text}</p>
           <ul className={styles.chips}>{c.projects.chips.map((x) => <li key={x}>{x}</li>)}</ul>
@@ -47,7 +51,8 @@ export function About() {
           <p>{c.staff.text}</p>
         </div>
         <div className={`${styles.card} ${styles.launches}`}>
-          <div className={styles.segs} aria-hidden>{Array.from({ length: 10 }, (_, i) => <i key={i} className={i < 9 ? styles.segOn : ''} style={{ '--i': i } as React.CSSProperties} />)}</div>
+          <SkyStatic id="speed" className={styles.cardSky} /><div className={styles.cardShade} />
+          <div className={styles.pips} aria-hidden>{Array.from({ length: 10 }, (_, i) => <i key={i} className={i < 9 ? styles.pipOn : ''} style={{ '--i': i } as React.CSSProperties} />)}</div>
           <b className={`num ${styles.big}`}>{c.launches.big}</b>
           <span className={styles.pre}>{c.launches.sub}</span>
           <p>{c.launches.text}</p>
@@ -57,6 +62,7 @@ export function About() {
           <ul>{c.partners.items.map(([n, r]) => <li key={n}><b>{n}</b><small>{r}</small></li>)}</ul>
         </div>
         <div className={`${styles.card} ${styles.years}`}>
+          <SkyStatic id="manifest2" className={styles.cardSky} /><div className={styles.cardShade} />
           <div className={styles.line} aria-hidden><i /><span className={styles.lineDot} /><em>0</em><em>1 год</em><em>2 года</em></div>
           <b className={`num ${styles.big}`}>{c.years.big}</b>
           <p>{c.years.text}</p>
