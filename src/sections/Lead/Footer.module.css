@@ -40,8 +40,8 @@
 .sub button:hover { background: var(--ink); transform: translateY(-1px); }
 .done { font-size: 15px; font-weight: 500; }
 
-.watermark { position: relative; z-index: 0; margin: -40px auto 0; pointer-events: none; user-select: none; overflow: hidden; line-height: 0.84; padding-top: 0.06em; }
-.letters { display: flex; justify-content: space-between; white-space: nowrap; font-weight: 600; letter-spacing: -0.04em; color: var(--ink); }
+.watermark { position: relative; z-index: 0; margin: 24px auto 0; pointer-events: none; user-select: none; overflow: hidden; line-height: 0.84; padding-top: 0.06em; }
+.letters { display: flex; justify-content: center; white-space: nowrap; font-weight: 500; letter-spacing: -0.045em; color: var(--ink); }
 .letters span { display: inline-block; will-change: transform; }
 
 @media (max-width: 900px) {

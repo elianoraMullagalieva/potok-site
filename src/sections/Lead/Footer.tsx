@@ -24,7 +24,7 @@ export function Footer() {
       const w = Array.from(el.children).reduce((a, c) => a + c.getBoundingClientRect().width, 0) || 1;
       const target = el.parentElement!.clientWidth;
       const byWidth = 100 * target / w * 0.985;
-      const byHeight = window.innerHeight * 0.26 / 0.84; // футер должен помещаться в экран целиком
+      const byHeight = window.innerHeight * 0.34 / 0.84;
       el.style.fontSize = `${Math.floor(Math.min(byWidth, byHeight))}px`;
     };
     fit();
@@ -33,15 +33,13 @@ export function Footer() {
     return () => ro.disconnect();
   }, []);
 
-  // буквы выезжают снизу, пока страница уезжает вверх и открывает футер
+  // буквы выезжают снизу, пока водяной знак входит в экран
   useEffect(() => {
-    if (reduced) return;
-    const page = document.querySelector('.page');
-    if (!page || !mark.current) return;
+    if (reduced || !mark.current) return;
     const ctx = gsap.context(() => {
       gsap.fromTo(mark.current!.children, { yPercent: 105 }, {
-        yPercent: 0, ease: 'power2.out', stagger: 0.06,
-        scrollTrigger: { trigger: page, start: 'bottom bottom', end: () => `bottom bottom-=${mark.current!.closest('footer')!.offsetHeight * 0.9}`, scrub: 0.6, invalidateOnRefresh: true },
+        yPercent: 0, ease: 'power3.out', stagger: 0.07,
+        scrollTrigger: { trigger: mark.current!.parentElement, start: 'top 95%', end: 'bottom 100%', scrub: 0.5, invalidateOnRefresh: true },
       });
     });
     return () => ctx.revert();

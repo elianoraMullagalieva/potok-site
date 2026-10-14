@@ -34,5 +34,5 @@ canvas { display: block; }
 }
 
 /* футер выезжает из-под страницы: страница выше по слою и с закруглённым низом, футер липнет к низу окна */
-.page { position: relative; z-index: 1; background: var(--bg); border-radius: 0 0 40px 40px; box-shadow: 0 30px 60px -30px rgba(10,10,10,.25); }
-.footerSlot { position: sticky; bottom: 0; z-index: 0; }
+.page { position: relative; }
+.footerSlot { position: relative; }
