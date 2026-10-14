@@ -10,14 +10,15 @@
 .cardTitle { font-size: 20px; font-weight: 500; letter-spacing: -0.025em; }
 .projects { grid-column: span 3; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
-.chips li { font-size: 13px; padding: 7px 11px; border-radius: 999px; background: var(--bg); }
+.chips li { font-size: 13px; padding: 7px 11px; border-radius: 999px; background: var(--bg); animation: chipIn 8s var(--ease) infinite; animation-delay: calc(var(--i) * .18s); }
+@keyframes chipIn { 0% { opacity: 0; transform: translateY(6px) scale(.96); } 8%, 88% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(6px) scale(.96); } }
 .staff { grid-column: span 4; }
 .staff .pre { margin-bottom: -6px; }
 .launches { grid-column: span 2; background: var(--blue); color: #fff; gap: 6px; isolation: isolate; }
 .launches p { color: rgba(255,255,255,.85); font-size: 14px; margin-top: 8px; }
 .launches .pre { color: rgba(255,255,255,.85); }
-.cardSky { z-index: 0 !important; }
-.cardShade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,80,.35), rgba(0,20,80,0) 60%); pointer-events: none; }
+.cardSky { z-index: 0 !important; transform: scale(-1, -1); }
+.cardShade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,80,.55), rgba(0,20,80,.1) 70%); pointer-events: none; }
 .launches > :not(.cardSky, .cardShade), .years > :not(.cardSky, .cardShade) { position: relative; z-index: 1; }
 .partners { grid-column: span 3; }
 .partners ul { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
@@ -93,16 +94,19 @@
 /* инфографика карточек: лёгкая, как в блоке выгод */
 .ring { position: relative; width: 64px; height: 64px; margin-bottom: 6px; }
 .ring span { position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; font-weight: 600; letter-spacing: -0.02em; }
-.ringArc { animation: ringFill 7s var(--ease) infinite; }
-@keyframes ringFill { 0% { stroke-dashoffset: 170; } 22%, 85% { stroke-dashoffset: 12; } 100% { stroke-dashoffset: 170; } }
+.ringMask { animation: ringFill 8s var(--ease) infinite; }
+@keyframes ringFill { 0% { stroke-dashoffset: 170; } 30%, 80% { stroke-dashoffset: 10; } 100% { stroke-dashoffset: 170; } }
+.ring svg { animation: ringSpin 40s linear infinite; }
+@keyframes ringSpin { to { transform: rotate(360deg); } }
+.ring span { animation: none; }
 .pips { display: flex; gap: 6px; margin-bottom: 12px; }
-.pips i { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(255,255,255,.6) inset; }
+.pips i { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(255,255,255,.6) inset; }
 .pips .pipOn { animation: pipOn 7s var(--ease) infinite; animation-delay: calc(var(--i) * .12s); }
 @keyframes pipOn { 0% { background: transparent; } 6%, 85% { background: #fff; } 100% { background: transparent; } }
 .faces { display: flex; margin-bottom: 8px; }
-.faces > span { margin-left: -12px; animation: facePop 7s var(--ease) infinite; animation-delay: calc(var(--i) * .15s); }
+.faces > span { margin-left: -12px; animation: facePop 8s cubic-bezier(.22,1,.36,1) infinite; animation-delay: calc(var(--i) * .3s); }
 .faces > :first-child { margin-left: 0; }
-@keyframes facePop { 0% { transform: scale(.6); opacity: 0; } 8%, 88% { transform: none; opacity: 1; } 100% { transform: scale(.6); opacity: 0; } }
+@keyframes facePop { 0% { transform: translateY(10px) scale(.8); opacity: 0; } 16%, 86% { transform: none; opacity: 1; } 96%, 100% { transform: translateY(10px) scale(.8); opacity: 0; } }
 .segs { display: flex; gap: 4px; margin-bottom: 10px; }
 .segs i { flex: 1; height: 10px; border-radius: 3px; background: rgba(255,255,255,.14); }
 .segs .segOn { animation: ignite 7s var(--ease) infinite; animation-delay: calc(var(--i) * .12s); }
@@ -115,4 +119,4 @@
 @keyframes dotMove { 0% { left: 0; } 20%, 85% { left: calc(100% - 12px); } 100% { left: 0; } }
 .line em { position: absolute; top: 20px; font-style: normal; font-size: 12px; color: rgba(255,255,255,.8); }
 .line em:nth-of-type(1) { left: 0; } .line em:nth-of-type(2) { left: 47.6%; transform: translateX(-50%); } .line em:nth-of-type(3) { right: 0; }
-@media (prefers-reduced-motion: reduce) { .ringArc, .faces > span, .pips .pipOn, .line i::after, .lineDot { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .ringMask, .ring svg, .chips li, .faces > span, .pips .pipOn, .line i::after, .lineDot { animation: none; } }

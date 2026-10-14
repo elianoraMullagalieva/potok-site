@@ -37,12 +37,16 @@ export function About() {
       <div className={styles.grid}>
         <div className={`${styles.card} ${styles.projects}`}>
           <div className={styles.ring} aria-hidden>
-            <svg viewBox="0 0 64 64" width="64" height="64"><circle cx="32" cy="32" r="27" fill="none" stroke="var(--bg-2)" strokeWidth="5" /><circle className={styles.ringArc} cx="32" cy="32" r="27" fill="none" stroke="var(--yellow)" strokeWidth="5" strokeLinecap="round" strokeDasharray="170" strokeDashoffset="170" transform="rotate(-90 32 32)" /></svg>
+            <svg viewBox="0 0 64 64" width="64" height="64">
+              <defs><mask id="ringMask"><circle className={styles.ringMask} cx="32" cy="32" r="27" fill="none" stroke="#fff" strokeWidth="8" strokeDasharray="170" strokeDashoffset="170" transform="rotate(-90 32 32)" /></mask></defs>
+              <circle cx="32" cy="32" r="27" fill="none" stroke="var(--bg-2)" strokeWidth="4" strokeLinecap="round" strokeDasharray="0.1 5.6" />
+              <circle className={styles.ringDots} cx="32" cy="32" r="27" fill="none" stroke="var(--yellow)" strokeWidth="4" strokeLinecap="round" strokeDasharray="0.1 5.6" mask="url(#ringMask)" />
+            </svg>
             <span className="num">140</span>
           </div>
           <b className={`num ${styles.big}`}>{c.projects.big}</b>
           <p>{c.projects.text}</p>
-          <ul className={styles.chips}>{c.projects.chips.map((x) => <li key={x}>{x}</li>)}</ul>
+          <ul className={styles.chips}>{c.projects.chips.map((x, i) => <li key={x} style={{ '--i': i } as React.CSSProperties}>{x}</li>)}</ul>
         </div>
         <div className={`${styles.card} ${styles.staff}`}>
           <div className={styles.faces} aria-hidden>{Object.values(services.people).map((p, i) => <span key={p.name} style={{ '--i': i } as React.CSSProperties}><Face src={p.face} name={p.name} size={44} ring="#fff" /></span>)}</div>
