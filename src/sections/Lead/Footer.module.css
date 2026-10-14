@@ -53,9 +53,12 @@
   .right { padding: 24px; padding-top: 96px; }
   .lucky { right: 16px; top: -22px; }
   .luckyRow { display: none; }
-  .col a { min-height: 32px; }
+  .col a { display: flex; align-items: center; min-height: 44px; margin-bottom: 0; }
+  .socials a { width: 44px; height: 44px; }
+  .sub input { min-height: 44px; }
+  .sub button { min-height: 44px; }
   .cube { width: 72px; height: 72px; border-radius: 18px; }
-  .cols { gap: 36px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
   .sub { width: 100%; }
   .watermark { margin-top: -20px; }

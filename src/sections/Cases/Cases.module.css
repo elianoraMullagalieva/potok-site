@@ -44,6 +44,7 @@
   .row1, .row2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
   .row2 { margin-top: 14px; }
   .card { width: 100%; transform: none !important; }
+  .logoBox { height: 84px; margin-top: 14px; } .logo { height: 30px; } .module { height: 32px; } .stroydom { height: 40px; } .aquadom { height: 28px; }
   .more { margin-top: 32px; }
   .moreBtn { width: 100%; justify-content: space-between; }
 }

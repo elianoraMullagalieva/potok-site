@@ -18,7 +18,7 @@
 .launches p { color: rgba(255,255,255,.85); font-size: 14px; margin-top: 8px; }
 .launches .pre { color: rgba(255,255,255,.85); }
 .cardSky { z-index: 0 !important; transform: scale(-1, -1); }
-.cardShade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,80,.55), rgba(0,20,80,.1) 70%); pointer-events: none; }
+.cardShade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,90,.5), rgba(0,20,90,.2)); pointer-events: none; }
 .launches > :not(.cardSky, .cardShade), .years > :not(.cardSky, .cardShade) { position: relative; z-index: 1; }
 .partners { grid-column: span 3; }
 .partners ul { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
@@ -78,7 +78,11 @@
   .projects, .staff { grid-column: span 6; }
   .launches, .partners, .years { grid-column: span 4; }
   .photo, .contract { grid-column: span 6; }
-  .paperCompact { margin-right: -24px; }
+  .paperCompact { margin-right: 0; padding-bottom: 72px; }
+  .paperCompact .stamp { width: 54px; height: 54px; right: 16px; bottom: 14px; }
+}
+@media (max-width: 1000px) {
+  .contractText p a { display: inline-block; padding: 13px 0; margin: -13px 0; }
 }
 @media (max-width: 760px) {
   .grid > * { grid-column: span 12 !important; }

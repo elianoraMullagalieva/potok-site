@@ -75,9 +75,16 @@
   .hint { display: inline-flex; }
   .row { margin-top: 0; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: none; }
   .row::-webkit-scrollbar { display: none; }
-  .item { flex: 0 0 70vw; max-width: 300px; height: 190px; scroll-snap-align: start; }
+  .item { flex: 0 0 min(46vw, 250px); max-width: 250px; height: 290px; scroll-snap-align: start; }
+  .photo { object-position: 50% 18%; }
+  .dPhoto { object-position: 50% 0; }
+  /* мини-превью: мелкие аккуратные пилюли, заголовок переносится и не упирается в край */
+  .item { padding: 12px 14px 14px; }
+  .key { height: 22px; padding: 0 9px; font-size: 11px; }
+  .n { font-size: 11px; }
+  .title { font-size: 16px; white-space: normal; text-wrap: balance; padding-right: 4px; }
   .detail { grid-template-columns: 1fr; padding: 24px; }
-  .dVisual { min-height: 300px; order: -1; }
+  .dVisual { min-height: 360px; order: -1; }
   .dCta { margin-top: 22px; }
   .shots { height: 200px; }
 }

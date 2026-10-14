@@ -73,7 +73,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
           {/* 5 карточек × 3 = кольцо из 15: спереди читаются пять, края тают в небе */}
           <SkyRing
             count={15}
-            cardWidth={small ? 160 : 228} cardHeight={small ? 204 : 268} gap={small ? 14 : 30}
+            cardWidth={small ? 198 : 228} cardHeight={small ? 236 : 268} gap={small ? 14 : 30}
             speed={2.2} clearArc={46} haze={small ? 0 : 12}
             cardClassName={styles.card}
             alwaysLive={!!renderCard}

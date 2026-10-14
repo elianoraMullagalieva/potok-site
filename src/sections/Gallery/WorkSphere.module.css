@@ -1,14 +1,26 @@
-.section { position: relative; height: 100svh; min-height: 680px; background: var(--dark); color: var(--on-dark); overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; border-radius: var(--r-frame) var(--r-frame) 0 0; }
+/* сфера живёт в такой же небесной рамке, что и этапы: логичное продолжение */
+.section { position: relative; padding: 0; color: #fff; cursor: grab; touch-action: pan-y; user-select: none; }
 .section:active { cursor: grabbing; }
-.stage { position: absolute; inset: 0; display: grid; place-items: center; }
+.frame { position: relative; height: 100svh; min-height: 680px; overflow: hidden; }
+.stage { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; }
 .globe { position: relative; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
 .tile { position: absolute; left: 0; top: 0; transform-style: preserve-3d; backface-visibility: hidden; will-change: opacity, filter; }
-.img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; box-shadow: 0 14px 40px -16px rgba(0,0,0,.7); }
+.img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 18px 40px -18px rgba(0,20,80,.6); }
 
-.head { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; width: max-content; max-width: 90%; }
+/* карточки-плитки в стиле сайта */
+.cardTile { width: 100%; height: 100%; box-sizing: border-box; padding: 1em; border-radius: 10px; background: #fff; color: var(--ink); display: flex; flex-direction: column; justify-content: flex-end; gap: .45em; box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 18px 40px -18px rgba(0,20,80,.6); overflow: hidden; }
+.cardYellow { background: var(--yellow); }
+.big { font-size: 2.1em; font-weight: 500; letter-spacing: -0.04em; line-height: .95; }
+.small { font-size: .95em; line-height: 1.25; color: var(--ink-2); text-wrap: pretty; }
+.cardYellow .small { color: rgba(31,32,38,.75); }
+.pills { display: flex; flex-wrap: wrap; gap: .35em; margin-bottom: auto; }
+.pills span { font-size: .85em; font-weight: 500; padding: .35em .7em; border-radius: 999px; background: var(--bg); }
+.bars { display: flex; align-items: flex-end; gap: .3em; height: 3.2em; }
+.bars i { flex: 1; border-radius: .3em .3em .15em .15em; background: var(--bg-2); }
+.bars i:last-child { background: var(--yellow); }
+.head { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; width: max-content; max-width: 90%; }
 .hint { display: flex; justify-content: center; margin-bottom: 22px; }
 .h2 { font-size: clamp(26px, 2.7vw, 40px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; }
-.tail { color: rgba(244,243,239,.55); }
-@media (max-width: 768px) { .section { min-height: 560px; } }
-
-@media (max-width: 900px) { .section { height: 72svh; min-height: 480px; } }
+.tail { color: rgba(255,255,255,.7); }
+@media (max-width: 900px) { .frame { height: 78svh; min-height: 560px; max-height: 760px; } }
+@media (max-width: 768px) { .frame { height: 64svh; min-height: 440px; max-height: 560px; } .h2 { font-size: 24px; } .hint { margin-bottom: 14px; } }

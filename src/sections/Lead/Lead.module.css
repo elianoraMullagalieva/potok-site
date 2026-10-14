@@ -3,7 +3,7 @@
 
 /* левая панель: небо */
 .left { position: relative; isolation: isolate; padding: 40px 44px 36px; background: var(--blue); color: #fff; display: flex; flex-direction: column; gap: 32px; }
-.shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to bottom, rgba(0,20,80,.22), transparent 35%, rgba(0,20,90,.12)); pointer-events: none; }
+.shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to bottom, rgba(0,20,90,.34), rgba(0,20,90,.12) 45%, rgba(0,20,90,.18)); pointer-events: none; }
 .left > :not(.shade, canvas) { position: relative; z-index: 1; }
 .who { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
 .person { display: flex; gap: 14px; align-items: flex-start; max-width: 380px; }
@@ -12,7 +12,8 @@
 .contacts { display: flex; gap: 8px; flex-wrap: wrap; }
 .pill { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 12px; background: var(--ink); color: var(--on-dark); font-size: 14px; font-weight: 500; transition: transform .3s var(--ease), background .3s; }
 .pill:hover { transform: translateY(-2px); }
-.pillTg { background: var(--yellow); color: var(--ink); }
+.pillTg { background: #fff; color: var(--ink); }
+.pillTg:hover { background: var(--yellow); }
 .h2 { margin-top: auto; font-size: clamp(36px, 4.6vw, 68px); font-weight: 500; letter-spacing: -0.045em; line-height: 1.0; }
 .h2 span { color: rgba(255,255,255,.62); }
 /* подарок */
@@ -47,6 +48,7 @@
 .consent input { margin-top: 2px; accent-color: var(--ink); }
 .cta { margin-top: auto; align-self: stretch; justify-content: space-between; padding-top: 0; }
 .form .cta { margin-top: 24px; height: 56px; }
+.form .cta:hover { background: var(--yellow); color: var(--ink); }
 .done { display: flex; align-items: center; gap: 14px; margin-top: 40px; font-size: 20px; font-weight: 500; }
 .check { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--yellow); color: var(--ink); }
 
@@ -55,7 +57,8 @@
   .section { padding: 24px var(--gutter) 0; }
   .card { grid-template-columns: 1fr; min-height: 0; }
   .left, .right { padding: 28px 20px; }
-  .chip { padding: 12px 14px; font-size: 14px; }
+  .chip { padding: 13px 14px; font-size: 14px; }
+  .pill { min-height: 44px; }
   .field input { height: 48px; }
   .socials a { width: 44px; height: 44px; }
   .h2 { margin-top: 8px; }

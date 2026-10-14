@@ -46,7 +46,7 @@
 .table thead th:first-child, .table tbody th { padding-left: 0; }
 .cmpHead { margin-top: 128px; text-align: center; }
 .cmpTitle { font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
-.cmpSub { margin-top: 14px; font-size: 17px; color: var(--mute); }
+.cmpSub { text-wrap: balance; margin-top: 14px; font-size: 17px; color: var(--mute); }
 .colHead { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
 .colHead b { margin-top: 10px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
 .colHead small { font-size: 13px; color: var(--mute); }
@@ -70,4 +70,8 @@
   .grid { grid-template-columns: 1fr; } .featured { grid-column: 1 / -1; }
   .table { min-width: 760px; font-size: 15px; }
 }
-@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .featured { grid-column: span 1; } .featured .inc { grid-template-columns: 1fr; } .compare { padding: 8px 16px 16px; } }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .featured { grid-column: span 1; } .featured .inc { grid-template-columns: 1fr; } .compare { padding: 8px 16px 16px; } .cmpHead { margin-top: 72px; } .budget { margin-top: 28px; } }
+
+/* подсказка над таблицей сравнения, только там, где она скроллится */
+.cmpHint { display: none; }
+@media (max-width: 1000px) { .cmpHint { display: inline-flex; margin: 0 0 14px 20px; } .table { min-width: 920px; } .table tbody th { white-space: nowrap; } }

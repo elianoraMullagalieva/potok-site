@@ -8,7 +8,7 @@
 .who > div { display: flex; flex-direction: column; align-items: flex-start; }
 @keyframes whoIn { from { opacity: 0; transform: translateY(8px); } }
 .bigAva { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: 50% 6%; box-shadow: 0 0 0 1px var(--line); background: var(--bg-2); }
-.online { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }
+.online { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; font-size: 14px; color: var(--ink-2); }
 .write { margin-top: 12px; height: 46px; }
 .online i { width: 8px; height: 8px; border-radius: 50%; background: #34c759; box-shadow: 0 0 8px rgba(52,199,89,.6); animation: pulse 2.4s ease-in-out infinite; }
 .online b { font-weight: 500; color: var(--ink); }
@@ -46,3 +46,5 @@
 .capsule { position: relative; display: inline-block; vertical-align: middle; width: 1.05em; height: 0.52em; margin: 0 0.12em 0.1em 0; border-radius: 999px; overflow: hidden; background: var(--blue); isolation: isolate; }
 .capsule > * { animation: capDrift 9s ease-in-out infinite alternate; }
 @keyframes capDrift { from { transform: scale(1.3) translate(-7%, 2%); } to { transform: scale(1.3) translate(7%, -3%); } }
+
+@media (max-width: 560px) { .who { gap: 14px; margin-top: 26px; } .bigAva { width: 72px; height: 72px; } .online { font-size: 13px; } .online b { font-size: 15px; } .write { margin-top: 10px; height: 44px; } }

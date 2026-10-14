@@ -14,6 +14,7 @@ export function initLenis() {
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis?.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
+  if (import.meta.env.DEV) (window as unknown as { __lenis?: Lenis }).__lenis = lenis; // для проверок в dev
   return lenis;
 }
 export function getLenis() { return lenis; }

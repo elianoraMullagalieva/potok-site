@@ -1,6 +1,8 @@
 import { Suspense, lazy, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { Hero } from './sections/Hero/Hero';
 import { Preloader } from './ui/Preloader';
+import { Sky } from './ui/Sky';
+import { useMedia } from './lib/useMedia';
 
 const params = new URLSearchParams(location.search);
 const V1 = params.get('v') === '1' || /\/v1(\/|$)/.test(location.pathname);
@@ -31,6 +33,17 @@ const Footer = lazy(() => import('./sections/Lead/Footer').then((m) => ({ defaul
 const Lead = lazy(() => import('./sections/Lead/Lead').then((m) => ({ default: m.Lead })));
 
 /* Обёртка-див нужна пину ScrollTrigger: pin-spacer появляется внутри стабильного родителя, React не теряет узел */
+/** Одно небо на два блока: этапы и сфера едут поверх неподвижного шейдера, стыка нет */
+function SkyBand({ children }: { children: ReactNode }) {
+  const small = useMedia('(max-width: 900px)');
+  return (
+    <div className="skyBand">
+      <div className="skyBand__sky"><div className="skyBand__view"><Sky seed={11.2} zoom={1.05} pan={[0.5, 0.15]} animate={!small} /></div></div>
+      {children}
+    </div>
+  );
+}
+
 function Block({ children, h = '100vh' }: { children: ReactNode; h?: string }) {
   return <Suspense fallback={<div style={{ minHeight: h }} />}><div className="blk">{children}</div></Suspense>;
 }
@@ -59,8 +72,12 @@ export default function App() {
       {LIMIT > 2 && <Block><Quiz /></Block>}
       {LIMIT > 3 && <Block><Services /></Block>}
       {LIMIT > 4 && <Block><Cases /></Block>}
-      {LIMIT > 5 && <Block><Process /></Block>}
-      {LIMIT > 6 && <Block><WorkSphere /></Block>}
+      {LIMIT > 5 && (
+        <SkyBand>
+          <Block><Process /></Block>
+          {LIMIT > 6 && <Block><WorkSphere /></Block>}
+        </SkyBand>
+      )}
       {LIMIT > 7 && <Block><CaseDetail /></Block>}
       {LIMIT > 8 && <Block><Chats /></Block>}
       {LIMIT > 9 && <Block><Pricing /></Block>}

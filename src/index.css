@@ -22,6 +22,11 @@ canvas { display: block; }
 ::selection { background: var(--yellow); color: var(--ink); }
 
 .display { font-weight: 500; line-height: 1.0; letter-spacing: -0.045em; }
+/* ровные строки: заголовки балансируются, абзацы без одиноких слов в хвосте */
+h1, h2, h3, .display { text-wrap: balance; }
+p, li, dd, figcaption { text-wrap: pretty; }
+/* на узких экранах короткие абзацы балансируем, чтобы не было строки в полтора слова */
+@media (max-width: 1000px) { p, .sub, small { text-wrap: balance; } }
 .label { font-size: var(--t-label); font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; }
 .num { font-variant-numeric: tabular-nums; }
 .mute { color: var(--mute); }
@@ -46,3 +51,9 @@ canvas { display: block; }
 
 /* на очень широких экранах рамки заявки, футера и этапов центрируются так же, как .wrap */
 @media (min-width: 1800px) { :root { --gutter: max(48px, calc((100vw - 1720px) / 2)); } }
+
+/* небесный пояс: этапы + сфера на одном фоне */
+.skyBand { position: relative; margin: var(--sp-section) var(--gutter); background: var(--blue); clip-path: inset(0 round var(--r-frame)); color: #fff; }
+.skyBand > .blk { position: relative; z-index: 1; }
+.skyBand__sky { position: sticky; top: 0; height: 0; z-index: 0; }
+.skyBand__view { position: relative; height: 100svh; }

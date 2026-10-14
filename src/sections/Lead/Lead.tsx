@@ -88,7 +88,7 @@ export function Lead() {
               <label className={styles.field}><input name="niche" placeholder=" " /><span>{lead.niche}</span></label>
               <label className={styles.field}><input name="question" placeholder=" " /><span>{lead.question}</span></label>
               <label className={styles.consent}><input type="checkbox" required /> <span>{lead.consent}</span></label>
-              <Button variant="primary" arrow type="submit" className={styles.cta}>{lead.cta}</Button>
+              <Button variant="dark" arrow type="submit" className={styles.cta}>{lead.cta}</Button>
             </form>
           )}
         </div>

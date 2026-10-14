@@ -15,7 +15,7 @@
 .btn:hover .arrow { transform: rotate(45deg); }
 .btn:not(:has(.arrow)) { padding-right: 24px; }
 
-.primary { background: var(--yellow); color: var(--ink); box-shadow: 0 1px 0 rgba(255,255,255,.4) inset, 0 10px 30px -14px rgba(0, 20, 80, .35); }
+.primary { background: var(--yellow); color: var(--ink); }
 .primary .arrow { background: var(--ink); color: var(--yellow); }
 
 .glass { background: rgba(9, 32, 96, 0.34); color: #fff; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset; }
@@ -23,6 +23,8 @@
 
 .dark { background: var(--ink); color: var(--on-dark); }
 .dark .arrow { background: var(--yellow); color: var(--ink); }
+.dark:hover { background: var(--yellow); color: var(--ink); }
+.dark:hover .arrow { background: var(--ink); color: var(--yellow); }
 
 .ghost { background: transparent; color: var(--ink); box-shadow: 0 0 0 1px var(--line) inset; }
 .ghost .arrow { background: var(--ink); color: var(--bg); }

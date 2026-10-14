@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { process, services } from '../../content/texts';
-import { Sky } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { useMedia } from '../../lib/useMedia';
@@ -24,9 +23,14 @@ export function Process() {
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced || small) return;
+    if (reduced) return;
     const ctx = gsap.context(() => {
-      gsap.from(`.${styles.h2}, .${styles.sub}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: root.current, start: 'top 75%' } });
+      gsap.from(`.${styles.h2}, .${styles.sub}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: root.current, start: small ? 'top 85%' : 'top 75%', once: small } });
+      if (small) {
+        // телефон и планшет: без pin, карточки-«сторис» один раз мягко проявляются
+        gsap.from(`.${styles.card}`, { y: 40, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.view}`, start: 'top 90%', once: true } });
+        return;
+      }
       // ряд едет влево до последней карточки с полем справа, затем пауза, чтобы её рассмотреть
       const pad = () => parseFloat(getComputedStyle(view.current!).paddingLeft) * 2;
       const dist = () => Math.max(0, track.current!.scrollWidth + pad() - view.current!.clientWidth);
@@ -49,8 +53,6 @@ export function Process() {
   return (
     <section id="process" ref={root} className={styles.section}>
       <div className={styles.frame}>
-        <Sky seed={11.2} zoom={1.05} pan={[0.5, 0.15]} animate={!small} />
-        <div className={styles.shade} />
         <div className={styles.top}>
           <h2 className={`display ${styles.h2}`}>{process.title}</h2>
           <p className={styles.sub}>{process.sub}</p>

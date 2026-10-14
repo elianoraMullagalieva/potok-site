@@ -64,10 +64,16 @@
   .card:nth-child(even) { margin-top: 48px; }
 }
 @media (max-width: 560px) {
-  .section { padding-top: 96px; padding-bottom: 80px; }
+  .cards { margin-top: 40px; }
   .cards { grid-template-columns: 1fr; gap: 14px; }
-  .card:nth-child(n) { margin-top: 0; height: auto; min-height: 260px; }
-  .crm, .team { margin-bottom: 28px; }
+  .card:nth-child(n) { margin-top: 0; height: auto; min-height: 0; padding: 18px; gap: 20px; }
+  .crm { gap: 10px; margin: 18px 0 0; }
+  .team { margin: 14px 0 0; }
+  .chain { gap: 6px; margin: 16px 0 0; }
+  .chainPill { padding: 5px 12px; }
+  .chainLine { height: 12px; }
+  .tl { margin: 16px 0 0; }
+  .cardDot { margin-bottom: 8px; }
 }
 
 /* Связки: цепочка */

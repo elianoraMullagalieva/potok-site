@@ -4,6 +4,7 @@ import { pricing } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { SkyStatic } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
+import { SwipeHint } from '../../ui/SwipeHint';
 import { services } from '../../content/texts';
 import { Manifest } from '../../ui/Manifest';
 import { useReducedMotion } from '../../lib/useReducedMotion';
@@ -59,6 +60,7 @@ export function Pricing() {
         <p className={styles.cmpSub}>{c.honest}</p>
       </div>
       <div className={styles.compare}>
+        <SwipeHint text="Листайте вправо" className={styles.cmpHint} />
         <table className={styles.table}>
           <thead>
             <tr>
@@ -68,7 +70,7 @@ export function Pricing() {
                   <div className={styles.colHead}>
                     {i === 0
                       ? <span className={styles.faces}>{Object.values(services.people).slice(0, 4).map((p) => <Face key={p.name} src={p.face} name={p.name} size={34} ring="#fff" />)}</span>
-                      : <span className={styles.persona}><Persona i={i} /></span>}
+                      : <Face src={COMPARE[i - 1]} name={name} size={34} ring="#fff" />}
                     <b>{name}</b><small>{c.colSub[i]}</small>
                   </div>
                 </th>
@@ -89,10 +91,5 @@ export function Pricing() {
   );
 }
 
-/* Пиктограммы альтернатив: один человек, здание агентства, бейдж сотрудника */
-function Persona({ i }: { i: number }) {
-  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  if (i === 1) return <svg viewBox="0 0 24 24" width="18" height="18"><circle {...p} cx="12" cy="8" r="4" /><path {...p} d="M4 21c0-4 3.6-7 8-7s8 3 8 7" /></svg>;
-  if (i === 2) return <svg viewBox="0 0 24 24" width="18" height="18"><path {...p} d="M4 21V5l8-2v18M12 9l8 2v10M4 21h16M8 9h1M8 13h1M8 17h1M16 14h1M16 17h1" /></svg>;
-  return <svg viewBox="0 0 24 24" width="18" height="18"><rect {...p} x="5" y="4" width="14" height="17" rx="2" /><circle {...p} cx="12" cy="10" r="2.5" /><path {...p} d="M8 18c.6-2 2-3 4-3s3.4 1 4 3" /></svg>;
-}
+/* Альтернативы: фрилансер помоложе, менеджер агентства и штатный сотрудник постарше */
+const COMPARE = ['compare/free.webp', 'compare/agency.webp', 'compare/staff.webp'];

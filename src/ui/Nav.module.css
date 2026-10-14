@@ -19,5 +19,13 @@
 @media (max-width: 900px) {
   .nav { grid-template-columns: 1fr auto; padding: 20px 20px; }
   .menu { display: none; }
-  .cta { height: 40px; }
+  .cta { height: 44px; }
+  .nav > a:first-child { min-height: 44px; justify-self: start; }
+}
+
+/* телефон: только логотип по центру, без кнопки — на экране остаётся одна кнопка расчёта */
+@media (max-width: 768px) {
+  .nav { grid-template-columns: 1fr; justify-items: center; padding: 22px 20px; }
+  .cta { display: none; }
+  .nav > a:first-child { justify-self: center; }
 }

@@ -11,10 +11,27 @@ import styles from './WorkSphere.module.css';
  * Крутится сама, от скролла (pin) и от перетаскивания. Плитки, повёрнутые
  * к зрителю лицом в центр, тают — так в сфере открывается окно под заголовок.
  */
-const IMAGES = ['c1.webp', 'c8.webp', 'c2.webp', 'c9.webp', 'c3.webp', 'c10.webp', 'c4.webp', 'c11.webp', 'c5.webp', 'c12.webp', 'c6.webp', 'c7.webp'].map((n) => `${import.meta.env.BASE_URL}creatives/${n}`);
-// пропорции ширина/высота каждого креатива, порядок чередует тёмные и светлые
-const RATIO = [16 / 9, 1, 16 / 9, 0.9, 16 / 9, 0.8, 16 / 9, 1.12, 16 / 9, 1, 16 / 9, 3 / 4];
-const M = IMAGES.length;
+const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
+// плитки: светлые креативы и сайты вперемешку с карточками в стиле сайта (белые и жёлтые)
+type Tile = { img: string; ratio: number } | { card: 'yellow' | 'white'; big?: string; small?: string; pills?: string[]; bars?: number[]; ratio: number };
+const SEQ: Tile[] = [
+  { img: asset('creatives/c9.webp'), ratio: 0.9 },
+  { card: 'yellow', big: '92 заявки', small: '7 договоров за первый месяц', ratio: 1.3 },
+  { img: asset('creatives/c12.webp'), ratio: 16 / 10 },
+  { img: asset('creatives/c8.webp'), ratio: 1 },
+  { card: 'white', big: '1 240', small: 'запросов в месяц в вашем городе', bars: [30, 45, 40, 62, 58, 80, 100], ratio: 1.3 },
+  { img: asset('creatives/c2.webp'), ratio: 16 / 9 },
+  { img: asset('works/w4.webp'), ratio: 16 / 9 },
+  { card: 'white', pills: ['Директ', 'Avito Ads', 'Квиз', 'Бот'], small: 'связка под нишу', ratio: 1 },
+  { img: asset('creatives/c11.webp'), ratio: 1.12 },
+  { img: asset('creatives/c3.webp'), ratio: 16 / 9 },
+  { card: 'yellow', big: '2 дня', small: 'от брифа до первой заявки', ratio: 1 },
+  { img: asset('creatives/c10.webp'), ratio: 0.8 },
+  { img: asset('works/w2.webp'), ratio: 16 / 9 },
+  { card: 'white', big: '9 из 10', small: 'запусков дают заявки в первый день', ratio: 1.3 },
+];
+const M = SEQ.length;
+const RATIO = SEQ.map((t) => t.ratio);
 
 export function WorkSphere() {
   const root = useRef<HTMLElement>(null);
@@ -22,12 +39,13 @@ export function WorkSphere() {
   const headRef = useRef<HTMLDivElement>(null);
   const tiles = useRef<(HTMLElement | null)[]>([]);
   const small = useMedia('(max-width: 768px)');
+  const narrow = useMedia('(max-width: 900px)'); // на планшете и телефоне секция не пинится
   const reduced = useReducedMotion();
-  const N = small ? 28 : 56;
-  // шар во весь экран: радиус от высоты окна, спереди плитки крупнее за счёт перспективы
-  const R = small ? 230 : 470;
-  const TILE = small ? 104 : 168;
-  const PERSP = small ? 1400 : 2600;
+  // три размера шара: телефон (влезает целиком в 375px), планшет и десктоп
+  const N = small ? 40 : narrow ? 44 : 56;
+  const R = small ? 165 : narrow ? 300 : 470;
+  const TILE = small ? 92 : narrow ? 120 : 168;
+  const PERSP = small ? 1200 : narrow ? 1800 : 2600;
 
   // позиции на сфере
   const pos = Array.from({ length: N }, (_, i) => {
@@ -79,7 +97,7 @@ export function WorkSphere() {
     paint();
     const ctx = gsap.context(() => {
       if (reduced) return;
-      ScrollTrigger.create({ trigger: el, start: 'top top', end: '+=110%', pin: true, anticipatePin: 1,
+      if (!narrow) ScrollTrigger.create({ trigger: el, start: 'top top', end: '+=110%', pin: true, anticipatePin: 1,
         onUpdate: (self) => { st.scrollTarget = self.progress * 70; } });
       gsap.from(`.${styles.head} > *`, { y: 30, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: el, start: 'top 70%' } });
     }, el);
@@ -97,17 +115,26 @@ export function WorkSphere() {
     const up = () => { st.drag = false; };
     el.addEventListener('pointerdown', down); el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
     return () => { running = false; cancelAnimationFrame(raf); ro.disconnect(); ctx.revert(); el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
-  }, [N, R, PERSP, reduced, small]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [N, R, PERSP, reduced, small, narrow]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section id="gallery" ref={root} className={styles.section} aria-label={gallery.sub}>
+      <div className={styles.frame}>
       <div className={styles.stage} style={{ perspective: PERSP }}>
         <div ref={globe} className={styles.globe}>
           {pos.map((p, i) => (
             <div key={i} ref={(n) => { tiles.current[i] = n; }} className={styles.tile}
               style={{ width: TILE * (RATIO[i % M] < 1 ? 0.78 : 1), height: (TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M], marginLeft: -(TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / 2, marginTop: -((TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M]) / 2,
                 transform: `rotateY(${p.lon}deg) rotateX(${-p.lat}deg) translateZ(${R}px)` }}>
-              <img className={styles.img} src={IMAGES[i % M]} alt="" loading="lazy" draggable={false} />
+              {(() => { const t = SEQ[i % M]; if ('img' in t) return <img className={styles.img} src={t.img} alt="" loading="lazy" draggable={false} />;
+                return (
+                  <div className={`${styles.cardTile} ${t.card === 'yellow' ? styles.cardYellow : ''}`} style={{ fontSize: TILE * 0.075 }}>
+                    {t.pills && <div className={styles.pills}>{t.pills.map((x) => <span key={x}>{x}</span>)}</div>}
+                    {t.big && <b className={styles.big}>{t.big}</b>}
+                    {t.bars && <div className={styles.bars}>{t.bars.map((h, k) => <i key={k} style={{ height: `${h}%` }} />)}</div>}
+                    {t.small && <span className={styles.small}>{t.small}</span>}
+                  </div>
+                ); })()}
             </div>
           ))}
         </div>
@@ -115,6 +142,7 @@ export function WorkSphere() {
       <div ref={headRef} className={styles.head}>
         <SwipeHint onDark text="Потяните, чтобы покрутить" className={styles.hint} />
         <h2 className={`display ${styles.h2}`}>{gallery.title}<br /><span className={styles.tail}>{gallery.titleTail}</span></h2>
+      </div>
       </div>
     </section>
   );

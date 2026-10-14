@@ -33,6 +33,12 @@ export function Cases() {
         gsap.set(cards, { x: 0, rotate: 0, y: 0 });
         gsap.set(`.${styles.big}`, { filter: 'blur(0px)', opacity: 1 });
         gsap.set(`.${styles.row2} .${styles.card}, .${styles.more}`, { opacity: 1, y: 0 });
+        if (!reduced) {
+          // без pin: карточки один раз мягко проявляются при входе в экран, назад не дёргаются
+          [`.${styles.row1} .${styles.card}`, `.${styles.row2} .${styles.card}`].forEach((q) => {
+            gsap.utils.toArray<HTMLElement>(q).forEach((c) => gsap.from(c, { y: 36, opacity: 0, duration: 0.9, ease: 'expo.out', scrollTrigger: { trigger: c, start: 'top 92%', once: true } }));
+          });
+        }
         return;
       }
       const n = cards.length;

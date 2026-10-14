@@ -147,12 +147,16 @@ article:nth-child(3n+1) [data-live] .inner, [data-live]:nth-child(3n+1) .inner {
 
 @media (max-width: 768px) {
   .hero { padding: 8px; height: auto; min-height: 0; }
-  .frame { display: flex; flex-direction: column; min-height: 100svh; padding-top: 88px; }
-  .center { position: static; transform: none; width: 100%; padding: 0 16px; }
-  .h1 { font-size: 40px; }
-  .sub { font-size: 14px; margin-top: 16px; }
-  .actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; margin-top: 22px; }
-  .under { margin-top: 12px; }
-  .stage { position: static; margin-top: 26px; }
-  .hint { position: static; padding: 20px 0 22px; margin-top: auto; }
+  .frame { display: flex; flex-direction: column; min-height: 0; padding-top: 108px; }
+  .center { position: static; transform: none; width: 100%; padding: 0 20px; }
+  .h1 { font-size: 38px; letter-spacing: -0.035em; }
+  .sub { font-size: 15px; line-height: 1.4; margin: 18px auto 0; max-width: 30ch; text-wrap: balance; }
+  /* одна кнопка, по центру, без растяжки на всю ширину */
+  .actions { flex-direction: row; justify-content: center; width: auto; max-width: none; margin-top: 24px; }
+  .actions > :not(:last-child) { display: none; }
+  .under { margin-top: 14px; font-size: 14px; }
+  .stage { position: static; margin-top: 30px; }
+  .inner { padding: 16px; }
+  .big { font-size: 32px; }
+  .hint { position: static; padding: 28px 0 24px; margin-top: 0; }
 }

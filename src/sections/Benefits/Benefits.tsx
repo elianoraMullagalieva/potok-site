@@ -19,14 +19,18 @@ export function Benefits() {
         opacity: 1, stagger: 0.04, ease: 'none',
         scrollTrigger: { trigger: `.${styles.manifest}`, start: 'top 80%', end: 'bottom 45%', scrub: 0.6 },
       });
-      gsap.from(`.${styles.card}`, {
-        y: 90, opacity: 0, duration: 1.4, ease: 'expo.out', stagger: 0.12,
-        scrollTrigger: { trigger: `.${styles.cards}`, start: 'top 82%' },
+      // fromTo + once: иначе при повторном монтировании карточки застревали на y:90
+      gsap.fromTo(`.${styles.card}`, { y: 90, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 1.4, ease: 'expo.out', stagger: 0.12, immediateRender: false,
+        scrollTrigger: { trigger: `.${styles.cards}`, start: 'top 82%', once: true },
       });
       // лёгкий параллакс: карточки с разным смещением едут с разной скоростью
-      gsap.utils.toArray<HTMLElement>(`.${styles.card}`).forEach((c, i) => {
-        gsap.to(c, { y: (i % 2 ? -30 : 30), ease: 'none', scrollTrigger: { trigger: `.${styles.cards}`, start: 'top bottom', end: 'bottom top', scrub: true } });
-      });
+      // на телефоне карточки идут в одну колонку, параллакс там даёт наезды друг на друга
+      if (window.matchMedia('(min-width: 561px)').matches) {
+        gsap.utils.toArray<HTMLElement>(`.${styles.card}`).forEach((c, i) => {
+          gsap.to(c, { y: (i % 2 ? -30 : 30), ease: 'none', scrollTrigger: { trigger: `.${styles.cards}`, start: 'top bottom', end: 'bottom top', scrub: true } });
+        });
+      }
     }, root);
     return () => ctx.revert();
   }, [reduced]);
