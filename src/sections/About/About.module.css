@@ -68,6 +68,9 @@
 .sampleBtn { align-self: flex-start; margin-top: 6px; }
 
 @media (max-width: 1200px) {
+  .contract { flex-direction: column; padding-right: 24px; }
+  .contractText { flex: none; }
+  .paperCompact { margin: 0; padding-bottom: 60px; transform: none; }
   .projects, .staff { grid-column: span 6; }
   .launches, .partners, .years { grid-column: span 4; }
   .photo, .contract { grid-column: span 6; }

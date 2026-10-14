@@ -36,7 +36,7 @@
   --r-pill: 999px;
 
   --gutter: 48px;
-  --sp-section: clamp(80px, 9vw, 140px);
+  --sp-section: clamp(56px, 5vw, 76px); /* половина зазора между блоками: сверху + снизу ≈ 150px */
   --sp-head: 56px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }

@@ -1,4 +1,4 @@
-.section { padding-top: var(--sp-section); padding-bottom: 48px; }
+.section { padding-top: var(--sp-section); padding-bottom: var(--sp-section); }
 .wrap { margin-top: 48px; }
 .tabs { display: flex; justify-content: center; }
 .tabRow { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03); }
@@ -27,13 +27,13 @@
 /* цифры: компактная сетка 2×2, первая — главная */
 .nums { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .num { position: relative; overflow: hidden; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; min-height: 160px; padding: 22px 24px; border-radius: 20px; background: var(--bg); }
-.num b { position: relative; font-size: clamp(38px, 3.3vw, 58px); font-weight: 500; letter-spacing: -0.045em; line-height: 1; }
-.num span { position: relative; font-size: 15px; line-height: 1.3; color: var(--ink-2); }
+.num b { position: relative; z-index: 2; font-size: clamp(38px, 3.3vw, 58px); font-weight: 500; letter-spacing: -0.045em; line-height: 1; }
+.num span { position: relative; z-index: 2; font-size: 15px; line-height: 1.3; color: var(--ink-2); }
 .numMain { color: #fff; background: var(--blue); }
 .numSky { z-index: 0 !important; transform: scale(-1, -1); }
 .numMain b { color: #fff; text-shadow: 0 2px 12px rgba(0,20,80,.35); }
-.numMain::after { content: ''; position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,80,.5), rgba(0,20,80,.08) 65%); }
-.numMain span { color: #fff; font-weight: 500; }
+.numMain::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,20,80,.5), rgba(0,20,80,.08) 65%); }
+.numMain span { color: #fff; font-weight: 500; font-size: 16px; }
 /* этапы */
 .stepsWrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .7s var(--ease); }
 .stepsWrap[aria-hidden='false'] { grid-template-rows: 1fr; }
@@ -48,7 +48,9 @@
 }
 @media (max-width: 700px) {
   .card { padding: 20px; }
-  .tabRow { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .tabs { justify-content: flex-start; width: 100%; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+  .tabRow { flex: none; white-space: nowrap; }
+  .tab { height: 44px; }
   .ts div { grid-template-columns: 1fr; gap: 4px; }
   .nums { grid-template-columns: 1fr 1fr; }
   .num { min-height: 110px; }

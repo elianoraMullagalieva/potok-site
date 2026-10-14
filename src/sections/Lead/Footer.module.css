@@ -1,4 +1,4 @@
-.footer { position: relative; padding: 40px 12px 0; overflow: hidden; background: var(--bg); }
+.footer { position: relative; padding: var(--sp-section) 12px 0; overflow: hidden; background: var(--bg); }
 .grid { position: relative; z-index: 1; display: grid; grid-template-columns: 360px 1fr; gap: 16px; align-items: stretch; }
 .hand { font-family: 'Caveat', cursive; font-weight: 600; letter-spacing: .01em; }
 
@@ -50,8 +50,9 @@
   .grid { grid-template-columns: 1fr; }
   .left { min-height: 0; gap: 40px; }
   .tagline { margin-top: 8px; }
-  .right { padding: 24px; padding-top: 56px; }
-  .lucky { right: 14px; top: -26px; }
+  .right { padding: 24px; padding-top: 96px; }
+  .lucky { right: 16px; top: -22px; }
+  .col a { min-height: 32px; }
   .cube { width: 72px; height: 72px; border-radius: 18px; }
   .cols { gap: 36px; }
   .bottom { flex-direction: column; align-items: flex-start; gap: 24px; }

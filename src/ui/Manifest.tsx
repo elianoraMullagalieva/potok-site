@@ -25,7 +25,7 @@ export function Manifest({ label, chunks, accent = 'first', skies = ['manifest1'
   let k = -1, cap = 0;
   return (
     <div ref={root} className={`${styles.root} ${className ?? ''}`}>
-      <div className={styles.head}><Dot /><span className="label mute">{label}</span></div>
+      {label && <div className={styles.head}><Dot /><span className="label mute">{label}</span></div>}
       <h2 className={`display ${styles.manifest}`}>
         {chunks.map((chunk, i) => {
           if (chunk === '▬') { const id = skies[cap++ % skies.length]; return <span key={i} className={styles.capsule} aria-hidden><SkyStatic id={id} /></span>; }

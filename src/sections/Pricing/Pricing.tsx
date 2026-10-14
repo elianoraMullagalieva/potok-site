@@ -28,7 +28,7 @@ export function Pricing() {
 
   return (
     <section id="pricing" ref={root} className={`wrap ${styles.section}`}>
-      <Manifest label={pricing.label} chunks={pricing.manifest} skies={['test', 'manifest1']} />
+      <Manifest label="" chunks={pricing.manifest} skies={['test', 'manifest1']} />
 
       <div className={styles.grid}>
         {pricing.plans.map((p) => (

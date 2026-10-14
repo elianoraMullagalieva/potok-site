@@ -5,6 +5,7 @@
 .h2 { margin-top: 16px; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; text-wrap: balance; }
 .sub { margin-top: 18px; font-size: 17px; line-height: 1.4; color: var(--mute); max-width: 30ch; }
 .who { display: flex; align-items: center; gap: 18px; margin-top: 32px; animation: whoIn .6s var(--ease) both; }
+.who > div { display: flex; flex-direction: column; align-items: flex-start; }
 @keyframes whoIn { from { opacity: 0; transform: translateY(8px); } }
 .bigAva { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: 50% 6%; box-shadow: 0 0 0 1px var(--line); background: var(--bg-2); }
 .online { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }

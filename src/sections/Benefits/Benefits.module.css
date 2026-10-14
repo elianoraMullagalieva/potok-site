@@ -60,7 +60,7 @@
 
 @media (max-width: 1000px) {
   .cards { grid-template-columns: repeat(2, 1fr); margin-top: 72px; }
-  .card:nth-child(n) { margin-top: 0; height: 340px; }
+  .card:nth-child(n) { margin-top: 0; height: auto; min-height: 340px; }
   .card:nth-child(even) { margin-top: 48px; }
 }
 @media (max-width: 560px) {

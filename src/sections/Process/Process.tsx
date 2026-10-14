@@ -46,9 +46,6 @@ export function Process() {
     return () => io.disconnect();
   }, [reduced]);
 
-  return () => io.disconnect();
-  }, [reduced]);
-
   return (
     <section id="process" ref={root} className={styles.section}>
       <div className={styles.frame}>

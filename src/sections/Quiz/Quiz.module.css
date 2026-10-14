@@ -1,6 +1,6 @@
-.section { padding-top: 40px; padding-bottom: var(--sp-section); }
+.section { padding-top: var(--sp-section); padding-bottom: var(--sp-section); }
 .h2 { text-align: center; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; max-width: 22ch; margin-inline: auto; text-wrap: balance; }
-.card { display: grid; grid-template-columns: 1.5fr 1fr; margin-top: var(--sp-head); border-radius: var(--r-frame); overflow: hidden; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.25); min-height: 620px; }
+.card { display: grid; grid-template-columns: 1.2fr 1fr; margin-top: var(--sp-head); border-radius: var(--r-frame); overflow: hidden; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.25); min-height: 620px; }
 .left { padding: 36px 40px 32px; display: flex; flex-direction: column; }
 .top { display: flex; justify-content: space-between; align-items: center; }
 .progressLabel { color: var(--mute); }
@@ -61,14 +61,14 @@
 .giftN { font-size: 11px; color: rgba(255,255,255,.9); align-self: start; justify-self: end; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,.16); box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
 .giftOn .giftN { color: var(--mute); }
 .giftText { display: flex; flex-direction: column; gap: 5px; }
-.giftText b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; white-space: pre-line; }
-.giftState { font-size: 12px; color: rgba(255,255,255,.65); }
+.giftText b { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; white-space: pre-line; }
+.giftState { font-size: 13px; color: rgba(255,255,255,.65); }
 .giftOn .giftState { color: var(--mute); }
 .giftOn .giftState::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); margin-right: 6px; }
 .gv { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 10px;
 }
 .giftWide { grid-template-columns: 150px 1fr auto; }
-.giftWide .giftText b { font-size: 16.5px; }
+.giftWide .giftText b { font-size: 17.5px; }
 .gvPlaceholder { position: relative; display: block; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
 .gv img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; filter: grayscale(.2); opacity: .95; transition: filter .6s var(--ease), opacity .6s var(--ease); }
 .gvLive img { filter: none; opacity: 1; }

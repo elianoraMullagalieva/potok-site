@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { Fragment, useEffect, useRef, useState, type FormEvent } from 'react';
 import { gsap } from '../../lib/lenis';
 import { lead, services } from '../../content/texts';
 import { Button } from '../../ui/Button';
@@ -81,7 +81,7 @@ export function Lead() {
             <form className={styles.form} onSubmit={submit}>
               <span className={styles.label}>{lead.interestLabel}</span>
               <div className={styles.chips}>
-                {lead.interests.map((x, i) => <><button key={x} type="button" className={`${styles.chip} ${picked.includes(x) ? styles.chipOn : ''}`} onClick={() => toggle(x)} aria-pressed={picked.includes(x)}>{x}</button>{i === 3 && <i key="br" className={styles.chipBreak} aria-hidden />}</>)}
+                {lead.interests.map((x, i) => <Fragment key={x}><button type="button" className={`${styles.chip} ${picked.includes(x) ? styles.chipOn : ''}`} onClick={() => toggle(x)} aria-pressed={picked.includes(x)}>{x}</button>{i === 3 && <i className={styles.chipBreak} aria-hidden />}</Fragment>)}
               </div>
               <label className={styles.field}><input name="name" required placeholder=" " autoComplete="name" /><span>{lead.name}</span></label>
               <label className={styles.field}><input name="contact" required placeholder=" " autoComplete="tel" /><span>{lead.contact}</span></label>

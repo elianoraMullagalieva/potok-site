@@ -60,14 +60,14 @@
 .table tbody tr:last-child .us { border-radius: 0 0 16px 16px; }
 .them { color: var(--ink-2); }
 @media (max-width: 1440px) {
-  .grid { grid-template-columns: 1fr 1fr; }
+  .grid { grid-template-columns: repeat(3, 1fr); }
   .featured { grid-column: 1 / -1; }
   .featured .inc { grid-template-columns: 1fr 1fr; column-gap: 24px; }
   .featured .panel { max-width: none; }
 }
 @media (max-width: 1000px) {
   .head { grid-template-columns: 1fr; gap: 12px; } .sub { justify-self: start; text-align: left; }
-  .grid { grid-template-columns: 1fr 1fr; } .featured { grid-column: 1 / -1; }
+  .grid { grid-template-columns: 1fr; } .featured { grid-column: 1 / -1; }
   .table { min-width: 760px; font-size: 15px; }
 }
 @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .featured { grid-column: span 1; } .featured .inc { grid-template-columns: 1fr; } .compare { padding: 8px 16px 16px; } }
