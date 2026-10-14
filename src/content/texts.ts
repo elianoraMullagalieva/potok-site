@@ -392,7 +392,6 @@ export const lead = {
 
 export const footer = {
   wordA: 'ПО', wordB: 'ТОК',
-  watermark: 'ПОТОК',
   tagline: ['Заявки от людей,', 'которым нужна ваша услуга.'],
   line: 'Работаем удалённо с 40+ городами',
   socialLabel: 'На связи!',

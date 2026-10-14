@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { gsap } from '../../lib/lenis';
-import { useReducedMotion } from '../../lib/useReducedMotion';
+import { useState, type FormEvent } from 'react';
 import { footer } from '../../content/texts';
 import { Logo, LogoMark } from '../../ui/Logo';
 import { SkyStatic } from '../../ui/Sky';
@@ -12,38 +10,7 @@ import styles from './Footer.module.css';
  * «ПОТОК» во всю ширину: viewBox подгоняется по реальным границам букв.
  */
 export function Footer() {
-  const mark = useRef<HTMLDivElement>(null);
   const [sent, setSent] = useState(false);
-  const reduced = useReducedMotion();
-
-  // водяной знак во всю ширину: подбираем кегль по реальной ширине букв
-  useEffect(() => {
-    const el = mark.current!;
-    const fit = () => {
-      el.style.fontSize = '100px';
-      const w = Array.from(el.children).reduce((a, c) => a + c.getBoundingClientRect().width, 0) || 1;
-      const target = el.parentElement!.clientWidth;
-      const fs = Math.floor(100 * target / w * 0.97);
-      el.style.fontSize = `${fs}px`;
-      el.parentElement!.style.height = `${Math.round(fs * 0.46)}px`; // показываем верхнюю половину букв
-    };
-    fit();
-    document.fonts?.ready.then(fit);
-    const ro = new ResizeObserver(fit); ro.observe(document.documentElement);
-    return () => ro.disconnect();
-  }, []);
-
-  // буквы выезжают снизу, пока водяной знак входит в экран
-  useEffect(() => {
-    if (reduced || !mark.current) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo(mark.current!.children, { yPercent: 105 }, {
-        yPercent: 0, ease: 'power3.out', stagger: 0.07,
-        scrollTrigger: { trigger: mark.current!.parentElement, start: 'top 95%', end: 'bottom 100%', scrub: 0.5, invalidateOnRefresh: true },
-      });
-    });
-    return () => ctx.revert();
-  }, [reduced]);
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,9 +72,6 @@ export function Footer() {
         </div>
       </div>
 
-      <div className={styles.watermark} aria-hidden>
-        <div ref={mark} className={styles.letters} style={{ backgroundImage: `url(${import.meta.env.BASE_URL}sky/manifest1.webp)` }}>{[...footer.watermark].map((ch, i) => <span key={i}>{ch}</span>)}</div>
-      </div>
     </footer>
   );
 }
