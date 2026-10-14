@@ -56,17 +56,22 @@
 .usually::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 8px; vertical-align: 2px; }
 /* три подарка */
 .gifts { display: grid; gap: 10px; margin-top: 22px; flex: 1; align-content: start; max-width: 440px; }
-.gift { display: grid; grid-template-columns: 136px 1fr auto; gap: 14px; align-items: center; padding: 10px 12px 10px 10px; border-radius: 14px; background: rgba(255,255,255,.10); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); box-shadow: 0 0 0 1px rgba(255,255,255,.22) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
+.gift { display: grid; grid-template-columns: 136px 1fr auto; gap: 14px; align-items: center; padding: 10px 12px 10px 10px; border-radius: 14px; background: rgba(0,16,60,.16); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
 .giftOn { background: rgba(255,255,255,.94); color: var(--ink); box-shadow: 0 24px 50px -28px rgba(0,20,80,.6); }
 .giftN { font-size: 11px; color: rgba(255,255,255,.9); align-self: start; justify-self: end; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,.16); box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
 .giftOn .giftN { color: var(--mute); }
 .giftText { display: flex; flex-direction: column; gap: 5px; }
-.giftText b { font-size: 15px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; text-wrap: balance; max-width: 15ch; }
+.giftText b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; text-wrap: balance; max-width: 15ch; }
 .giftState { font-size: 12px; color: rgba(255,255,255,.65); }
 .giftOn .giftState { color: var(--mute); }
 .giftOn .giftState::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); margin-right: 6px; }
-.gv { position: relative; display: block; height: 88px; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
-.gv img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; filter: grayscale(.6) brightness(1.04); opacity: .85; transition: filter .6s var(--ease), opacity .6s var(--ease); }
+.gv { position: relative; display: block; height: 88px; border-radius: 10px;
+}
+.giftWide { grid-template-columns: 156px 1fr auto; }
+.giftWide .gv { height: 100px; }
+.giftWide .giftText b { font-size: 16.5px; }
+.gvPlaceholder { position: relative; display: block; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
+.gv img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; filter: grayscale(.2); opacity: .95; transition: filter .6s var(--ease), opacity .6s var(--ease); }
 .gvLive img { filter: none; opacity: 1; }
 .o { position: absolute; right: 24px; top: 24px; z-index: 2; width: 92px; aspect-ratio: 1; filter: drop-shadow(0 16px 24px rgba(0,20,80,.35)); }
 .pct { fill: #fff; font-size: 32px; font-weight: 500; letter-spacing: -0.03em; font-family: inherit; }

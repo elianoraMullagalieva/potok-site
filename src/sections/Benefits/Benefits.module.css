@@ -56,8 +56,7 @@
   box-shadow: 0 0 0 3px var(--card-grey); margin-left: -12px;
 }
 .ava:first-child { margin-left: 0; }
-.avaEmpty { background: transparent; border: 1.5px dashed var(--mute); box-shadow: none; position: relative; }
-.avaEmpty::after { content: ''; position: absolute; left: 50%; top: 50%; width: 60%; height: 1.5px; background: var(--mute); transform: translate(-50%, -50%) rotate(-45deg); }
+.noMgr { display: inline-flex; align-items: center; height: 54px; margin-left: 10px; padding: 0 16px; border-radius: 999px; background: var(--yellow); font-size: 14px; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; }
 
 @media (max-width: 1000px) {
   .cards { grid-template-columns: repeat(2, 1fr); margin-top: 72px; }

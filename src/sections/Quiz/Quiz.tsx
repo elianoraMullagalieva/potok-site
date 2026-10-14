@@ -166,7 +166,7 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
         {g.items.map((it, k) => {
           const open = answered >= k + 2 || step >= 4;
           return (
-            <li key={it.n} className={`${styles.gift} ${open ? styles.giftOn : ''}`}>
+            <li key={it.n} className={`${styles.gift} ${open ? styles.giftOn : ''} ${'wide' in it && it.wide ? styles.giftWide : ''}`}>
               <div className={styles.giftVisual}><GiftVisual kind={it.visual} on={open} /></div>
               <div className={styles.giftText}>
                 <b>{it.title}</b>
