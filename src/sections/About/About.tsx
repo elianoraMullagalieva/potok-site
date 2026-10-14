@@ -1,81 +1,123 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
-import { about, services } from '../../content/texts';
-import { Manifest } from '../../ui/Manifest';
-import { Face } from '../../ui/Face';
-import { Wire, type WireKind } from '../../ui/Wire';
-const WIRE: Record<string, WireKind> = { bars: 'poly', dots: 'dots', timeline: 'wave', ring: 'rings' };
+import { about } from '../../content/texts';
+import { Dot } from '../../ui/Tag';
+import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './About.module.css';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
 /**
- * О нас: заголовок-манифест и бенто из живых карточек.
- * Фото команды, договор с тремя обещаниями и печатью, цитата Андрея, четыре цифры с проволочной графикой.
+ * О студии: «Поток работает открыто». Бенто по макету: проекты и ниши, штат, запуски,
+ * партнёры, срок с клиентом, фото команды, договор и реквизиты. Ниже — что фиксируем в договоре.
  */
 export function About() {
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  const andrey = services.people['Андрей'];
+  const c = about.cards;
 
   useEffect(() => {
     if (reduced) return;
     const ctx = gsap.context(() => {
-      gsap.from(`.${styles.grid} > *`, { y: 60, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.grid}`, start: 'top 82%' } });
-      gsap.utils.toArray<HTMLElement>(`.${styles.val}`).forEach((n) => {
-        const to = Number(n.dataset.v), d = Number(n.dataset.d ?? 0); const o = { v: 0 };
-        gsap.to(o, { v: to, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: n, start: 'top 85%' }, onUpdate: () => { n.textContent = o.v.toFixed(d).replace('.', ','); } });
-      });
-      gsap.from(`.${styles.stamp}`, { scale: 1.6, opacity: 0, rotate: -20, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.contract}`, start: 'top 70%' } });
+      gsap.from(`.${styles.h2}`, { y: 24, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 78%' } });
+      gsap.from(`.${styles.grid} > *`, { y: 50, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.07, scrollTrigger: { trigger: `.${styles.grid}`, start: 'top 82%' } });
+      gsap.from(`.${styles.fixItem}`, { y: 30, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: `.${styles.fix}`, start: 'top 80%' } });
+      gsap.from(`.${styles.stamp}`, { scale: 1.6, opacity: 0, rotate: -20, duration: 0.7, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.fix}`, start: 'top 65%' } });
     }, root);
     return () => ctx.revert();
   }, [reduced]);
 
   return (
     <section id="about" ref={root} className={`wrap ${styles.section}`}>
-      <Manifest label={about.label} chunks={about.manifest} skies={['speed', 'manifest2']} />
-
-      <div className={styles.grid}>
-        {/* фото команды: пока коллаж из четырёх портретов, заменится общим снимком */}
-        <figure className={`${styles.card} ${styles.team}`}>
-          <div className={styles.collage}>
-            {about.team.map((t) => { const p = services.people[t.key]; return <img key={t.key} src={asset(p.photo)} alt={p.name} loading="lazy" draggable={false} />; })}
-          </div>
-          <figcaption className={styles.teamCap}>
-            <span>{about.teamCaption}</span>
-            <ul>{about.team.map((t) => { const p = services.people[t.key]; return <li key={t.key}><Face src={p.face} name={p.name} size={28} />{p.name.split(' ')[0]}<small>{p.role}</small></li>; })}</ul>
-          </figcaption>
-        </figure>
-
-        {/* договор: бумага, три обещания, печать */}
-        <div className={`${styles.card} ${styles.contract}`}>
-          <div className={styles.paper}>
-            <span className={styles.paperHead}>{about.promisesLabel}</span>
-            <ol>{about.promises.map((p, i) => <li key={p.t}><i className="num">{i + 1}.</i><span><b>{p.t}</b> {p.s}</span></li>)}</ol>
-            <div className={styles.sign}><span className={styles.signLine} /><small>{about.quoteBy}</small></div>
-            <span className={styles.stamp} aria-hidden><span>{about.stamp}</span></span>
-          </div>
-          <p className={styles.contractNote}>{about.contractNote}</p>
-        </div>
-
-        {/* цитата */}
-        <figure className={`${styles.card} ${styles.quote}`}>
-          <blockquote>{about.quote}</blockquote>
-          <figcaption><Face src={andrey.face} name={andrey.name} size={44} ring="rgba(255,255,255,.35)" /><span>{about.quoteBy}<small>{andrey.role}</small></span></figcaption>
-        </figure>
-
-        {/* цифры */}
-        {about.stats.map((s) => (
-          <div key={s.label} className={`${styles.card} ${styles.stat}`}>
-            <div className={styles.statWire}><Wire kind={WIRE[s.kind] ?? 'dots'} color="#1f2026" faded={0.35} speed={0.6} /></div>
-            <div className={styles.statNum}><span className={`num ${styles.val}`} data-v={s.value} data-d={s.decimals ?? 0}>{String(s.value).replace('.', ',')}</span>{s.suffix}</div>
-            <p className={styles.statLabel}>{s.label}</p>
-          </div>
-        ))}
+      <div className={styles.head}>
+        <div className={styles.label}><Dot /><span className="label mute">{about.label}</span></div>
+        <h2 className={`display ${styles.h2}`}>{about.title} <span>{about.titleTail}</span></h2>
       </div>
 
-      <ul className={styles.partners}>{about.partners.map((p) => <li key={p}>{p}</li>)}</ul>
+      <div className={styles.grid}>
+        <div className={`${styles.card} ${styles.projects}`}>
+          <b className={`num ${styles.big}`}>{c.projects.big}</b>
+          <p>{c.projects.text}</p>
+          <ul className={styles.chips}>{c.projects.chips.map((x) => <li key={x}>{x}</li>)}</ul>
+        </div>
+        <div className={`${styles.card} ${styles.staff}`}>
+          <span className={styles.pre}>{c.staff.pre}</span>
+          <b className={`num ${styles.big}`}>{c.staff.big}</b>
+          <p>{c.staff.text}</p>
+        </div>
+        <div className={`${styles.card} ${styles.launches}`}>
+          <b className={`num ${styles.big}`}>{c.launches.big}</b>
+          <span className={styles.pre}>{c.launches.sub}</span>
+          <p>{c.launches.text}</p>
+        </div>
+        <div className={`${styles.card} ${styles.partners}`}>
+          <span className={styles.cardTitle}>{c.partners.title}</span>
+          <ul>{c.partners.items.map(([n, r]) => <li key={n}><b>{n}</b><small>{r}</small></li>)}</ul>
+        </div>
+        <div className={`${styles.card} ${styles.years}`}>
+          <b className={`num ${styles.big}`}>{c.years.big}</b>
+          <p>{c.years.text}</p>
+        </div>
+        <figure className={`${styles.card} ${styles.photo}`}>
+          <img src={asset(about.photo)} alt="Команда Потока за работой" loading="lazy" draggable={false} />
+        </figure>
+        <div className={`${styles.card} ${styles.contract}`}>
+          <div className={styles.contractText}>
+            <span className={styles.cardTitle}>{c.contract.title}</span>
+            <p>{c.contract.text} · <a href="#">{c.contract.link}</a></p>
+            <Button variant="dark" arrow href="#lead" className={styles.contractBtn}>{c.contract.cta}</Button>
+          </div>
+          <Paper compact />
+        </div>
+      </div>
+
+      {/* что фиксируем в договоре */}
+      <div className={styles.fix}>
+        <h3 className={`display ${styles.h3}`}>{about.fixTitle} <span>{about.fixTail}</span></h3>
+        <div className={styles.fixGrid}>
+          <div className={styles.fixPaper}><Paper /><p className={styles.sampleNote}>{about.sampleNote}</p></div>
+          <div className={styles.fixList}>
+            {about.fix.map((f) => (
+              <div key={f.t} className={styles.fixItem}>
+                <span className={styles.fixIcon}><FixIcon id={f.icon} /></span>
+                <div>
+                  <h4>{f.t}</h4>
+                  <p>{mark(f.d)}</p>
+                  <p className={styles.cond}><b>{about.condLabel}</b> {f.cond}</p>
+                </div>
+              </div>
+            ))}
+            <Button variant="primary" arrow href="#lead" className={styles.sampleBtn}>{about.sampleCta}</Button>
+          </div>
+        </div>
+      </div>
     </section>
   );
+}
+
+/* Бумага договора: шапка, строки предмета, подпись и печать. Своя вёрстка, без фото */
+function Paper({ compact = false }: { compact?: boolean }) {
+  const p = about.paper;
+  return (
+    <div className={`${styles.paper} ${compact ? styles.paperCompact : ''}`}>
+      <span className={styles.demo}>{p.demo}</span>
+      <b className={styles.paperTitle}>{p.title}</b>
+      <small className={styles.paperSub}>{p.sub}</small>
+      <ol>{p.rows.map((r) => <li key={r}>{r}</li>)}</ol>
+      {!compact && <div className={styles.sign}><span className={styles.signLine} /><small>{about.quoteBy}</small></div>}
+      <span className={styles.stamp} aria-hidden><span>{p.stamp}</span></span>
+    </div>
+  );
+}
+
+function FixIcon({ id }: { id: string }) {
+  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  if (id === 'timer') return <svg viewBox="0 0 24 24" width="22" height="22"><circle {...p} cx="12" cy="13" r="8" /><path {...p} d="M12 9v4l3 2M9 3h6" /></svg>;
+  if (id === 'wallet') return <svg viewBox="0 0 24 24" width="22" height="22"><rect {...p} x="3" y="6" width="18" height="13" rx="3" /><path {...p} d="M3 10h18M16 15h2" /></svg>;
+  return <svg viewBox="0 0 24 24" width="22" height="22"><rect {...p} x="4" y="4" width="16" height="16" rx="3" /><path {...p} d="M8 15v-4M12 15V8M16 15v-2" /></svg>;
+}
+
+function mark(s: string) {
+  return s.split(/==/).map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
 }

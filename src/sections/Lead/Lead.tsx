@@ -63,7 +63,7 @@ export function Lead() {
           <div className={styles.gift}>
             <div className={styles.giftHead}><span className={styles.giftLabel}>{lead.giftLabel}</span><span className={styles.usually}>{lead.giftUsually}</span></div>
             <ul className={styles.gifts}>
-              {lead.gifts.map((g) => <li key={g.t}><img src={asset(`gifts/v2/${g.visual}.jpg`)} alt="" loading="lazy" draggable={false} /><span>{g.t}</span></li>)}
+              {lead.gifts.map((g) => <li key={g.t}><img src={asset(`gifts/v3/${g.visual}.jpg`)} alt="" loading="lazy" draggable={false} /><span>{g.t}</span></li>)}
             </ul>
           </div>
 

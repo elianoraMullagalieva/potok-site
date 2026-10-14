@@ -39,7 +39,7 @@ export function Chats() {
             <header className={styles.top}>
               <i>{ch.who.slice(0, 1)}</i>
               <span><b>{ch.who}</b><small>{ch.role} · {c.client}</small></span>
-              <img src={asset(`logos/${c.id}.png`)} alt="" className={styles.logo} loading="lazy" draggable={false} />
+              <img src={asset(`logos/${c.id}.webp`)} alt="" className={styles.logo} loading="lazy" draggable={false} />
             </header>
             {ch.msgs.map((m) => <p key={m} className={styles.msg}>{mark(m)}</p>)}
             <p className={`${styles.msg} ${styles.ours}`}>{ch.reply}</p>

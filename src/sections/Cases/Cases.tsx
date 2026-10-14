@@ -87,7 +87,7 @@ function Card({ c, onStudy }: { c: Case; onStudy: (id: string) => void }) {
         <span>{a}</span>
         {b && <><span className={styles.arrow} aria-hidden><svg width="26" height="12" viewBox="0 0 28 12" fill="none"><path d="M0 6h26m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span><span>{b}</span></>}
       </p>
-      <div className={styles.logoBox}><img className={`${styles.logo} ${styles[c.id] ?? ''}`} src={asset(`logos/${c.id}.png`)} alt={c.client} loading="lazy" draggable={false} /></div>
+      <div className={styles.logoBox}><img className={`${styles.logo} ${styles[c.id] ?? ''}`} src={asset(`logos/${c.id}.webp`)} alt={c.client} loading="lazy" draggable={false} /></div>
       <div className={styles.body}>
         <h3 className={styles.niche}>{c.niche}</h3>
         <p className={styles.did}>{c.did}</p>
