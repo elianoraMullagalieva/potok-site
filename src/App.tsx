@@ -30,8 +30,9 @@ const Faq = lazy(() => import('./sections/Faq/Faq').then((m) => ({ default: m.Fa
 const Footer = lazy(() => import('./sections/Lead/Footer').then((m) => ({ default: m.Footer })));
 const Lead = lazy(() => import('./sections/Lead/Lead').then((m) => ({ default: m.Lead })));
 
+/* Обёртка-див нужна пину ScrollTrigger: pin-spacer появляется внутри стабильного родителя, React не теряет узел */
 function Block({ children, h = '100vh' }: { children: ReactNode; h?: string }) {
-  return <Suspense fallback={<div style={{ minHeight: h }} />}>{children}</Suspense>;
+  return <Suspense fallback={<div style={{ minHeight: h }} />}><div className="blk">{children}</div></Suspense>;
 }
 
 /* Один пересчёт ScrollTrigger после того, как смонтировались все секции */

@@ -52,6 +52,7 @@
   .tagline { margin-top: 8px; }
   .right { padding: 24px; padding-top: 96px; }
   .lucky { right: 16px; top: -22px; }
+  .luckyRow { display: none; }
   .col a { min-height: 32px; }
   .cube { width: 72px; height: 72px; border-radius: 18px; }
   .cols { gap: 36px; }

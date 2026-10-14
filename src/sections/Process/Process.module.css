@@ -71,7 +71,7 @@
 .report .rRow { opacity: 0; transform: translateX(-8px); }
 [data-live] .report .rRow { animation: leadIn .7s var(--ease) both; animation-delay: calc(var(--i, 0) * .25s + .2s); }
 
-@media (max-width: 1280px) { .card { width: calc((100vw - 24px - 96px - 14px * 2.3) / 2.3); } }
+@media (max-width: 1280px) { .card { width: calc((100vw - 2 * var(--gutter) - 96px - 14px * 2.3) / 2.3); } }
 @media (max-width: 900px) {
   .section { padding: 24px var(--gutter) 0; }
   .frame { height: auto; min-height: 0; padding: 24px 0 24px; }
