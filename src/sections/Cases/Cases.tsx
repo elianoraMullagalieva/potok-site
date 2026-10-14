@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from '../../lib/lenis';
 import { cases } from '../../content/texts';
 import { Button } from '../../ui/Button';
+import { CaseDetail } from './CaseDetail';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Cases.module.css';
@@ -18,6 +19,11 @@ export function Cases() {
   const root = useRef<HTMLElement>(null);
   const small = useMedia('(max-width: 900px)');
   const reduced = useReducedMotion();
+  const [active, setActive] = useState(cases.items[0].id);
+  const study = (id: string) => {
+    setActive(id);
+    document.getElementById('case')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   useEffect(() => {
     const el = root.current!;
@@ -56,8 +62,9 @@ export function Cases() {
       <div className={styles.pin}>
         <h2 className={`display ${styles.big}`} aria-label={cases.title}>{cases.title}</h2>
         <div className={styles.stage}>
-          <div className={styles.row1}>{cases.items.slice(0, 3).map((c) => <Card key={c.id} c={c} />)}</div>
-          <div className={styles.row2}>{cases.items.slice(3).map((c) => <Card key={c.id} c={c} />)}</div>
+          <div className={styles.row1}>{cases.items.slice(0, 3).map((c) => <Card key={c.id} c={c} onStudy={study} />)}</div>
+          <div className={styles.row2}>{cases.items.slice(3).map((c) => <Card key={c.id} c={c} onStudy={study} />)}</div>
+          <div className={styles.detail}><CaseDetail active={active} onPick={setActive} /></div>
           <div className={styles.more}>
             <Button variant="dark" arrow className={styles.moreBtn} href="#lead">{cases.more}</Button>
             <span className={styles.moreSub}>{cases.moreSub}</span>
@@ -69,11 +76,10 @@ export function Cases() {
 }
 
 /* Карточка: две цифры заголовком, логотип клиента на подложке, ниша, что сделали, две пилюли и кнопка */
-function Card({ c }: { c: Case }) {
-  const [open, setOpen] = useState(false);
+function Card({ c, onStudy }: { c: Case; onStudy: (id: string) => void }) {
   const [a, b] = c.head.split(' → ');
   return (
-    <article className={`${styles.card} ${open ? styles.open : ''}`}>
+    <article className={styles.card}>
       <p className={`num ${styles.head}`}>
         <span>{a}</span>
         {b && <><span className={styles.arrow} aria-hidden><svg width="26" height="12" viewBox="0 0 28 12" fill="none"><path d="M0 6h26m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span><span>{b}</span></>}
@@ -83,13 +89,8 @@ function Card({ c }: { c: Case }) {
         <h3 className={styles.niche}>{c.niche}</h3>
         <p className={styles.did}>{c.did}</p>
         <ul className={styles.facts}>{c.facts.slice(0, 2).map((f) => <li key={f}>{f}</li>)}</ul>
-        <div className={styles.moreText} aria-hidden={!open}>
-          <div>
-            <blockquote className={styles.quote}>«{c.quote}»<footer>{c.who}</footer></blockquote>
-          </div>
-        </div>
       </div>
-      <Button variant="ghost" arrow className={styles.cta} onClick={() => setOpen((o) => !o)} aria-expanded={open}>{open ? 'Свернуть' : cases.cta}</Button>
+      <Button variant="ghost" arrow className={styles.cta} onClick={() => onStudy(c.id)}>{cases.cta}</Button>
     </article>
   );
 }

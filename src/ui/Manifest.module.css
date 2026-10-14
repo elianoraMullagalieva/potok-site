@@ -1,0 +1,13 @@
+.root { text-align: center; }
+.head { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.manifest {
+  margin: 16px auto 0; max-width: 1240px; text-align: center; text-wrap: balance;
+  font-size: clamp(32px, 4.4vw, 66px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.04;
+}
+.w { display: inline-block; will-change: opacity; margin-right: 0.24em; }
+.wMute { color: var(--mute); }
+.capsule {
+  position: relative; display: inline-block; vertical-align: middle; width: 1.55em; height: 0.62em; margin: 0 0.12em 0.1em;
+  border-radius: var(--r-pill); overflow: hidden; background: var(--blue);
+  box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;
+}

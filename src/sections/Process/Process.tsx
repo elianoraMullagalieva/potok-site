@@ -3,30 +3,35 @@ import { gsap } from '../../lib/lenis';
 import { process, services } from '../../content/texts';
 import { Sky } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
+import { SwipeHint } from '../../ui/SwipeHint';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Process.module.css';
 
 type Step = (typeof process.steps)[number];
+const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
 /**
- * Как работаем: рамка с небом (рифма с героем), внутри пять карточек по этапам.
- * В каждой — человек, который за этап отвечает, его реплика и живой кусок работы:
- * спрос по городу, экран квиза, статус площадок, фильтр заявок, недельный отчёт.
+ * Как работаем: рамка с небом, внутри ряд из пяти одинаковых белых карточек.
+ * Видно три с хвостом четвёртой; рамка закрепляется, и скролл везёт ряд влево.
+ * В каждой карточке: когда, что, короткий живой фрагмент и кто ведёт.
  */
 export function Process() {
   const root = useRef<HTMLElement>(null);
+  const view = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
   const small = useMedia('(max-width: 900px)');
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || small) return;
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.h2}, .${styles.sub}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: root.current, start: 'top 75%' } });
-      gsap.from(`.${styles.card}`, { y: 70, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: `.${styles.grid}`, start: 'top 85%' } });
+      const dist = () => Math.max(0, track.current!.scrollWidth - view.current!.clientWidth);
+      gsap.to(track.current, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: () => `+=${dist() + 300}`, pin: true, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true } });
     }, root);
     return () => ctx.revert();
-  }, [reduced]);
+  }, [reduced, small]);
 
   return (
     <section id="process" ref={root} className={styles.section}>
@@ -37,80 +42,78 @@ export function Process() {
           <h2 className={`display ${styles.h2}`}>{process.title}</h2>
           <p className={styles.sub}>{process.sub}</p>
         </div>
-        <div className={styles.grid}>
-          {process.steps.map((st, i) => <Card key={st.n} st={st} i={i} />)}
+        <div className={styles.hintRow}><SwipeHint onDark text={process.hint} /></div>
+        <div ref={view} className={styles.view}>
+          <div ref={track} className={styles.track}>
+            {process.steps.map((st) => <Card key={st.n} st={st} />)}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Card({ st, i }: { st: Step; i: number }) {
+function Card({ st }: { st: Step }) {
   const p = services.people[st.who];
   return (
-    <article className={styles.card} style={{ '--i': i } as React.CSSProperties}>
+    <article className={styles.card}>
       <header className={styles.head}>
-        <span className={styles.when}><i /> {st.when}</span>
+        <span className={styles.when}>{st.when}</span>
         <span className={`num ${styles.n}`}>{st.n}</span>
       </header>
       <h3 className={styles.title}>{st.title}</h3>
       <div className={styles.visual}><Visual st={st} /></div>
-      <div className={styles.say}>
-        <Face src={p.face} name={p.name} size={36} />
-        <p><b>{p.name.split(' ')[0]}:</b> {st.say}</p>
-      </div>
-      <p className={styles.result}><i aria-hidden />{st.result}</p>
+      <footer className={styles.foot}>
+        <p className={styles.result}>{st.result}</p>
+        <span className={styles.who}><Face src={p.face} name={p.name} size={28} />{p.name.split(' ')[0]}</span>
+      </footer>
     </article>
   );
 }
 
-/* Кусок работы по этапу. Данные — из texts.process.steps[].mock */
+/* Фрагмент работы по этапу. Только серый, жёлтый, чёрный, белый */
 function Visual({ st }: { st: Step }) {
   const m = st.mock as Record<string, unknown>;
   switch (st.kind) {
     case 'demand': {
       const bars = m.bars as number[];
       return (
-        <div className={styles.demand}>
+        <div className={styles.plate}>
           <span className={styles.vLabel}>{m.label as string}</span>
           <div className={styles.bars}>{bars.map((b, k) => <i key={k} style={{ '--h': `${b}%`, '--k': k } as React.CSSProperties} />)}</div>
-          <span className={styles.vNote}>{m.note as string}</span>
+          <b className={`num ${styles.vBig}`}>{m.note as string}</b>
         </div>
       );
     }
-    case 'quiz': {
-      const a = m.a as string[];
+    case 'sites': {
+      const shots = m.shots as string[];
       return (
-        <div className={styles.quiz}>
-          <div className={styles.qTop}><span>{m.step as string}</span><span className={styles.qBar}><i /></span></div>
-          <div className={styles.qQ}>{m.q as string}</div>
-          <div className={styles.qA}>{a.map((x, k) => <span key={x} className={k === 1 ? styles.qOn : ''}>{x}</span>)}</div>
-          <div className={styles.msg}><span className={styles.msgApp}>Telegram</span>{m.msg as string}</div>
+        <div className={styles.sites}>
+          {shots.map((s, k) => <span key={s} className={styles.site} style={{ '--k': k } as React.CSSProperties}><img src={asset(s)} alt="" loading="lazy" draggable={false} /></span>)}
         </div>
       );
     }
     case 'launch': {
       const rows = m.rows as string[][];
       return (
-        <div className={styles.launch}>
-          {rows.map(([name, status]) => <div key={name} className={styles.lRow}><span>{name}</span><span className={styles.ok}>{status}</span></div>)}
-          <div className={styles.first}><i /><span>{m.first as string}</span></div>
+        <div className={styles.list}>
+          {rows.map(([name, status]) => <div key={name} className={styles.row}><span>{name}</span><b className={styles.ok}>{status}</b></div>)}
+          <div className={`${styles.row} ${styles.rowYellow}`}><span>{m.first as string}</span></div>
         </div>
       );
     }
     case 'fraud': {
       const leads = m.leads as string[][];
       return (
-        <ul className={styles.leads}>
-          {leads.map(([who, st2], k) => <li key={k} className={st2 === 'целевая' ? styles.leadOk : styles.leadNo}><span>{who}</span><b>{st2}</b></li>)}
-        </ul>
+        <div className={styles.list}>
+          {leads.map(([who, st2], k) => <div key={k} className={`${styles.row} ${st2 === 'целевая' ? '' : styles.rowNo}`}><span>{who}</span><b className={st2 === 'целевая' ? styles.ok : styles.no}>{st2}</b></div>)}
+        </div>
       );
     }
     default: {
       const rows = m.rows as string[][];
       return (
-        <div className={styles.report}>
-          <span className={styles.vLabel}>Неделя 2 · отчёт</span>
+        <div className={styles.plate}>
           {rows.map(([k, v]) => <div key={k} className={styles.rRow}><span>{k}</span><b className="num">{v}</b></div>)}
         </div>
       );

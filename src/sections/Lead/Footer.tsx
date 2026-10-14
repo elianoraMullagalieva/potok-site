@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { gsap } from '../../lib/lenis';
+import { useReducedMotion } from '../../lib/useReducedMotion';
 import { footer } from '../../content/texts';
 import { Logo, LogoMark } from '../../ui/Logo';
 import { SkyStatic } from '../../ui/Sky';
@@ -10,20 +12,40 @@ import styles from './Footer.module.css';
  * «ПОТОК» во всю ширину: viewBox подгоняется по реальным границам букв.
  */
 export function Footer() {
-  const svg = useRef<SVGSVGElement>(null);
-  const text = useRef<SVGTextElement>(null);
+  const mark = useRef<HTMLDivElement>(null);
   const [sent, setSent] = useState(false);
+  const reduced = useReducedMotion();
 
+  // водяной знак во всю ширину: подбираем кегль по реальной ширине букв
   useEffect(() => {
+    const el = mark.current!;
     const fit = () => {
-      if (!svg.current || !text.current) return;
-      try { const b = text.current.getBBox(); if (b.width > 0) svg.current.setAttribute('viewBox', `${b.x} ${b.y} ${b.width} ${b.height}`); } catch { /* шрифт ещё не готов */ }
+      el.style.fontSize = '100px';
+      const w = Array.from(el.children).reduce((a, c) => a + c.getBoundingClientRect().width, 0) || 1;
+      const target = el.parentElement!.clientWidth;
+      const byWidth = 100 * target / w * 0.985;
+      const byHeight = window.innerHeight * 0.26 / 0.84; // футер должен помещаться в экран целиком
+      el.style.fontSize = `${Math.floor(Math.min(byWidth, byHeight))}px`;
     };
     fit();
     document.fonts?.ready.then(fit);
     const ro = new ResizeObserver(fit); ro.observe(document.documentElement);
     return () => ro.disconnect();
   }, []);
+
+  // буквы выезжают снизу, пока страница уезжает вверх и открывает футер
+  useEffect(() => {
+    if (reduced) return;
+    const page = document.querySelector('.page');
+    if (!page || !mark.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(mark.current!.children, { yPercent: 105 }, {
+        yPercent: 0, ease: 'power2.out', stagger: 0.06,
+        scrollTrigger: { trigger: page, start: 'bottom bottom', end: () => `bottom bottom-=${mark.current!.closest('footer')!.offsetHeight * 0.9}`, scrub: 0.6, invalidateOnRefresh: true },
+      });
+    });
+    return () => ctx.revert();
+  }, [reduced]);
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,9 +108,7 @@ export function Footer() {
       </div>
 
       <div className={styles.watermark} aria-hidden>
-        <svg ref={svg} viewBox="0 0 1000 220" preserveAspectRatio="xMidYMid meet">
-          <text ref={text} x="500" y="200" textAnchor="middle" fontSize="260">{footer.watermark}</text>
-        </svg>
+        <div ref={mark} className={styles.letters}>{[...footer.watermark].map((ch, i) => <span key={i}>{ch}</span>)}</div>
       </div>
     </footer>
   );

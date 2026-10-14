@@ -26,13 +26,9 @@
 .did { margin-top: 8px; font-size: 14.5px; line-height: 1.4; color: var(--mute); }
 .facts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .facts li { font-size: 13.5px; font-weight: 500; padding: 7px 11px; border-radius: 999px; background: var(--bg); }
-.moreText { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .7s var(--ease), opacity .5s var(--ease); }
-.moreText > div { min-height: 0; overflow: hidden; }
-.open .moreText { grid-template-rows: 1fr; opacity: 1; }
-.quote { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.35; letter-spacing: -0.01em; }
-.quote footer { margin-top: 6px; font-size: 13px; color: var(--mute); }
 .cta { margin-top: 20px; align-self: stretch; justify-content: space-between; }
 /* крупная кнопка под кейсами */
+.detail { width: 100%; max-width: calc(3 * min(430px, calc((100vw - 2 * var(--gutter) - 48px) / 3)) + 48px); margin-inline: auto; }
 .more { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 48px; }
 .moreBtn { height: 64px; padding-inline: 10px 10px 10px 28px; font-size: 18px; }
 .moreSub { font-size: 14px; color: var(--mute); }

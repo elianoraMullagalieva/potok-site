@@ -1,7 +1,7 @@
 .section { padding-top: var(--sp-section); padding-bottom: var(--sp-section); }
 .head { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .manifest {
-  margin: 28px auto 0; max-width: 1240px; text-align: center; text-wrap: balance;
+  margin: 16px auto 0; max-width: 1240px; text-align: center; text-wrap: balance;
   font-size: clamp(32px, 4.4vw, 66px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.04;
 }
 .w { display: inline-block; will-change: opacity; margin-right: 0.24em; }

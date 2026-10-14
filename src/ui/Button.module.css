@@ -26,3 +26,5 @@
 
 .ghost { background: transparent; color: var(--ink); box-shadow: 0 0 0 1px var(--line) inset; }
 .ghost .arrow { background: var(--ink); color: var(--bg); }
+.ghost:hover { background: var(--ink); color: var(--on-dark); box-shadow: none; }
+.ghost:hover .arrow { background: var(--yellow); color: var(--ink); }

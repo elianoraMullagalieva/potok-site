@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from '../../lib/lenis';
 import { services } from '../../content/texts';
 import { Tag } from '../../ui/Tag';
-import { LogoMark } from '../../ui/Logo';
+import { Manifest } from '../../ui/Manifest';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
@@ -21,7 +21,6 @@ export function Services() {
   useEffect(() => {
     if (reduced) return;
     const ctx = gsap.context(() => {
-      gsap.from(`.${styles.h2} .${styles.line}`, { yPercent: 100, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: `.${styles.h2}`, start: 'top 80%' } });
       gsap.from(`.${styles.item}`, { opacity: 0, scale: 0.96, duration: 1.0, ease: 'expo.out', stagger: 0.07, scrollTrigger: { trigger: `.${styles.row}`, start: 'top 85%' } });
       gsap.from(`.${styles.detail}`, { opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: `.${styles.detail}`, start: 'top 90%' } });
     }, root);
@@ -45,11 +44,7 @@ export function Services() {
 
   return (
     <section id="services" ref={root} className={`wrap ${styles.section}`}>
-      <div className={styles.mark} aria-hidden><LogoMark size={26} /></div>
-      <h2 className={`display ${styles.h2}`}>
-        <span className={styles.mask}><span className={styles.line}>{services.title}</span></span>
-        <span className={styles.mask}><span className={`${styles.line} ${styles.tail}`}>{services.titleTail}</span></span>
-      </h2>
+      <Manifest label={services.label} chunks={services.manifest} accent="last" />
 
       {/* превью: четыре клавиши */}
       <SwipeHint className={styles.hint} />

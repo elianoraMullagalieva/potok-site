@@ -3,6 +3,7 @@ import { gsap } from '../../lib/lenis';
 import { pricing } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { SkyStatic } from '../../ui/Sky';
+import { Manifest } from '../../ui/Manifest';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Pricing.module.css';
 
@@ -30,10 +31,7 @@ export function Pricing() {
 
   return (
     <section id="pricing" ref={root} className={`wrap ${styles.section}`}>
-      <div className={styles.head}>
-        <h2 className={`display ${styles.h2}`}>{pricing.title}</h2>
-        <p className={styles.sub}>{pricing.sub}</p>
-      </div>
+      <Manifest label={pricing.label} chunks={pricing.manifest} skies={['test', 'manifest1']} />
 
       <div className={styles.grid}>
         {pricing.plans.map((p) => (
@@ -42,21 +40,21 @@ export function Pricing() {
             <div className={styles.planTop}>
               <div>
                 <h3 className={styles.name}>{p.name}</h3>
-                <p className={styles.who}>{p.who}</p>
+                <p className={styles.tag}>{p.tag}</p>
               </div>
               {p.badge && <span className={styles.badge}>{p.badge}</span>}
             </div>
+            <p className={styles.who}>{p.who}</p>
             <div className={styles.priceRow}><span className={`num ${styles.price}`}>{p.price}</span><span className={styles.per}>{p.per}</span></div>
             <Button variant={p.featured ? 'primary' : 'ghost'} arrow className={styles.cta} href={p.featured ? '#quiz' : '#lead'}>{p.cta}</Button>
             <div className={styles.panel}>
               <span className={styles.incLabel}>{p.includesLabel}</span>
               <ul className={styles.inc}>{p.includes.map((x) => <li key={x}><i aria-hidden /><span>{x}</span></li>)}</ul>
-              {p.note && <p className={styles.note}>{p.note}</p>}
             </div>
           </article>
         ))}
-        <p className={styles.budget}>{pricing.budget}</p>
       </div>
+      <p className={styles.budget}>{pricing.budget}</p>
 
       <div className={styles.compare}>
         <div className={styles.compareHead}>
