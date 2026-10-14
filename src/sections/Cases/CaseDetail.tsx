@@ -64,7 +64,7 @@ export function CaseDetail() {
         <div className={styles.main}>
           <div className={styles.left}>
             <div className={`${styles.client} ${styles.swap}`}>
-              <span className={styles.logoBox}><img src={asset(`logos/${c.id}.webp`)} alt={c.client} /></span>
+              <span className={styles.logoBox}><img src={asset(`logos/${c.id}.webp`)} alt={c.client} loading="lazy" /></span>
               <span><b>{c.client}</b><small>{c.niche} · {c.city}</small></span>
             </div>
             <h3 className={`${styles.headline} ${styles.swap}`}>{d.headline}</h3>

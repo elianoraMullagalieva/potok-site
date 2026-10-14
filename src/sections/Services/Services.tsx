@@ -84,7 +84,7 @@ export function Services() {
         </div>
 
         <div className={`${styles.dVisual} ${styles.swap}`}>
-          <img key={person.photo} className={styles.dPhoto} src={asset(person.photo)} alt={person.name} />
+          <img key={person.photo} className={styles.dPhoto} src={asset(person.photo)} alt={person.name} loading="lazy" decoding="async" />
           <div className={styles.who}>
             <div className={styles.pName}>{person.name}</div>
             <div className={styles.pRole}>{person.role} · {person.exp.split('.')[0]}</div>
