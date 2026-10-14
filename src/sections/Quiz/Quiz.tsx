@@ -159,10 +159,10 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
 
       <div className={styles.giftHead}>
         <h3 className={styles.giftTitle}>{g.title}</h3>
-        <span className={styles.usually}>{g.usually}</span>
       </div>
 
       <ul className={styles.gifts}>
+        <li className={styles.usually} aria-label={g.usually}>{g.usually}</li>
         {g.items.map((it, k) => {
           const open = answered >= k + 2 || step >= 4;
           return (
