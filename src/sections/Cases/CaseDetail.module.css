@@ -1,4 +1,4 @@
-.section { padding-top: var(--sp-section); padding-bottom: var(--sp-section); }
+.section { padding-top: var(--sp-section); padding-bottom: 48px; }
 .wrap { margin-top: 48px; }
 .tabs { display: flex; justify-content: center; }
 .tabRow { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03); }

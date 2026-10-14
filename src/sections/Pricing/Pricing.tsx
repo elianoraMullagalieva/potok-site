@@ -55,10 +55,14 @@ export function Pricing() {
 
       {/* сравнение: все четыре варианта открыты сразу, у каждого свой «аватар» */}
       <div className={styles.compare}>
+        <div className={styles.cmpHead}>
+          <h3 className={`display ${styles.cmpTitle}`}>{c.title}</h3>
+          <p className={styles.cmpSub}>{c.honest}</p>
+        </div>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th scope="col"><span className={styles.cmpTitle}>{c.title}</span></th>
+              <th scope="col" />
               {c.cols.map((name, i) => (
                 <th key={name} scope="col" className={i === 0 ? styles.usHead : ''}>
                   <div className={styles.colHead}>
@@ -80,7 +84,6 @@ export function Pricing() {
             ))}
           </tbody>
         </table>
-        <p className={styles.honest}>{c.honest}</p>
       </div>
     </section>
   );

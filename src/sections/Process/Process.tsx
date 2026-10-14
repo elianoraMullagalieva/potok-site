@@ -111,9 +111,18 @@ function Visual({ st }: { st: Step }) {
     case 'launch': {
       const rows = m.rows as string[][];
       return (
-        <div className={styles.list}>
-          {rows.map(([name, status], k) => <div key={name} className={styles.row} style={{ '--k': k, '--i': k } as React.CSSProperties}><span>{name}</span><b className={styles.okWrap}><i className={styles.wait}>модерация…</i><i className={styles.ok}>{status}</i></b></div>)}
-          <div className={`${styles.row} ${styles.rowYellow}`}><i className={styles.dot} /><span>{m.first as string}</span></div>
+        <div className={styles.chain}>
+          {rows.map(([name, status], k) => (
+            <div key={name} className={styles.chainRow} style={{ '--k': k } as React.CSSProperties}>
+              <span className={styles.node}><i /></span>
+              <span className={styles.pill}>{name}</span>
+              <span className={styles.status}><i className={styles.wait}>модерация…</i><i className={styles.ok}>{status}</i></span>
+            </div>
+          ))}
+          <div className={`${styles.chainRow} ${styles.chainLast}`} style={{ '--k': 2 } as React.CSSProperties}>
+            <span className={`${styles.node} ${styles.nodeOn}`}><i /></span>
+            <span className={`${styles.pill} ${styles.pillYellow}`}>{m.first as string}</span>
+          </div>
         </div>
       );
     }
@@ -121,15 +130,23 @@ function Visual({ st }: { st: Step }) {
       const leads = m.leads as string[][];
       return (
         <div className={styles.list}>
-          {leads.map(([who, st2], k) => <div key={k} className={`${styles.row} ${st2 === 'целевая' ? '' : styles.rowNo}`} style={{ '--i': k } as React.CSSProperties}><span>{who}</span><b className={st2 === 'целевая' ? styles.ok : styles.no}>{st2}</b></div>)}
+          {leads.map(([who, st2], k) => <div key={k} className={`${styles.row} ${styles.lead} ${st2 === 'целевая' ? '' : styles.rowNo}`} style={{ '--i': k } as React.CSSProperties}><span>{who}</span><b className={st2 === 'целевая' ? styles.good : styles.bad}>{st2}</b></div>)}
         </div>
       );
     }
     default: {
       const rows = m.rows as string[][];
+      const widths = [78, 46, 30, 62];
       return (
-        <div className={styles.plate}>
-          {rows.map(([k, v], i) => <div key={k} className={styles.rRow} style={{ '--i': i } as React.CSSProperties}><span>{k}</span><b className="num">{v}</b></div>)}
+        <div className={styles.report}>
+          <span className={styles.vLabel}>Неделя 2 · отчёт</span>
+          {rows.map(([k, v], i) => (
+            <div key={k} className={styles.rRow} style={{ '--i': i, '--w': `${widths[i]}%` } as React.CSSProperties}>
+              <span className={styles.rName}>{k}</span>
+              <span className={styles.rBar}><i className={i === 1 ? styles.rBarOn : ''} /></span>
+              <b className="num">{v}</b>
+            </div>
+          ))}
         </div>
       );
     }
