@@ -81,7 +81,7 @@ export function Lead() {
             <form className={styles.form} onSubmit={submit}>
               <span className={styles.label}>{lead.interestLabel}</span>
               <div className={styles.chips}>
-                {lead.interests.map((x) => <button key={x} type="button" className={`${styles.chip} ${picked.includes(x) ? styles.chipOn : ''}`} onClick={() => toggle(x)} aria-pressed={picked.includes(x)}>{x}</button>)}
+                {lead.interests.map((x, i) => <><button key={x} type="button" className={`${styles.chip} ${picked.includes(x) ? styles.chipOn : ''}`} onClick={() => toggle(x)} aria-pressed={picked.includes(x)}>{x}</button>{i === 3 && <i key="br" className={styles.chipBreak} aria-hidden />}</>)}
               </div>
               <label className={styles.field}><input name="name" required placeholder=" " autoComplete="name" /><span>{lead.name}</span></label>
               <label className={styles.field}><input name="contact" required placeholder=" " autoComplete="tel" /><span>{lead.contact}</span></label>

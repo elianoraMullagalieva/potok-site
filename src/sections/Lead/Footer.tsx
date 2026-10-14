@@ -23,9 +23,9 @@ export function Footer() {
       el.style.fontSize = '100px';
       const w = Array.from(el.children).reduce((a, c) => a + c.getBoundingClientRect().width, 0) || 1;
       const target = el.parentElement!.clientWidth;
-      const byWidth = 100 * target / w * 0.985;
-      const byHeight = window.innerHeight * 0.34 / 0.84;
-      el.style.fontSize = `${Math.floor(Math.min(byWidth, byHeight))}px`;
+      const fs = Math.floor(100 * target / w * 0.97);
+      el.style.fontSize = `${fs}px`;
+      el.parentElement!.style.height = `${Math.round(fs * 0.46)}px`; // показываем верхнюю половину букв
     };
     fit();
     document.fonts?.ready.then(fit);
@@ -106,7 +106,7 @@ export function Footer() {
       </div>
 
       <div className={styles.watermark} aria-hidden>
-        <div ref={mark} className={styles.letters}>{[...footer.watermark].map((ch, i) => <span key={i}>{ch}</span>)}</div>
+        <div ref={mark} className={styles.letters} style={{ backgroundImage: `url(${import.meta.env.BASE_URL}sky/manifest1.webp)` }}>{[...footer.watermark].map((ch, i) => <span key={i}>{ch}</span>)}</div>
       </div>
     </footer>
   );
