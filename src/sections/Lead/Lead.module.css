@@ -1,4 +1,4 @@
-.section { padding: var(--sp-section) 12px 0; }
+.section { padding: var(--sp-section) var(--gutter) 0; }
 .card { display: grid; grid-template-columns: 1.3fr 1fr; border-radius: var(--r-frame); overflow: hidden; min-height: 800px; box-shadow: 0 40px 80px -50px rgba(10,10,10,.35); }
 
 /* левая панель: небо */
@@ -52,7 +52,7 @@
 
 @media (max-width: 1100px) { .chipBreak { display: none; } .gifts { grid-template-columns: 1fr; } .gifts li { flex-direction: row; align-items: center; } .gifts img { width: 96px; flex: none; } }
 @media (max-width: 900px) {
-  .section { padding: 24px 8px 0; }
+  .section { padding: 24px var(--gutter) 0; }
   .card { grid-template-columns: 1fr; min-height: 0; }
   .left, .right { padding: 28px 20px; }
   .chip { padding: 12px 14px; font-size: 14px; }

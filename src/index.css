@@ -43,3 +43,6 @@ canvas { display: block; }
 .steplist li > i { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--yellow); color: var(--ink); font-style: normal; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .steplist li > span { text-wrap: pretty; }
 @media (max-width: 1280px) { .steplist li { font-size: 15.5px; } }
+
+/* на очень широких экранах рамки заявки, футера и этапов центрируются так же, как .wrap */
+@media (min-width: 1800px) { :root { --gutter: max(48px, calc((100vw - 1720px) / 2)); } }
