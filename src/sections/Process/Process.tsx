@@ -76,8 +76,11 @@ function Card({ st }: { st: Step }) {
       <h3 className={styles.title}>{st.title}</h3>
       <div className={styles.visual}><Visual st={st} /></div>
       <footer className={styles.foot}>
-        <p className={styles.result}>{st.result}</p>
-        <span className={styles.who}><Face src={p.face} name={p.name} size={28} />{p.name.split(' ')[0]}</span>
+        <Face src={p.face} name={p.name} size={40} />
+        <div className={styles.msgBody}>
+          <span className={styles.who}>{p.name.split(' ')[0]}<em className="num">{['09:12', '17:40', '14:20', '14:21', 'пн, 09:00'][Number(st.n) - 1]}</em></span>
+          <p className={styles.result}>{st.result}</p>
+        </div>
       </footer>
     </article>
   );
