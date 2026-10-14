@@ -233,7 +233,7 @@ export const quiz = {
     items: [
       { n: '01', title: 'Расчёт заявок по\u00a0вашему городу', visual: 'gifts/v3/calc.jpg' },
       { n: '02', title: 'Бюджет на\u00a0тест 14\u00a0дней', visual: 'gifts/v3/budget.jpg' },
-      { n: '03', title: 'План запуска: Директ и\u00a0Avito Ads за\u00a01–2\u00a0дня', visual: 'works/w2.webp', wide: true },
+      { n: '03', title: 'План запуска: Директ\nи\u00a0Avito Ads за\u00a01–2\u00a0дня', visual: 'works/w2.webp', wide: true },
     ],
   },
   say: [

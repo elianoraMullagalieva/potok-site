@@ -1,13 +1,13 @@
 .section { padding-top: 40px; padding-bottom: var(--sp-section); }
 .h2 { text-align: center; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; max-width: 22ch; margin-inline: auto; text-wrap: balance; }
-.card { display: grid; grid-template-columns: 1.3fr 1fr; margin-top: var(--sp-head); border-radius: var(--r-frame); overflow: hidden; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.25); min-height: 620px; }
+.card { display: grid; grid-template-columns: 1.5fr 1fr; margin-top: var(--sp-head); border-radius: var(--r-frame); overflow: hidden; background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.25); min-height: 620px; }
 .left { padding: 36px 40px 32px; display: flex; flex-direction: column; }
 .top { display: flex; justify-content: space-between; align-items: center; }
 .progressLabel { color: var(--mute); }
 .steps { display: flex; gap: 6px; } .steps i { width: 28px; height: 6px; border-radius: 3px; background: var(--bg-2); transition: background .6s var(--ease); } .stepOn { background: var(--yellow) !important; }
 .pane { margin-top: 36px; flex: 1; display: flex; flex-direction: column; }
 .q { font-size: var(--t-m); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; max-width: 14ch; }
-.options { display: grid; gap: 10px; margin-top: 28px; }
+.options { display: grid; gap: 10px; margin-top: 44px; }
 .opt { position: relative; display: flex; align-items: center; justify-content: space-between; width: 100%; height: 64px; padding: 0 20px; border-radius: 16px; box-shadow: 0 0 0 1px var(--line) inset; overflow: hidden; text-align: left; font-size: 17px; font-weight: 500; letter-spacing: -0.015em; transition: box-shadow .4s var(--ease), transform .5s var(--ease); isolation: isolate; }
 .opt:hover { transform: translateX(4px); box-shadow: 0 0 0 1px var(--ink) inset; }
 .optFill { position: absolute; inset: 0; background: var(--yellow); transform: scaleY(0); transform-origin: bottom; transition: transform .6s var(--ease); z-index: -1; }
@@ -52,26 +52,25 @@
 .giftHead { display: flex; align-items: center; margin-top: 44px; }
 .giftTitle { text-wrap: balance; }
 .giftTitle { font-size: clamp(24px, 2vw, 30px); max-width: 16ch; font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
-.usually { position: absolute; right: -8px; top: -16px; z-index: 2; font-size: 13px; font-weight: 500; padding: 8px 13px; border-radius: 999px; background: var(--ink); color: var(--on-dark); transform: rotate(-5deg); box-shadow: 0 12px 24px -12px rgba(0,0,0,.5); }
+.usually { position: absolute; right: -6px; top: -30px; z-index: 2; font-size: 13px; font-weight: 500; padding: 8px 13px; border-radius: 999px; background: var(--ink); color: var(--on-dark); transform: rotate(-5deg); box-shadow: 0 12px 24px -12px rgba(0,0,0,.5); }
 .usually::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 8px; vertical-align: 2px; }
 /* три подарка */
-.gifts { position: relative; display: grid; gap: 10px; margin-top: 26px; flex: 1; align-content: start; max-width: 440px; }
-.gift { display: grid; grid-template-columns: 136px 1fr auto; gap: 14px; align-items: center; padding: 10px 12px 10px 10px; border-radius: 14px; background: rgba(0,16,60,.16); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
+.gifts { position: relative; display: grid; gap: 10px; margin-top: 30px; flex: 1; align-content: start; }
+.gift { display: grid; grid-template-columns: 150px 1fr auto; gap: 14px; align-items: center; padding: 10px 12px 10px 10px; border-radius: 14px; background: rgba(0,16,60,.16); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
 .giftOn { background: rgba(255,255,255,.94); color: var(--ink); box-shadow: 0 24px 50px -28px rgba(0,20,80,.6); }
 .giftN { font-size: 11px; color: rgba(255,255,255,.9); align-self: start; justify-self: end; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,.16); box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
 .giftOn .giftN { color: var(--mute); }
 .giftText { display: flex; flex-direction: column; gap: 5px; }
-.giftText b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; text-wrap: balance; max-width: 15ch; }
+.giftText b { font-size: 15.5px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; white-space: pre-line; }
 .giftState { font-size: 12px; color: rgba(255,255,255,.65); }
 .giftOn .giftState { color: var(--mute); }
 .giftOn .giftState::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); margin-right: 6px; }
-.gv { position: relative; display: block; height: 88px; border-radius: 10px;
+.gv { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 10px;
 }
-.giftWide { grid-template-columns: 156px 1fr auto; }
-.giftWide .gv { height: 100px; }
+.giftWide { grid-template-columns: 150px 1fr auto; }
 .giftWide .giftText b { font-size: 16.5px; }
 .gvPlaceholder { position: relative; display: block; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
-.gv img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; filter: grayscale(.2); opacity: .95; transition: filter .6s var(--ease), opacity .6s var(--ease); }
+.gv img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; filter: grayscale(.2); opacity: .95; transition: filter .6s var(--ease), opacity .6s var(--ease); }
 .gvLive img { filter: none; opacity: 1; }
 .o { position: absolute; right: 24px; top: 24px; z-index: 2; width: 92px; aspect-ratio: 1; filter: drop-shadow(0 16px 24px rgba(0,20,80,.35)); }
 .pct { fill: #fff; font-size: 32px; font-weight: 500; letter-spacing: -0.03em; font-family: inherit; }
@@ -85,8 +84,6 @@
   .val { min-height: 0; padding: 20px 16px 20px; }
   .say { padding-right: 70px; }
   .gift { grid-template-columns: 104px 1fr auto; gap: 10px; }
-  .gifts { max-width: none; }
-  .gv { height: 76px; }
   .o { width: 56px; right: 14px; top: 14px; }
   .picked { display: none; }
   .left { padding: 24px 20px; }
