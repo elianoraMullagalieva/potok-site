@@ -7,7 +7,7 @@
 .steps { display: flex; gap: 6px; } .steps i { width: 28px; height: 6px; border-radius: 3px; background: var(--bg-2); transition: background .6s var(--ease); } .stepOn { background: var(--yellow) !important; }
 .pane { margin-top: 36px; flex: 1; display: flex; flex-direction: column; }
 .q { font-size: var(--t-m); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; max-width: 14ch; }
-.options { display: grid; gap: 10px; margin-top: 44px; }
+.options { display: grid; gap: 10px; margin-top: 62px; }
 .opt { position: relative; display: flex; align-items: center; justify-content: space-between; width: 100%; height: 64px; padding: 0 20px; border-radius: 16px; box-shadow: 0 0 0 1px var(--line) inset; overflow: hidden; text-align: left; font-size: 17px; font-weight: 500; letter-spacing: -0.015em; transition: box-shadow .4s var(--ease), transform .5s var(--ease); isolation: isolate; }
 .opt:hover { transform: translateX(4px); box-shadow: 0 0 0 1px var(--ink) inset; }
 .optFill { position: absolute; inset: 0; background: var(--yellow); transform: scaleY(0); transform-origin: bottom; transition: transform .6s var(--ease); z-index: -1; }
@@ -56,7 +56,7 @@
 .usually::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 8px; vertical-align: 2px; }
 /* три подарка */
 .gifts { position: relative; display: grid; gap: 10px; margin-top: 30px; flex: 1; align-content: start; }
-.gift { display: grid; grid-template-columns: 150px 1fr auto; gap: 14px; align-items: center; padding: 10px 12px 10px 10px; border-radius: 14px; background: rgba(0,16,60,.16); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset; transition: background .6s var(--ease), transform .6s var(--ease); }
+.gift { display: grid; grid-template-columns: 150px 1fr auto; gap: 14px; align-items: center; padding: 10px 12px 10px 10px; border-radius: 14px; background: rgba(0,16,60,.16); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); transition: background .6s var(--ease), transform .6s var(--ease); }
 .giftOn { background: rgba(255,255,255,.94); color: var(--ink); box-shadow: 0 24px 50px -28px rgba(0,20,80,.6); }
 .giftN { font-size: 11px; color: rgba(255,255,255,.9); align-self: start; justify-self: end; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,.16); box-shadow: 0 0 0 1px rgba(255,255,255,.25) inset; }
 .giftOn .giftN { color: var(--mute); }
