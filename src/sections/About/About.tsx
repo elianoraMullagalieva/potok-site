@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { about } from '../../content/texts';
-import { Dot } from '../../ui/Tag';
+import { Manifest } from '../../ui/Manifest';
+import { Face } from '../../ui/Face';
+import { services } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './About.module.css';
@@ -30,23 +32,23 @@ export function About() {
 
   return (
     <section id="about" ref={root} className={`wrap ${styles.section}`}>
-      <div className={styles.head}>
-        <div className={styles.label}><Dot /><span className="label mute">{about.label}</span></div>
-        <h2 className={`display ${styles.h2}`}>{about.title} <span>{about.titleTail}</span></h2>
-      </div>
+      <Manifest label={about.label} chunks={about.manifest} skies={['speed']} />
 
       <div className={styles.grid}>
         <div className={`${styles.card} ${styles.projects}`}>
+          <div className={styles.dots} aria-hidden>{Array.from({ length: 35 }, (_, i) => <i key={i} style={{ '--i': i } as React.CSSProperties} />)}</div>
           <b className={`num ${styles.big}`}>{c.projects.big}</b>
           <p>{c.projects.text}</p>
           <ul className={styles.chips}>{c.projects.chips.map((x) => <li key={x}>{x}</li>)}</ul>
         </div>
         <div className={`${styles.card} ${styles.staff}`}>
+          <div className={styles.faces} aria-hidden>{Object.values(services.people).map((p, i) => <span key={p.name} style={{ '--i': i } as React.CSSProperties}><Face src={p.face} name={p.name} size={44} ring="#fff" /></span>)}</div>
           <span className={styles.pre}>{c.staff.pre}</span>
           <b className={`num ${styles.big}`}>{c.staff.big}</b>
           <p>{c.staff.text}</p>
         </div>
         <div className={`${styles.card} ${styles.launches}`}>
+          <div className={styles.segs} aria-hidden>{Array.from({ length: 10 }, (_, i) => <i key={i} className={i < 9 ? styles.segOn : ''} style={{ '--i': i } as React.CSSProperties} />)}</div>
           <b className={`num ${styles.big}`}>{c.launches.big}</b>
           <span className={styles.pre}>{c.launches.sub}</span>
           <p>{c.launches.text}</p>
@@ -56,6 +58,7 @@ export function About() {
           <ul>{c.partners.items.map(([n, r]) => <li key={n}><b>{n}</b><small>{r}</small></li>)}</ul>
         </div>
         <div className={`${styles.card} ${styles.years}`}>
+          <div className={styles.line} aria-hidden><i /><span className={styles.lineDot} /><em>0</em><em>1 год</em><em>2 года</em></div>
           <b className={`num ${styles.big}`}>{c.years.big}</b>
           <p>{c.years.text}</p>
         </div>

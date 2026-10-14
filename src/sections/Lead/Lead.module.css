@@ -3,7 +3,7 @@
 
 /* левая панель: небо */
 .left { position: relative; isolation: isolate; padding: 40px 44px 36px; background: var(--blue); color: #fff; display: flex; flex-direction: column; gap: 32px; }
-.shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to bottom, rgba(0,20,80,.25), transparent 35%, rgba(0,10,50,.4)); pointer-events: none; }
+.shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to bottom, rgba(0,20,80,.22), transparent 35%, rgba(0,20,90,.12)); pointer-events: none; }
 .left > :not(.shade, canvas) { position: relative; z-index: 1; }
 .who { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
 .person { display: flex; gap: 14px; align-items: flex-start; max-width: 380px; }

@@ -58,7 +58,7 @@ export function Footer() {
       <div className={styles.grid}>
         {/* левая: небо, логотип, слоган, соцсети */}
         <div className={styles.left}>
-          <SkyStatic id="manifest2" className={styles.sky} />
+          <SkyStatic id="quiz" className={styles.sky} />
           <div className={styles.shade} />
           <div className={styles.logo}><Logo onDark /></div>
           <p className={styles.tagline}>{footer.tagline[0]}<br /><span>{footer.tagline[1]}</span></p>

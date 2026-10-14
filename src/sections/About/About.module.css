@@ -1,8 +1,5 @@
 .section { padding-top: var(--sp-section); padding-bottom: var(--sp-section); }
-.head { max-width: 900px; }
-.label { display: flex; align-items: center; gap: 10px; }
-.h2 { margin-top: 16px; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
-.h2 span, .h3 span { color: var(--mute); }
+.h3 span { color: var(--mute); }
 
 /* бенто по макету */
 .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; margin-top: 44px; }
@@ -30,7 +27,7 @@
 .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 .contract { grid-column: span 5; flex-direction: row; gap: 24px; align-items: stretch; background: var(--card-grey); overflow: hidden; padding-right: 0; }
 .contractText { position: relative; z-index: 1; flex: 0 0 56%; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.contractText a { text-decoration: underline; text-underline-offset: 3px; color: var(--ink); }
+.contractText p a { text-decoration: underline; text-underline-offset: 3px; color: var(--ink); }
 .contractBtn { margin-top: auto; align-self: flex-start; }
 
 /* бумага */
@@ -86,3 +83,27 @@
   .fixItem { grid-template-columns: 40px 1fr; gap: 12px; }
   .fixItem h4 { font-size: 19px; }
 }
+
+/* инфографика карточек, в духе блока выгод */
+.dots { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; width: 148px; margin-bottom: 6px; }
+.dots i { aspect-ratio: 1; border-radius: 4px; background: var(--bg-2); animation: dotIn 7s var(--ease) infinite; animation-delay: calc(var(--i) * .06s); }
+@keyframes dotIn { 0% { background: var(--bg-2); } 6%, 85% { background: var(--ink); } 100% { background: var(--bg-2); } }
+.dots i:nth-child(n + 33) { animation-name: dotYellow; }
+@keyframes dotYellow { 0% { background: var(--bg-2); } 6%, 85% { background: var(--yellow); } 100% { background: var(--bg-2); } }
+.faces { display: flex; margin-bottom: 8px; }
+.faces > span { margin-left: -12px; animation: facePop 7s var(--ease) infinite; animation-delay: calc(var(--i) * .15s); }
+.faces > :first-child { margin-left: 0; }
+@keyframes facePop { 0% { transform: scale(.6); opacity: 0; } 8%, 88% { transform: none; opacity: 1; } 100% { transform: scale(.6); opacity: 0; } }
+.segs { display: flex; gap: 4px; margin-bottom: 10px; }
+.segs i { flex: 1; height: 10px; border-radius: 3px; background: rgba(255,255,255,.14); }
+.segs .segOn { animation: ignite 7s var(--ease) infinite; animation-delay: calc(var(--i) * .12s); }
+@keyframes ignite { 0% { background: rgba(255,255,255,.14); } 6%, 85% { background: var(--yellow); } 100% { background: rgba(255,255,255,.14); } }
+.line { position: relative; height: 34px; margin-bottom: 8px; }
+.line i { position: absolute; left: 0; right: 0; top: 10px; height: 2px; background: rgba(255,255,255,.18); }
+.line i::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: var(--yellow); animation: lineGrow 7s var(--ease) infinite; }
+@keyframes lineGrow { 0% { width: 0; } 20%, 85% { width: 100%; } 100% { width: 0; } }
+.lineDot { position: absolute; top: 5px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 4px rgba(247,240,95,.25); animation: dotMove 7s var(--ease) infinite; }
+@keyframes dotMove { 0% { left: 0; } 20%, 85% { left: calc(100% - 12px); } 100% { left: 0; } }
+.line em { position: absolute; top: 20px; font-style: normal; font-size: 11px; color: rgba(244,244,243,.55); }
+.line em:nth-of-type(1) { left: 0; } .line em:nth-of-type(2) { left: 47.6%; transform: translateX(-50%); } .line em:nth-of-type(3) { right: 0; }
+@media (prefers-reduced-motion: reduce) { .dots i, .faces > span, .segs .segOn, .line i::after, .lineDot { animation: none; } }

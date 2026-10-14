@@ -1,11 +1,11 @@
-.footer { position: relative; padding: 72px var(--gutter) 0; overflow: hidden; background: var(--bg); }
+.footer { position: relative; padding: 40px 12px 0; overflow: hidden; background: var(--bg); }
 .grid { position: relative; z-index: 1; display: grid; grid-template-columns: 360px 1fr; gap: 16px; align-items: stretch; }
 .hand { font-family: 'Caveat', cursive; font-weight: 600; letter-spacing: .01em; }
 
 /* левая карточка с небом */
 .left { position: relative; min-height: 360px; padding: 30px; border-radius: 28px; overflow: hidden; isolation: isolate; background: var(--blue); color: #fff; display: flex; flex-direction: column; box-shadow: 0 30px 60px -36px rgba(0,30,120,.5); }
 .sky { z-index: 0 !important; }
-.shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,80,.45), rgba(0,20,80,0) 60%); pointer-events: none; }
+.shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to top, rgba(0,20,80,.3), rgba(0,20,80,0) 55%); pointer-events: none; }
 .left > :not(.sky, .shade) { position: relative; z-index: 1; }
 .tagline { margin-top: auto; margin-bottom: 26px; font-size: 19px; line-height: 1.4; letter-spacing: -0.01em; }
 .tagline span { color: rgba(255,255,255,.7); }
@@ -40,13 +40,13 @@
 .sub button:hover { background: var(--ink); transform: translateY(-1px); }
 .done { font-size: 15px; font-weight: 500; }
 
-.watermark { position: relative; z-index: 0; margin: 40px calc(-1 * var(--gutter)) 0; pointer-events: none; user-select: none; overflow: hidden; }
+.watermark { position: relative; z-index: 0; margin: 40px -12px 0; pointer-events: none; user-select: none; overflow: hidden; }
 .letters { display: flex; justify-content: center; white-space: nowrap; font-weight: 600; letter-spacing: -0.04em; line-height: 0.84; color: transparent; -webkit-background-clip: text; background-clip: text; background-size: cover; background-position: center 30%; opacity: .9; }
 .letters span { display: inline-block; will-change: transform; }
 .watermarkWrap { overflow: hidden; }
 
 @media (max-width: 900px) {
-  .footer { padding-top: 32px; }
+  .footer { padding: 24px 8px 0; }
   .grid { grid-template-columns: 1fr; }
   .left { min-height: 0; gap: 40px; }
   .tagline { margin-top: 8px; }
