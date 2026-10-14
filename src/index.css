@@ -36,3 +36,10 @@ canvas { display: block; }
 /* футер выезжает из-под страницы: страница выше по слою и с закруглённым низом, футер липнет к низу окна */
 .page { position: relative; }
 .footerSlot { position: relative; }
+
+/* Единый нумерованный список с жёлтыми кружками: услуги, этапы кейса, где ещё понадобится */
+.steplist { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.steplist li { display: flex; gap: 14px; align-items: center; font-size: 17px; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink-2); white-space: pre-line; }
+.steplist li > i { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--yellow); color: var(--ink); font-style: normal; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.steplist li > span { text-wrap: pretty; }
+@media (max-width: 1280px) { .steplist li { font-size: 15.5px; } }
