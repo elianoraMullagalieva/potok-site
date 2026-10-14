@@ -4,7 +4,10 @@
 .head { display: flex; align-items: center; gap: 10px; }
 .h2 { margin-top: 16px; font-size: var(--t-l); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; text-wrap: balance; }
 .sub { margin-top: 18px; font-size: 17px; line-height: 1.4; color: var(--mute); max-width: 30ch; }
-.online { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; padding: 8px 16px 8px 8px; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px var(--line) inset; font-size: 14px; color: var(--ink-2); }
+.who { display: flex; align-items: center; gap: 18px; margin-top: 32px; }
+.bigAva { flex: none; width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: 50% 6%; box-shadow: 0 0 0 1px var(--line); background: var(--bg-2); }
+.online { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); }
+.write { margin-top: 12px; height: 46px; }
 .online i { width: 8px; height: 8px; border-radius: 50%; background: #34c759; box-shadow: 0 0 8px rgba(52,199,89,.6); animation: pulse 2.4s ease-in-out infinite; }
 .online b { font-weight: 500; color: var(--ink); }
 @keyframes pulse { 50% { transform: scale(.75); opacity: .6; } }

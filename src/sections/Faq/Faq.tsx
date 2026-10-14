@@ -3,6 +3,7 @@ import { gsap } from '../../lib/lenis';
 import { faq, services } from '../../content/texts';
 import { Face } from '../../ui/Face';
 import { Dot } from '../../ui/Tag';
+import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Faq.module.css';
 
@@ -32,7 +33,13 @@ export function Faq() {
           <div className={styles.head}><Dot /><span className="label mute">{faq.label}</span></div>
           <h2 className={`display ${styles.h2}`}>{faq.title}</h2>
           <p className={styles.sub}>{faq.sub}</p>
-          <div className={styles.online}><Face src={lead.face} name={lead.name} size={28} /><i /><b>{lead.name.split(' ')[0]}</b>&nbsp;{faq.online}</div>
+          <div className={styles.who}>
+            <img className={styles.bigAva} src={`${import.meta.env.BASE_URL}${lead.photo}`} alt={lead.name} width={96} height={96} loading="lazy" draggable={false} />
+            <div>
+              <div className={styles.online}><i /><b>{lead.name.split(' ')[0]}</b>&nbsp;{faq.online}</div>
+              <Button variant="dark" arrow className={styles.write} href={faq.writeHref}>{faq.write}</Button>
+            </div>
+          </div>
         </div>
         <ul className={styles.list}>
           {faq.items.map((it, i) => <Item key={it.q} it={it} i={i} open={open === i} onToggle={() => setOpen(open === i ? null : i)} reduced={reduced} />)}
