@@ -115,7 +115,7 @@
 .line i { position: absolute; left: 0; right: 0; top: 10px; height: 2px; background: rgba(255,255,255,.35); }
 .line i::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0; background: var(--yellow); animation: lineGrow 7s var(--ease) infinite; }
 @keyframes lineGrow { 0% { width: 0; } 20%, 85% { width: 100%; } 100% { width: 0; } }
-.lineDot { position: absolute; top: 5px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 4px rgba(247,240,95,.25); animation: dotMove 7s var(--ease) infinite; }
+.lineDot { position: absolute; top: 5px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 4px var(--yellow-glow); animation: dotMove 7s var(--ease) infinite; }
 @keyframes dotMove { 0% { left: 0; } 20%, 85% { left: calc(100% - 12px); } 100% { left: 0; } }
 .line em { position: absolute; top: 20px; font-style: normal; font-size: 12px; color: rgba(255,255,255,.8); }
 .line em:nth-of-type(1) { left: 0; } .line em:nth-of-type(2) { left: 47.6%; transform: translateX(-50%); } .line em:nth-of-type(3) { right: 0; }

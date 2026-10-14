@@ -42,8 +42,8 @@
 .crm { position: relative; z-index: 1; display: grid; gap: 18px; margin: 30px 0 auto; }
 .crm li { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 12px; font-size: 14px; color: var(--ink-2); }
 .crmHead { grid-template-columns: 1fr auto !important; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--mute) !important; }
-.live { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 3px rgba(255,225,77,.3); animation: pulse 2.4s var(--ease) infinite; }
-@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 3px rgba(255,225,77,.3); } 50% { box-shadow: 0 0 0 7px rgba(255,225,77,.08); } }
+.live { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 3px var(--yellow-glow); animation: pulse 2.4s var(--ease) infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 3px var(--yellow-glow); } 50% { box-shadow: 0 0 0 7px var(--yellow-glow); } }
 .crm i { display: block; height: 14px; border-radius: 7px; background: var(--bg-2); position: relative; overflow: hidden; }
 .crm i::after { content: ''; position: absolute; inset: 0; background: var(--ink); transform-origin: left; animation: fillLoop 5.2s var(--ease) infinite; }
 .crm li:nth-child(3) i::after { animation-delay: .15s; } .crm li:nth-child(4) i::after { animation-delay: .3s; } .crm li:nth-child(5) i::after { animation-delay: .45s; }

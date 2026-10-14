@@ -93,7 +93,7 @@
 .node i { width: 8px; height: 8px; border-radius: 50%; background: var(--mute-2); }
 [data-live] .chainRow .node i { animation: nodeOn 8s steps(1) infinite; animation-delay: calc(1s + var(--k) * 1.1s); }
 @keyframes nodeOn { 0%, 100% { background: var(--mute-2); } 1%, 85% { background: var(--ink); } }
-.nodeOn i { background: var(--yellow) !important; box-shadow: 0 0 0 3px rgba(247,240,95,.35); animation: none !important; }
+.nodeOn i { background: var(--yellow) !important; box-shadow: 0 0 0 3px var(--yellow-glow); animation: none !important; }
 .pill { flex: 1; font-size: 14px; font-weight: 500; padding: 10px 16px; border-radius: 999px; background: var(--bg); }
 .pillYellow { background: var(--yellow); }
 .status { position: relative; display: inline-grid; justify-items: center; margin-left: auto; min-width: 104px; }

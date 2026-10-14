@@ -16,8 +16,9 @@
   /* бренд: только фото и кнопки */
   --blue: #1f6cff;
   --blue-deep: #0b3fb6;
-  --yellow: #f7f05f; /* Amalfi Citron */
-  --yellow-soft: #fbf7a6;
+  --yellow: #f2f830; /* лимон: между Amalfi Citron и Pantone Safety Yellow. Менять только здесь */
+  --yellow-glow: color-mix(in srgb, var(--yellow) 35%, transparent); /* ореолы и пульсы */
+  --yellow-soft: color-mix(in srgb, var(--yellow) 55%, #fff);
 
   --font-sans: 'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-sans);
