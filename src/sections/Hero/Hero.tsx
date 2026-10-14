@@ -210,8 +210,8 @@ function Area() {
       <rect x="0" y="0" width={w} height={h} fill="url(#dots)" />
       <path d={`${d} L${w},${h} L0,${h} Z`} fill="url(#hatch)" mask="url(#hm)" />
       <path d={d} fill="none" stroke="var(--ink)" strokeWidth="1.6" strokeLinecap="round" className={styles.areaLine} />
-      <circle cx={ex} cy={ey} r="9" fill="var(--yellow)" opacity=".35" className={styles.pulse} />
-      <circle cx={ex} cy={ey} r="4" fill="var(--yellow)" stroke="var(--ink)" strokeWidth="1.5" />
+      <circle cx={ex} cy={ey} r="9" fill="var(--accent-dot)" opacity=".35" className={styles.pulse} />
+      <circle cx={ex} cy={ey} r="4" fill="var(--accent-dot)" stroke="var(--ink)" strokeWidth="1.5" />
     </svg>
   );
 }

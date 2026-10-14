@@ -30,3 +30,6 @@
 .ghost .arrow { background: var(--ink); color: var(--bg); }
 .ghost:hover { background: var(--ink); color: var(--on-dark); box-shadow: none; }
 .ghost:hover .arrow { background: var(--yellow); color: var(--ink); }
+
+/* белый акцент */
+:global(:root[data-accent="white"]) .primary, :global(:root[data-accent="white"]) .dark:hover { box-shadow: 0 0 0 1px var(--line) inset; }

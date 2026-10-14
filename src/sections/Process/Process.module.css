@@ -27,7 +27,7 @@
 .vBig { display: block; margin-top: 12px; font-size: 22px; font-weight: 500; letter-spacing: -0.03em; }
 .bars { display: flex; align-items: flex-end; gap: 6px; height: 96px; margin-top: 12px; }
 .bars i { flex: 1; height: var(--h); border-radius: 6px 6px 3px 3px; background: var(--bg-2); transform-origin: bottom; transform: scaleY(0); }
-.bars i:last-child { background: var(--yellow); }
+.bars i:last-child { background: var(--accent-dot); }
 [data-live] .bars i { animation: grow 7s var(--ease) infinite; animation-delay: calc(var(--k) * .09s); }
 @keyframes grow { 0% { transform: scaleY(0); } 14% { transform: scaleY(1); } 90% { transform: scaleY(1); } 100% { transform: scaleY(0); } }
 /* сайты: три скриншота лесенкой */
@@ -92,7 +92,7 @@
 .node i { width: 8px; height: 8px; border-radius: 50%; background: var(--mute-2); }
 [data-live] .chainRow .node i { animation: nodeOn 8s steps(1) infinite; animation-delay: calc(1s + var(--k) * 1.1s); }
 @keyframes nodeOn { 0%, 100% { background: var(--mute-2); } 1%, 85% { background: var(--ink); } }
-.nodeOn i { background: var(--yellow) !important; box-shadow: 0 0 0 3px var(--yellow-glow); animation: none !important; }
+.nodeOn i { background: var(--accent-dot) !important; box-shadow: 0 0 0 3px var(--yellow-glow); animation: none !important; }
 .pill { flex: 1; font-size: 14px; font-weight: 500; padding: 10px 16px; border-radius: 999px; background: var(--bg); }
 .pillYellow { background: var(--yellow); }
 .status { position: relative; display: inline-grid; justify-items: center; margin-left: auto; min-width: 104px; }
@@ -109,7 +109,10 @@
 .rName { white-space: nowrap; }
 .rBar { height: 8px; border-radius: 4px; background: var(--bg); overflow: hidden; }
 .rBar i { display: block; height: 100%; width: var(--w); border-radius: 4px; background: var(--ink); transform: scaleX(0); transform-origin: left; }
-.rBarOn { background: var(--yellow) !important; }
+.rBarOn { background: var(--accent-dot) !important; }
 [data-live] .rBar i { animation: barGrow 8s var(--ease) infinite; animation-delay: calc(var(--i) * .25s + .4s); }
 @keyframes barGrow { 0% { transform: scaleX(0); } 12%, 88% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
 .report .rRow b { font-size: 15px; font-weight: 500; letter-spacing: -0.02em; color: var(--ink); }
+
+/* белый акцент */
+:global(:root[data-accent="white"]) .rowYellow, :global(:root[data-accent="white"]) .pillYellow { background: var(--ink); color: var(--on-dark); }

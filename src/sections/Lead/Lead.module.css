@@ -63,3 +63,8 @@
   .socials a { width: 44px; height: 44px; }
   .h2 { margin-top: 8px; }
 }
+
+/* белый акцент */
+:global(:root[data-accent="white"]) .usually, :global(:root[data-accent="white"]) .chipOn { background: var(--ink); color: var(--on-dark); }
+:global(:root[data-accent="white"]) .check { background: var(--ink); color: var(--on-dark); }
+:global(:root[data-accent="white"]) .pillTg { box-shadow: 0 0 0 1px var(--line) inset; }

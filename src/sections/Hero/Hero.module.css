@@ -89,8 +89,8 @@ article:nth-child(3n+1) [data-live] .inner, [data-live]:nth-child(3n+1) .inner {
 [data-live] .chips .chip:nth-child(5) { animation-delay: 10s; }
 [data-live] .chips .chipOn { background: var(--bg-2); }
 @keyframes chipCycle { 0%, 2% { background: var(--bg-2); } 6%, 18% { background: var(--yellow); } 22%, 100% { background: var(--bg-2); } }
-.chipDot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); margin-right: 6px; vertical-align: 1px; }
-.spark { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); vertical-align: 2px; margin: 0 1px; }
+.chipDot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-dot); margin-right: 6px; vertical-align: 1px; }
+.spark { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-dot); vertical-align: 2px; margin: 0 1px; }
 .caption { margin-top: 8px; font-size: 13.5px; line-height: 1.3; color: var(--mute); }
 .area { width: 100%; height: auto; }
 
@@ -160,3 +160,8 @@ article:nth-child(3n+1) [data-live] .inner, [data-live]:nth-child(3n+1) .inner {
   .big { font-size: 32px; }
   .hint { position: static; padding: 28px 0 24px; margin-top: 0; }
 }
+
+/* белый акцент */
+:global(:root[data-accent="white"]) .chipOn { background: var(--ink); color: var(--on-dark); }
+:global(:root[data-accent="white"]) .chips .chip { animation-name: chipCycleInk; }
+@keyframes chipCycleInk { 0%, 2% { background: var(--bg-2); color: var(--ink); } 6%, 18% { background: var(--ink); color: var(--on-dark); } 22%, 100% { background: var(--bg-2); color: var(--ink); } }

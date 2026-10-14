@@ -17,7 +17,7 @@
 .pills span { font-size: .85em; font-weight: 500; padding: .35em .7em; border-radius: 999px; background: var(--bg); }
 .bars { display: flex; align-items: flex-end; gap: .3em; height: 3.2em; }
 .bars i { flex: 1; border-radius: .3em .3em .15em .15em; background: var(--bg-2); }
-.bars i:last-child { background: var(--yellow); }
+.bars i:last-child { background: var(--accent-dot); }
 .head { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; width: max-content; max-width: 90%; }
 .hint { display: flex; justify-content: center; margin-bottom: 22px; }
 .h2 { font-size: clamp(26px, 2.7vw, 40px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; }

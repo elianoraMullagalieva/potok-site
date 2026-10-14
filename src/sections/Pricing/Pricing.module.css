@@ -75,3 +75,8 @@
 /* подсказка над таблицей сравнения, только там, где она скроллится */
 .cmpHint { display: none; }
 @media (max-width: 1000px) { .cmpHint { display: inline-flex; margin: 0 0 14px 20px; } .table { min-width: 920px; } .table tbody th { white-space: nowrap; } }
+
+/* белый акцент */
+:global(:root[data-accent="white"]) .inc i { background: var(--ink); }
+:global(:root[data-accent="white"]) .inc i::after { border-color: var(--on-dark); }
+:global(:root[data-accent="white"]) .plan:not(.featured) .inc i { background: var(--ink); }

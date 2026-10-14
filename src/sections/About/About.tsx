@@ -40,7 +40,7 @@ export function About() {
             <svg viewBox="0 0 64 64" width="64" height="64">
               <defs><mask id="ringMask"><circle className={styles.ringMask} cx="32" cy="32" r="27" fill="none" stroke="#fff" strokeWidth="8" strokeDasharray="170" strokeDashoffset="170" transform="rotate(-90 32 32)" /></mask></defs>
               <circle cx="32" cy="32" r="27" fill="none" stroke="var(--bg-2)" strokeWidth="4" strokeLinecap="round" strokeDasharray="0.1 5.6" />
-              <circle className={styles.ringDots} cx="32" cy="32" r="27" fill="none" stroke="var(--yellow)" strokeWidth="4" strokeLinecap="round" strokeDasharray="0.1 5.6" mask="url(#ringMask)" />
+              <circle className={styles.ringDots} cx="32" cy="32" r="27" fill="none" stroke="var(--accent-dot)" strokeWidth="4" strokeLinecap="round" strokeDasharray="0.1 5.6" mask="url(#ringMask)" />
             </svg>
             <span className="num">140</span>
           </div>
