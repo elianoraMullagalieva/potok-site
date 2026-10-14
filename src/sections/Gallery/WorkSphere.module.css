@@ -1,7 +1,7 @@
 /* сфера живёт в такой же небесной рамке, что и этапы: логичное продолжение */
 .section { position: relative; padding: 0; color: #fff; cursor: grab; touch-action: pan-y; user-select: none; }
 .section:active { cursor: grabbing; }
-.frame { position: relative; height: 100svh; min-height: 680px; overflow: hidden; }
+.frame { position: relative; height: 100svh; min-height: 680px; overflow: hidden; isolation: isolate; clip-path: inset(0); } /* clip-path: 3D-плитки иначе вылетают за рамку поверх соседних блоков */
 .stage { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; }
 .globe { position: relative; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
 .tile { position: absolute; left: 0; top: 0; transform-style: preserve-3d; backface-visibility: hidden; will-change: opacity, filter; }
