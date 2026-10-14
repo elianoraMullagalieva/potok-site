@@ -27,11 +27,23 @@ export function Process() {
     if (reduced || small) return;
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.h2}, .${styles.sub}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: root.current, start: 'top 75%' } });
-      const dist = () => Math.max(0, track.current!.scrollWidth - view.current!.clientWidth);
-      gsap.to(track.current, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: () => `+=${dist() + 300}`, pin: true, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true } });
+      // ряд едет влево до последней карточки с полем справа, затем пауза, чтобы её рассмотреть
+      const pad = () => parseFloat(getComputedStyle(view.current!).paddingLeft) * 2;
+      const dist = () => Math.max(0, track.current!.scrollWidth + pad() - view.current!.clientWidth);
+      const tl = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top top', end: () => `+=${dist() + 700}`, pin: true, scrub: 0.8, anticipatePin: 1, invalidateOnRefresh: true } });
+      tl.to(track.current, { x: () => -dist(), ease: 'none', duration: 1 }).to({}, { duration: 0.35 });
     }, root);
     return () => ctx.revert();
   }, [reduced, small]);
+
+  // карточка «оживает», когда видна больше чем наполовину: запускаем её инфографику
+  useEffect(() => {
+    const cards = Array.from(root.current?.querySelectorAll<HTMLElement>(`.${styles.card}`) ?? []);
+    if (reduced) { cards.forEach((c) => c.setAttribute('data-live', '')); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && e.intersectionRatio > 0.5) e.target.setAttribute('data-live', ''); }), { threshold: [0.5] });
+    cards.forEach((c) => io.observe(c));
+    return () => io.disconnect();
+  }, [reduced]);
 
   return (
     <section id="process" ref={root} className={styles.section}>
@@ -97,8 +109,8 @@ function Visual({ st }: { st: Step }) {
       const rows = m.rows as string[][];
       return (
         <div className={styles.list}>
-          {rows.map(([name, status]) => <div key={name} className={styles.row}><span>{name}</span><b className={styles.ok}>{status}</b></div>)}
-          <div className={`${styles.row} ${styles.rowYellow}`}><span>{m.first as string}</span></div>
+          {rows.map(([name, status], k) => <div key={name} className={styles.row} style={{ '--k': k, '--i': k } as React.CSSProperties}><span>{name}</span><b className={styles.okWrap}><i className={styles.wait}>модерация…</i><i className={styles.ok}>{status}</i></b></div>)}
+          <div className={`${styles.row} ${styles.rowYellow}`}><i className={styles.dot} /><span>{m.first as string}</span></div>
         </div>
       );
     }
@@ -106,7 +118,7 @@ function Visual({ st }: { st: Step }) {
       const leads = m.leads as string[][];
       return (
         <div className={styles.list}>
-          {leads.map(([who, st2], k) => <div key={k} className={`${styles.row} ${st2 === 'целевая' ? '' : styles.rowNo}`}><span>{who}</span><b className={st2 === 'целевая' ? styles.ok : styles.no}>{st2}</b></div>)}
+          {leads.map(([who, st2], k) => <div key={k} className={`${styles.row} ${st2 === 'целевая' ? '' : styles.rowNo}`} style={{ '--i': k } as React.CSSProperties}><span>{who}</span><b className={st2 === 'целевая' ? styles.ok : styles.no}>{st2}</b></div>)}
         </div>
       );
     }
@@ -114,7 +126,7 @@ function Visual({ st }: { st: Step }) {
       const rows = m.rows as string[][];
       return (
         <div className={styles.plate}>
-          {rows.map(([k, v]) => <div key={k} className={styles.rRow}><span>{k}</span><b className="num">{v}</b></div>)}
+          {rows.map(([k, v], i) => <div key={k} className={styles.rRow} style={{ '--i': i } as React.CSSProperties}><span>{k}</span><b className="num">{v}</b></div>)}
         </div>
       );
     }
