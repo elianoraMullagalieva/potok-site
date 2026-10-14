@@ -11,3 +11,7 @@
   border-radius: var(--r-pill); overflow: hidden; background: var(--blue);
   box-shadow: 0 1px 0 rgba(255,255,255,.4) inset;
 }
+
+.capsule > * { animation: capDrift 9s ease-in-out infinite alternate; will-change: transform; }
+@keyframes capDrift { from { transform: scale(1.3) translate(-7%, 2%); } to { transform: scale(1.3) translate(7%, -3%); } }
+@media (prefers-reduced-motion: reduce) { .capsule > * { animation: none; } }

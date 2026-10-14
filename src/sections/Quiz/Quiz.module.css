@@ -38,8 +38,8 @@
 .check { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 50%; background: var(--yellow); font-size: 30px; }
 
 .right { position: relative; overflow: hidden; background: var(--blue); min-height: 620px; color: #fff; }
-.sky { transform: scale(-1, -1); animation: drift 70s ease-in-out infinite alternate; will-change: transform; }
-@keyframes drift { from { transform: scale(-1.08, -1.08) translate(-1.6%, 0.4%); } to { transform: scale(-1.08, -1.08) translate(1.6%, -0.6%); } }
+.sky { transform: scale(-1, -1); animation: drift 36s ease-in-out infinite alternate; will-change: transform; }
+@keyframes drift { from { transform: scale(-1.1, -1.1) translate(-3%, 1%); } to { transform: scale(-1.1, -1.1) translate(3%, -1.5%); } }
 .right::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, transparent 28%, rgba(0,20,80,.22) 48%, rgba(0,14,60,.42) 100%); pointer-events: none; }
 .val { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; min-height: 620px; padding: 28px 28px 24px; }
 /* реплика сотрудника */
