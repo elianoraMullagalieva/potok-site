@@ -25,7 +25,9 @@ export function Faq() {
     return () => ctx.revert();
   }, [reduced]);
 
-  const lead = services.people['Андрей'];
+  // слева тот, кто отвечает на открытый вопрос; по умолчанию Андрей
+  const who = open === null ? 'Андрей' : faq.items[open].who;
+  const lead = services.people[who];
   return (
     <section id="faq" ref={root} className={`wrap ${styles.section}`}>
       <div className={styles.grid}>
@@ -33,11 +35,11 @@ export function Faq() {
           <div className={styles.head}><Dot /><span className="label mute">{faq.label}</span></div>
           <h2 className={`display ${styles.h2}`}>{faq.title}</h2>
           <p className={styles.sub}>{faq.sub}</p>
-          <div className={styles.who}>
+          <div className={styles.who} key={who}>
             <img className={styles.bigAva} src={`${import.meta.env.BASE_URL}${lead.photo}`} alt={lead.name} width={96} height={96} loading="lazy" draggable={false} />
             <div>
-              <div className={styles.online}><i /><b>{lead.name.split(' ')[0]}</b>&nbsp;{faq.online}</div>
-              <Button variant="dark" arrow className={styles.write} href={faq.writeHref}>{faq.write}</Button>
+              <div className={styles.online}><i /><b>{who}</b>&nbsp;{faq.online}</div>
+              <Button variant="dark" arrow className={styles.write} href={faq.tg[who]}>{faq.write(faq.dative[who])}</Button>
             </div>
           </div>
         </div>
