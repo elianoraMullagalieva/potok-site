@@ -9,6 +9,8 @@ const LIMIT = Number(params.get('n')) || (location.pathname.match(/\/(\d+)(\/|$)
 // вариант акцента: /lime/ или /white/ в пути, либо ?accent=
 const ACCENT = params.get('accent') || location.pathname.match(/\/(lime|white)(\/|$)/)?.[1] || '';
 if (ACCENT) document.documentElement.dataset.accent = ACCENT;
+// вариант тарифов без серой плашки: /v1/flat/ или ?flat
+if (params.has('flat') || /\/flat(\/|$)/.test(location.pathname)) document.documentElement.dataset.pricing = 'flat';
 // прелоадер показывается при каждой загрузке; ?nopre отключает его
 const skipLoader = params.has('nopre') || matchMedia('(prefers-reduced-motion: reduce)').matches;
 
