@@ -52,13 +52,26 @@ export function CaseDetail() {
       <Manifest label={caseDetail.label} chunks={caseDetail.manifest} skies={['manifest2', 'speed']} />
       <div ref={root} className={styles.wrap}>
       {/* вкладки */}
+      {/* вкладки по категориям; пустые категории видны, но не активны */}
       <div className={styles.tabs} role="tablist" aria-label={caseDetail.label}>
         <div className={styles.tabRow}>
-          {cases.items.map((it) => (
-            <button key={it.id} role="tab" type="button" aria-selected={it.id === active} className={`${styles.tab} ${it.id === active ? styles.tabOn : ''}`} onClick={() => pick(it.id)}>{caseDetail.items[it.id].tab}</button>
-          ))}
+          {cases.categories.map((cat) => {
+            const first = cases.items.find((it) => it.category === cat);
+            const on = c.category === cat;
+            return (
+              <button key={cat} role="tab" type="button" aria-selected={on} disabled={!first} title={first ? undefined : cases.soon}
+                className={`${styles.tab} ${on ? styles.tabOn : ''} ${first ? '' : styles.tabSoon}`} onClick={() => first && pick(first.id)}>{cat}</button>
+            );
+          })}
         </div>
       </div>
+      {cases.items.filter((it) => it.category === c.category).length > 1 && (
+        <div className={styles.subTabs}>
+          {cases.items.filter((it) => it.category === c.category).map((it) => (
+            <button key={it.id} type="button" aria-pressed={it.id === active} className={`${styles.subTab} ${it.id === active ? styles.subTabOn : ''}`} onClick={() => pick(it.id)}>{caseDetail.items[it.id].tab}</button>
+          ))}
+        </div>
+      )}
 
       <div className={styles.card}>
         <div className={styles.main}>

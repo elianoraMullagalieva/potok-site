@@ -99,6 +99,7 @@ function Card({ c, onStudy }: { c: Case; onStudy: (id: string) => void }) {
       </p>
       <div className={styles.logoBox}><img className={`${styles.logo} ${styles[c.id] ?? ''}`} src={asset(`logos/${c.id}.webp`)} alt={c.client} loading="lazy" draggable={false} /></div>
       <div className={styles.body}>
+        <span className={styles.cat}>{c.category}</span>
         <h3 className={styles.niche}>{c.niche}</h3>
         <p className={styles.did}>{c.did}</p>
         {/* было → стало: красное превращается в зелёное */}

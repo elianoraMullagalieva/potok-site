@@ -65,3 +65,11 @@
   .actions { order: 10; padding-top: 24px; }
   .num { min-height: 110px; }
 }
+
+/* вкладки категорий: недоступные серые, ниши внутри категории — вторым рядом */
+.tabSoon { color: var(--mute-2, #b0b0b4); cursor: default; }
+.tabSoon:hover { color: var(--mute-2, #b0b0b4); }
+.subTabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.subTab { height: 34px; padding: 0 14px; border-radius: 999px; font-size: 13.5px; font-weight: 500; color: var(--ink-2); background: transparent; box-shadow: 0 0 0 1px var(--line) inset; transition: background .3s, color .3s; }
+.subTab:hover { color: var(--ink); }
+.subTabOn { background: var(--yellow); color: var(--ink); box-shadow: none; }

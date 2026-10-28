@@ -26,7 +26,8 @@
 .logo { display: block; height: 38px; width: auto; max-width: 78%; object-fit: contain; }
 .module { height: 40px; } .stroydom { height: 50px; } .aquadom { height: 36px; }
 .body { display: flex; flex-direction: column; flex: 1; }
-.niche { margin-top: 20px; font-size: 18px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; }
+.cat { display: inline-block; margin-top: 18px; font-size: 11.5px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: var(--mute); }
+.niche { margin-top: 6px; font-size: 18px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; }
 .did { margin-top: 8px; font-size: 14.5px; line-height: 1.4; color: var(--mute); }
 .facts { display: none; }
 /* было → стало */

@@ -62,11 +62,8 @@
 /* белый акцент */
 :global(:root[data-accent="white"]) .cube { box-shadow: 0 0 0 1px var(--line) inset; }
 
-/* резиновая подпись внизу футера */
-.sign { margin: 48px calc(-1 * var(--gutter)) calc(-1 * var(--sp-section)); padding: 0 var(--gutter) 8px; overflow: hidden; cursor: default; }
-.signLetters { display: flex; justify-content: center; align-items: flex-end; font-size: clamp(72px, 19.5vw, 380px); font-weight: 600; letter-spacing: -0.05em; line-height: .8; color: var(--ink); user-select: none; }
-.signLetters span { display: inline-block; transform-origin: bottom center; will-change: transform; }
-@media (max-width: 768px) { .sign { margin-top: 32px; } }
-
-/* мини-форма на телефоне: поле и кнопка друг под другом */
-@media (max-width: 560px) { .sub { flex-direction: column; width: 100%; padding: 6px; gap: 6px; border-radius: 18px; } .sub input { width: 100%; height: 46px; padding: 0 14px; } .sub button { width: 100%; height: 48px; } .cube { right: 12px; } }
+/* подпись-лента внизу футера */
+.sign { margin: 44px calc(-1 * var(--gutter)) calc(-1 * var(--sp-section)); overflow: hidden; line-height: .78; }
+.signTrack { display: flex; white-space: nowrap; width: max-content; font-size: clamp(120px, 26vw, 460px); font-weight: 600; letter-spacing: -0.045em; color: var(--ink); user-select: none; will-change: transform; transform-origin: 50% 100%; }
+.signTrack span { padding-right: .06em; }
+@media (max-width: 768px) { .sign { margin-top: 28px; } }
