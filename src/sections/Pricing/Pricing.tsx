@@ -7,6 +7,7 @@ import { Face } from '../../ui/Face';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { services } from '../../content/texts';
 import { Manifest } from '../../ui/Manifest';
+import { Quote } from '../../ui/Quote';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Pricing.module.css';
 
@@ -43,16 +44,18 @@ export function Pricing() {
               {p.badge && <span className={styles.badge}>{p.badge}</span>}
             </div>
             <p className={styles.who}>{p.who}</p>
-            <div className={styles.priceRow}><span className={`num ${styles.price}`}>{p.price}</span><span className={styles.per}>{p.per}</span></div>
-            <Button variant={p.featured ? 'primary' : 'ghost'} arrow className={styles.cta} href={p.featured ? '#quiz' : '#lead'}>{p.cta}</Button>
             <div className={styles.panel}>
               <span className={styles.incLabel}>{p.includesLabel}</span>
               <ul className={styles.inc}>{p.includes.map((x) => <li key={x}><i aria-hidden /><span>{x}</span></li>)}</ul>
             </div>
+            {/* цена мелко под перечнем, кнопка внизу — так просил клиент */}
+            <div className={styles.priceRow}><span className={`num ${styles.price}`}>{p.price}</span><span className={styles.per}>{p.per}</span></div>
+            <Button variant={p.featured ? 'primary' : 'dark'} arrow className={styles.cta} href={p.id === 'test' ? '#quiz' : '#lead'}>{p.cta}</Button>
           </article>
         ))}
       </div>
       <p className={styles.budget}>{pricing.budget}</p>
+      <Quote i={1} className={styles.quote} />
 
       {/* сравнение: все четыре варианта открыты сразу, у каждого свой «аватар» */}
       <div className={styles.cmpHead}>

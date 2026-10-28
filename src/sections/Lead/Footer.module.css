@@ -61,3 +61,9 @@
 
 /* белый акцент */
 :global(:root[data-accent="white"]) .cube { box-shadow: 0 0 0 1px var(--line) inset; }
+
+/* резиновая подпись внизу футера */
+.sign { margin: 48px calc(-1 * var(--gutter)) calc(-1 * var(--sp-section)); padding: 0 var(--gutter) 8px; overflow: hidden; cursor: default; }
+.signLetters { display: flex; justify-content: center; align-items: flex-end; font-size: clamp(72px, 19.5vw, 380px); font-weight: 600; letter-spacing: -0.05em; line-height: .8; color: var(--ink); user-select: none; }
+.signLetters span { display: inline-block; transform-origin: bottom center; will-change: transform; }
+@media (max-width: 768px) { .sign { margin-top: 32px; } }

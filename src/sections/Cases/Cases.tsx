@@ -2,12 +2,15 @@ import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { cases } from '../../content/texts';
 import { Button } from '../../ui/Button';
+import { Quote } from '../../ui/Quote';
 import { SkyStatic } from '../../ui/Sky';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Cases.module.css';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
+/* подробный кейс живёт на отдельной странице и открывается в новой вкладке */
+export const caseUrl = (id: string) => import.meta.env.PAGES ? `${import.meta.env.BASE_URL}v2/case/?id=${id}` : `${import.meta.env.BASE_URL}case.html?id=${id}`;
 type Case = (typeof cases.items)[number];
 
 /**
@@ -77,6 +80,7 @@ export function Cases() {
           <div className={styles.more}>
             <Button variant="dark" arrow className={styles.moreBtn} href="#lead">{cases.more}</Button>
             <span className={styles.moreSub}>{cases.moreSub}</span>
+            <Quote i={0} className={styles.quote} />
           </div>
         </div>
       </div>
@@ -97,9 +101,13 @@ function Card({ c, onStudy }: { c: Case; onStudy: (id: string) => void }) {
       <div className={styles.body}>
         <h3 className={styles.niche}>{c.niche}</h3>
         <p className={styles.did}>{c.did}</p>
-        <ul className={styles.facts}>{c.facts.slice(0, 2).map((f) => <li key={f}>{f}</li>)}</ul>
+        {/* было → стало: красное превращается в зелёное */}
+        <dl className={styles.delta}>
+          <div className={styles.deltaHead}><dt /><dd className={styles.was}>{cases.wasNow[0]}</dd><dd className={styles.now}>{cases.wasNow[1]}</dd></div>
+          {c.delta.map(([l, w, n]) => <div key={l}><dt>{l}</dt><dd className={`num ${styles.was}`}>{w}</dd><dd className={`num ${styles.now}`}>{n}</dd></div>)}
+        </dl>
       </div>
-      <Button variant="ghost" arrow className={styles.cta} onClick={() => onStudy(c.id)}>{cases.cta}</Button>
+      <Button variant="ghost" arrow className={styles.cta} href={caseUrl(c.id)} target="_blank" rel="noreferrer" title={cases.openNew} onClick={() => onStudy(c.id)}>{cases.cta}</Button>
     </article>
   );
 }

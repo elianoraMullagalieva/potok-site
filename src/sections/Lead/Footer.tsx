@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { footer } from '../../content/texts';
 import { Logo, LogoMark } from '../../ui/Logo';
 import { SkyStatic } from '../../ui/Sky';
@@ -72,7 +72,42 @@ export function Footer() {
         </div>
       </div>
 
+      <ElasticSign />
     </footer>
+  );
+}
+
+/* «Резиновая» подпись: буквы тянутся к курсору и пружинят обратно, в покое дышат волной */
+function ElasticSign() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const letters = Array.from(el.children) as HTMLElement[];
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cur = letters.map(() => 1), target = letters.map(() => 1);
+    let mx = -1e4, my = 0, raf = 0, t0 = performance.now(), hot = false;
+    const move = (e: PointerEvent) => { mx = e.clientX; my = e.clientY; hot = true; };
+    const leave = () => { hot = false; };
+    const tick = (now: number) => {
+      const t = (now - t0) / 1000;
+      letters.forEach((l, i) => {
+        const r = l.getBoundingClientRect(); const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const d = hot ? Math.hypot(mx - cx, my - cy) : 1e4;
+        const pull = Math.max(0, 1 - d / 260);
+        target[i] = 1 + pull * 0.55 + (reduced ? 0 : Math.sin(t * 1.6 + i * 0.9) * 0.035);
+        cur[i] += (target[i] - cur[i]) * 0.12;
+        l.style.transform = `scaleY(${cur[i].toFixed(3)}) scaleX(${(1 - (cur[i] - 1) * 0.35).toFixed(3)})`;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    el.addEventListener('pointermove', move); el.addEventListener('pointerleave', leave);
+    return () => { cancelAnimationFrame(raf); el.removeEventListener('pointermove', move); el.removeEventListener('pointerleave', leave); };
+  }, []);
+  return (
+    <div className={styles.sign} aria-hidden>
+      <div ref={ref} className={styles.signLetters}>{[...footer.sign].map((ch, i) => <span key={i}>{ch}</span>)}</div>
+    </div>
   );
 }
 

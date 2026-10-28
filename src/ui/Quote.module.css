@@ -1,0 +1,8 @@
+.quote { display: grid; grid-template-columns: 44px 1fr; grid-template-rows: auto auto; column-gap: 14px; row-gap: 6px; align-items: start; max-width: 520px; padding: 18px 20px; border-radius: 18px; background: var(--bg); color: var(--ink); }
+.quote > :first-child { grid-row: 1 / 3; }
+.text { font-size: 16px; line-height: 1.35; letter-spacing: -0.01em; text-wrap: pretty; }
+.who { display: flex; flex-wrap: wrap; gap: 4px 8px; font-size: 13px; color: var(--mute); }
+.who b { font-weight: 500; color: var(--ink); }
+.onDark { background: rgba(255,255,255,.14); color: #fff; backdrop-filter: blur(10px); }
+.onDark .who { color: rgba(255,255,255,.7); } .onDark .who b { color: #fff; }
+@media (max-width: 560px) { .quote { padding: 16px; } .text { font-size: 15px; } }

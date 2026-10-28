@@ -9,7 +9,7 @@
 /* ряд: видно три карточки и хвост четвёртой */
 .view { flex: 1; margin-top: 14px; padding: 0 48px; overflow: hidden; display: flex; }
 .track { display: flex; gap: 14px; align-items: stretch; will-change: transform; }
-.card { flex: 0 0 auto; width: calc((100vw - 2 * var(--gutter) - 96px - 14px * 3.3) / 3.3); max-width: 520px; display: flex; flex-direction: column; padding: 22px 22px 20px; border-radius: 22px; background: #fff; color: var(--ink); box-shadow: 0 30px 60px -40px rgba(0,20,80,.45); }
+.card { cursor: pointer; transition: transform .6s var(--ease), box-shadow .6s var(--ease); flex: 0 0 auto; width: calc((100vw - 2 * var(--gutter) - 96px - 14px * 3.3) / 3.3); max-width: 520px; display: flex; flex-direction: column; padding: 22px 22px 20px; border-radius: 22px; background: #fff; color: var(--ink); box-shadow: 0 30px 60px -40px rgba(0,20,80,.45); }
 .head { display: flex; justify-content: space-between; align-items: center; }
 .when { font-size: 13px; font-weight: 500; padding: 7px 12px; border-radius: 999px; background: var(--ink); color: var(--on-dark); }
 .n { font-size: 12px; color: var(--mute); }
@@ -118,3 +118,31 @@
 
 /* белый акцент */
 :global(:root[data-accent="white"]) .rowYellow, :global(:root[data-accent="white"]) .pillYellow { background: var(--ink); color: var(--on-dark); }
+
+/* карточка кликабельна: стрелка в углу, лёгкий подъём */
+.card:hover { transform: translateY(-4px); box-shadow: 0 40px 70px -40px rgba(0,20,80,.55); }
+.card:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+.openMark { position: absolute; right: 18px; top: 52px; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--ink); opacity: .7; transition: background .3s, color .3s, opacity .3s; }
+.card:hover .openMark { background: var(--ink); color: var(--yellow); opacity: 1; }
+.card { position: relative; }
+
+/* панель этапа */
+.drawerWrap { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
+.drawerShade { position: absolute; inset: 0; background: rgba(10,14,30,.45); opacity: 0; transition: opacity .5s var(--ease); }
+.drawer { position: absolute; top: 12px; right: 12px; bottom: 12px; width: min(520px, calc(100vw - 24px)); padding: 28px 30px 30px; border-radius: 24px; background: #fff; color: var(--ink); overflow: auto; transform: translateX(calc(100% + 24px)); transition: transform .7s var(--ease); box-shadow: 0 40px 80px -30px rgba(0,20,80,.5); }
+.drawerOpen { pointer-events: auto; } .drawerOpen .drawerShade { opacity: 1; } .drawerOpen .drawer { transform: none; }
+.drawerHead { display: flex; justify-content: space-between; align-items: center; }
+.drawerClose { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--bg); color: var(--ink); font-size: 24px; line-height: 1; cursor: pointer; transition: background .3s; }
+.drawerClose:hover { background: var(--ink); color: var(--yellow); }
+.drawerTitle { margin-top: 18px; font-size: clamp(26px, 2.4vw, 34px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; }
+.drawerTitle .n { font-size: 14px; color: var(--mute); margin-right: 6px; }
+.drawerTime { margin-top: 10px; font-size: 14px; color: var(--ink-2); } .drawerTime b { font-weight: 500; color: var(--mute); margin-right: 6px; }
+.drawerLabel { margin-top: 26px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--mute); font-weight: 500; }
+.drawer :global(.steplist) { margin-top: 12px; }
+.drawerGet { list-style: none; margin-top: 12px; display: grid; gap: 8px; }
+.drawerGet li { padding: 12px 14px; border-radius: 12px; background: var(--bg); font-size: 15px; line-height: 1.35; }
+.drawerGet li::before { content: '✓  '; color: var(--ink); font-weight: 600; }
+.drawerFoot { display: grid; grid-template-columns: 44px 1fr; gap: 6px 12px; align-items: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.drawerFoot b { display: block; font-size: 15px; font-weight: 500; } .drawerFoot span { font-size: 13px; color: var(--mute); }
+.drawerFoot .result { grid-column: 2; }
+@media (max-width: 900px) { .drawer { top: auto; height: 86svh; left: 8px; right: 8px; bottom: 8px; width: auto; transform: translateY(calc(100% + 16px)); border-radius: 22px 22px 18px 18px; padding: 22px 20px 24px; } .openMark { top: 44px; right: 14px; } }

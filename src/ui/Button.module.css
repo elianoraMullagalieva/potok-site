@@ -1,29 +1,32 @@
 .btn {
   position: relative; display: inline-flex; align-items: center; gap: 12px;
-  height: 52px; padding: 0 8px 0 24px; border-radius: var(--r-pill);
-  font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+  height: 56px; padding: 0 8px 0 26px; border-radius: var(--r-pill);
+  font-size: 16px; font-weight: 500; letter-spacing: -0.01em;
   transition: transform 0.6s var(--ease), background 0.4s var(--ease), box-shadow 0.6s var(--ease);
   white-space: nowrap;
 }
 .btn:hover { transform: translateY(-2px); }
+/* «сочная» кнопка: чёрная, при наведении загорается жёлтым с мягким ореолом */
 .btn:active { transform: translateY(0) scale(0.98); }
 .text { line-height: 1; padding-top: 1px; }
 .arrow {
-  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
   transition: transform 0.6s var(--ease);
 }
 .btn:hover .arrow { transform: rotate(45deg); }
 .btn:not(:has(.arrow)) { padding-right: 24px; }
 
-.primary { background: var(--yellow); color: var(--ink); }
-.primary .arrow { background: var(--ink); color: var(--yellow); }
+.primary { background: var(--ink); color: var(--on-dark); }
+.primary .arrow { background: var(--yellow); color: var(--ink); }
+.primary:hover { background: var(--yellow); color: var(--ink); box-shadow: 0 0 0 6px var(--yellow-glow), 0 18px 40px -18px var(--yellow); }
+.primary:hover .arrow { background: var(--ink); color: var(--yellow); }
 
 .glass { background: rgba(9, 32, 96, 0.34); color: #fff; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset; }
 .glass .arrow { background: rgba(255,255,255,.14); color: #fff; }
 
 .dark { background: var(--ink); color: var(--on-dark); }
 .dark .arrow { background: var(--yellow); color: var(--ink); }
-.dark:hover { background: var(--yellow); color: var(--ink); }
+.dark:hover { background: var(--yellow); color: var(--ink); box-shadow: 0 0 0 6px var(--yellow-glow), 0 18px 40px -18px var(--yellow); }
 .dark:hover .arrow { background: var(--ink); color: var(--yellow); }
 
 .ghost { background: transparent; color: var(--ink); box-shadow: 0 0 0 1px var(--line) inset; }

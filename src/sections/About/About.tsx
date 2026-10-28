@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { about } from '../../content/texts';
 import { Manifest } from '../../ui/Manifest';
+import { Quote } from '../../ui/Quote';
 import { SkyStatic } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
 import { services } from '../../content/texts';
@@ -82,7 +83,8 @@ export function About() {
           </div>
           <Paper compact />
         </div>
-      </div>
+            <Quote i={2} className="aboutQuote" />
+</div>
 
     </section>
   );

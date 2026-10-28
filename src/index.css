@@ -57,3 +57,6 @@ p, li, dd, figcaption { text-wrap: pretty; }
 .skyBand > .blk { position: relative; z-index: 1; }
 .skyBand__sky { position: sticky; top: 0; height: 0; z-index: 0; }
 .skyBand__view { position: relative; height: 100svh; }
+
+/* страница кейса: возврат на главную */
+.casePageBack { position: fixed; left: var(--gutter); top: 20px; z-index: 40; padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.9); backdrop-filter: blur(8px); box-shadow: 0 0 0 1px var(--line) inset; color: var(--ink); }

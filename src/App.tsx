@@ -5,7 +5,7 @@ import { Sky } from './ui/Sky';
 import { useMedia } from './lib/useMedia';
 
 const params = new URLSearchParams(location.search);
-const V1 = params.get('v') === '1' || /\/v1(\/|$)/.test(location.pathname);
+const V1 = params.get('v') === '1' || /\/v[12](\/|$)/.test(location.pathname);
 // /v1/3/ или ?n=3 — показать только первые N блоков (отдельная ссылка для показа)
 const LIMIT = Number(params.get('n')) || (location.pathname.match(/\/(\d+)(\/|$)/)?.[1] ? Number(location.pathname.match(/\/(\d+)(\/|$)/)![1]) : 99);
 // вариант акцента: /lime/ или /white/ в пути, либо ?accent=
@@ -21,9 +21,6 @@ const HeroCardV2 = lazy(() => import('./sections/Hero/HeroCardsV2').then((m) => 
 const Benefits = lazy(() => V1 ? import('./sections/Benefits/Benefits').then((m) => ({ default: m.Benefits })) : import('./sections/Benefits/BenefitsV2').then((m) => ({ default: m.BenefitsV2 })));
 const Quiz = lazy(() => import('./sections/Quiz/Quiz').then((m) => ({ default: m.Quiz })));
 const Services = lazy(() => import('./sections/Services/Services').then((m) => ({ default: m.Services })));
-const WorkSphere = lazy(() => import('./sections/Gallery/WorkSphere').then((m) => ({ default: m.WorkSphere })));
-const CaseDetail = lazy(() => import('./sections/Cases/CaseDetail').then((m) => ({ default: m.CaseDetail })));
-const Chats = lazy(() => import('./sections/Cases/Chats').then((m) => ({ default: m.Chats })));
 const Cases = lazy(() => import('./sections/Cases/Cases').then((m) => ({ default: m.Cases })));
 const Process = lazy(() => import('./sections/Process/Process').then((m) => ({ default: m.Process })));
 const Pricing = lazy(() => import('./sections/Pricing/Pricing').then((m) => ({ default: m.Pricing })));
@@ -72,14 +69,7 @@ export default function App() {
       {LIMIT > 2 && <Block><Quiz /></Block>}
       {LIMIT > 3 && <Block><Services /></Block>}
       {LIMIT > 4 && <Block><Cases /></Block>}
-      {LIMIT > 5 && (
-        <SkyBand>
-          <Block><Process /></Block>
-          {LIMIT > 6 && <Block><WorkSphere /></Block>}
-        </SkyBand>
-      )}
-      {LIMIT > 7 && <Block><CaseDetail /></Block>}
-      {LIMIT > 8 && <Block><Chats /></Block>}
+      {LIMIT > 5 && <SkyBand><Block><Process /></Block></SkyBand>}
       {LIMIT > 9 && <Block><Pricing /></Block>}
       {LIMIT > 10 && <Block><About /></Block>}
       {LIMIT > 11 && <Block><Faq /></Block>}

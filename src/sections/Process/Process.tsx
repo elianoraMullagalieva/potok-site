@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { gsap } from '../../lib/lenis';
 import { process, services } from '../../content/texts';
 import { Face } from '../../ui/Face';
@@ -21,6 +22,7 @@ export function Process() {
   const track = useRef<HTMLDivElement>(null);
   const small = useMedia('(max-width: 900px)');
   const reduced = useReducedMotion();
+  const [open, setOpen] = useState<string | null>(null);
 
   useEffect(() => {
     if (reduced) return;
@@ -52,6 +54,7 @@ export function Process() {
 
   return (
     <section id="process" ref={root} className={styles.section}>
+      <Drawer open={open} onClose={() => setOpen(null)} />
       <div className={styles.frame}>
         <div className={styles.top}>
           <h2 className={`display ${styles.h2}`}>{process.title}</h2>
@@ -60,7 +63,7 @@ export function Process() {
         <div className={styles.hintRow}><SwipeHint onDark text={process.hint} /></div>
         <div ref={view} className={styles.view}>
           <div ref={track} className={styles.track}>
-            {process.steps.map((st) => <Card key={st.n} st={st} />)}
+            {process.steps.map((st) => <Card key={st.n} st={st} onOpen={() => setOpen(st.n)} />)}
           </div>
         </div>
       </div>
@@ -68,10 +71,11 @@ export function Process() {
   );
 }
 
-function Card({ st }: { st: Step }) {
+function Card({ st, onOpen }: { st: Step; onOpen: () => void }) {
   const p = services.people[st.who];
   return (
-    <article className={styles.card}>
+    <article className={styles.card} role="button" tabIndex={0} onClick={onOpen} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(); } }} title={process.openHint}>
+      <span className={styles.openMark} aria-hidden><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
       <header className={styles.head}>
         <span className={styles.when}>{st.when}</span>
         <span className={`num ${styles.n}`}>{st.n}</span>
@@ -154,4 +158,46 @@ function Visual({ st }: { st: Step }) {
       );
     }
   }
+}
+
+/* Панель этапа: выезжает справа, за ней затемнение. Закрывается крестиком, кликом по фону и Esc */
+function Drawer({ open, onClose }: { open: string | null; onClose: () => void }) {
+  const st = process.steps.find((x) => x.n === open);
+  const d = open ? process.details[open as keyof typeof process.details] : null;
+  useEffect(() => {
+    if (!open) return;
+    const k = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', k);
+    document.documentElement.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', k); document.documentElement.style.overflow = ''; };
+  }, [open, onClose]);
+  const p = st ? services.people[st.who] : null;
+  // портал: закреплённая секция имеет transform и стала бы контейнером для fixed-панели
+  return createPortal(
+    <div className={`${styles.drawerWrap} ${open ? styles.drawerOpen : ''}`} aria-hidden={!open}>
+      <div className={styles.drawerShade} onClick={onClose} />
+      <aside className={styles.drawer} role="dialog" aria-modal="true" aria-label={st?.title}>
+        {st && d && p && (
+          <>
+            <header className={styles.drawerHead}>
+              <span className={styles.when}>{st.when}</span>
+              <button type="button" className={styles.drawerClose} onClick={onClose} aria-label={process.drawer.close}>×</button>
+            </header>
+            <h3 className={styles.drawerTitle}><span className={`num ${styles.n}`}>{st.n}</span> {st.title}</h3>
+            <p className={styles.drawerTime}><b>{process.drawer.time}</b> {d.time}</p>
+            <h4 className={styles.drawerLabel}>{process.drawer.what}</h4>
+            <ol className="steplist">{d.what.map((x, i) => <li key={x}><i>{i + 1}</i><span>{x}</span></li>)}</ol>
+            <h4 className={styles.drawerLabel}>{process.drawer.get}</h4>
+            <ul className={styles.drawerGet}>{d.get.map((x) => <li key={x}>{x}</li>)}</ul>
+            <footer className={styles.drawerFoot}>
+              <Face src={p.face} name={p.name} size={44} />
+              <div><b>{p.name}</b><span>{p.role}</span></div>
+              <p className={styles.result}>{st.result}</p>
+            </footer>
+          </>
+        )}
+      </aside>
+    </div>,
+    document.body,
+  );
 }
