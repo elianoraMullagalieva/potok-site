@@ -67,3 +67,6 @@
 .signLetters { display: flex; justify-content: center; align-items: flex-end; font-size: clamp(72px, 19.5vw, 380px); font-weight: 600; letter-spacing: -0.05em; line-height: .8; color: var(--ink); user-select: none; }
 .signLetters span { display: inline-block; transform-origin: bottom center; will-change: transform; }
 @media (max-width: 768px) { .sign { margin-top: 32px; } }
+
+/* мини-форма на телефоне: поле и кнопка друг под другом */
+@media (max-width: 560px) { .sub { flex-direction: column; width: 100%; padding: 6px; gap: 6px; border-radius: 18px; } .sub input { width: 100%; height: 46px; padding: 0 14px; } .sub button { width: 100%; height: 48px; } .cube { right: 12px; } }

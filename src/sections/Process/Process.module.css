@@ -145,4 +145,4 @@
 .drawerFoot { display: grid; grid-template-columns: 44px 1fr; gap: 6px 12px; align-items: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
 .drawerFoot b { display: block; font-size: 15px; font-weight: 500; } .drawerFoot span { font-size: 13px; color: var(--mute); }
 .drawerFoot .result { grid-column: 2; }
-@media (max-width: 900px) { .drawer { top: auto; height: 86svh; left: 8px; right: 8px; bottom: 8px; width: auto; transform: translateY(calc(100% + 16px)); border-radius: 22px 22px 18px 18px; padding: 22px 20px 24px; } .openMark { top: 44px; right: 14px; } }
+@media (max-width: 900px) { .drawer { top: auto; height: 86svh; left: 8px; right: 8px; bottom: 8px; width: auto; transform: translateY(calc(100% + 16px)); border-radius: 22px 22px 18px 18px; padding: 22px 20px 24px; } .drawerOpen .drawer { transform: none; } .openMark { top: 44px; right: 14px; } }
