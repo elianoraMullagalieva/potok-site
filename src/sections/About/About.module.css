@@ -78,6 +78,7 @@
   .projects, .staff { grid-column: span 6; }
   .launches, .partners, .years { grid-column: span 4; }
   .photo, .contract { grid-column: span 6; }
+  .photo { min-height: 440px; } .photo img { object-position: 50% 22%; } /* широкая карточка: иначе срезало голову стоящего */
   .paperCompact { margin-right: 0; padding-bottom: 72px; }
   .paperCompact .stamp { width: 54px; height: 54px; right: 16px; bottom: 14px; }
 }
@@ -86,6 +87,7 @@
 }
 @media (max-width: 760px) {
   .grid > * { grid-column: span 12 !important; }
+  .photo { min-height: 460px; } .photo img { object-position: 50% 24%; }
   .card { min-height: 0; }
   .contract { flex-direction: column; padding-right: 24px; }
   .contractText { flex: none; }

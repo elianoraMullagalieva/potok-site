@@ -38,7 +38,9 @@
 .site img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 /* списки */
 .list { display: grid; gap: 6px; }
-.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 10px 10px 16px; border-radius: 999px; background: var(--bg); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 10px 10px 16px; border-radius: 999px; background: var(--bg); font-size: 14px; font-weight: 500; white-space: nowrap; min-width: 0; }
+.row > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.row > :last-child { flex: none; }
 .rowYellow { background: var(--yellow); }
 .rowNo { color: var(--mute); font-weight: 400; position: relative; }
 .rowNo > span { position: relative; }
@@ -70,7 +72,7 @@
 .report .rRow { opacity: 0; transform: translateX(-8px); }
 [data-live] .report .rRow { animation: leadIn .7s var(--ease) both; animation-delay: calc(var(--i, 0) * .25s + .2s); }
 
-@media (max-width: 1280px) { .card { width: calc((100vw - 2 * var(--gutter) - 96px - 14px * 2.3) / 2.3); } }
+@media (max-width: 1500px) { .card { width: calc((100vw - 2 * var(--gutter) - 96px - 14px * 2.3) / 2.3); } }
 @media (max-width: 900px) {
   .section { padding: 0; }
   .frame { height: auto; min-height: 0; padding: 24px 0 24px; }
