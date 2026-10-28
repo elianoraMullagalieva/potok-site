@@ -77,30 +77,43 @@ export function Footer() {
   );
 }
 
-/* Подпись как у Osmo: лента из слова едет по горизонтали вместе со скроллом,
-   от скорости скролла наклоняется и пружинит обратно; края обрезаны */
+/* Подпись как у Osmo: буквы поднимаются снизу по очереди от центра к краям, пока футер
+   въезжает в экран. В моменте верх надписи образует дугу, потом выравнивается в строку.
+   Привязано к прокрутке в обе стороны, плюс лёгкий наклон от скорости скролла. */
 function ElasticSign() {
-  const track = useRef<HTMLDivElement>(null);
+  const box = useRef<HTMLDivElement>(null);
+  const line = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const el = track.current; if (!el) return;
+    const el = box.current, row = line.current; if (!el || !row) return;
+    const letters = Array.from(row.children) as HTMLElement[];
+    const n = letters.length, mid = (n - 1) / 2;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let raf = 0, last = window.scrollY, vel = 0, skew = 0, x = 0;
+    let raf = 0, p = 0, last = window.scrollY, vel = 0, skew = 0;
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
     const tick = () => {
-      const y = window.scrollY; const dy = y - last; last = y;
-      vel += (dy - vel) * 0.18;                        // сглаженная скорость
-      const target = reduced ? 0 : Math.max(-18, Math.min(18, vel * 0.9));
-      skew += (target - skew) * 0.12;                   // наклон с пружиной
-      x = -(y * 0.45) % (el.scrollWidth / 2 || 1);       // лента едет от скролла, половина трека — один повтор
-      el.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0) skewX(${skew.toFixed(2)}deg)`;
+      const r = el.getBoundingClientRect(), vh = window.innerHeight;
+      // 0 — верх подписи у нижнего края экрана, 1 — подпись полностью видна
+      const target = reduced ? 1 : Math.max(0, Math.min(1, (vh - r.top) / (r.height * 1.6)));
+      p += (target - p) * 0.14;
+      const y = window.scrollY, dy = y - last; last = y;
+      vel += (dy - vel) * 0.18;
+      skew += ((reduced ? 0 : Math.max(-14, Math.min(14, vel * 0.7))) - skew) * 0.12;
+      for (let i = 0; i < n; i++) {
+        const u = Math.abs(i - mid) / mid;        // 0 в центре, 1 у краёв
+        const delay = u * u * 0.55;               // центр стартует первым: получается дуга
+        const lp = ease(Math.max(0, Math.min(1, (p - delay) / (1 - 0.55))));
+        letters[i].style.transform = `translate3d(0, ${((1 - lp) * 112).toFixed(2)}%, 0)`;
+      }
+      row.style.transform = `skewX(${skew.toFixed(2)}deg)`;
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
-  const word = `${footer.sign} `;
+  const text = footer.sign.repeat(3);
   return (
-    <div className={styles.sign} aria-hidden>
-      <div ref={track} className={styles.signTrack}>{Array.from({ length: 6 }, (_, i) => <span key={i}>{word}</span>)}</div>
+    <div ref={box} className={styles.sign} aria-hidden>
+      <div ref={line} className={styles.signLine}>{[...text].map((ch, i) => <span key={i}>{ch}</span>)}</div>
     </div>
   );
 }

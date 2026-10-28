@@ -62,8 +62,8 @@
 /* белый акцент */
 :global(:root[data-accent="white"]) .cube { box-shadow: 0 0 0 1px var(--line) inset; }
 
-/* подпись-лента внизу футера */
+/* подпись внизу футера: дуга из букв, обрезана по краям и снизу */
 .sign { margin: 44px calc(-1 * var(--gutter)) calc(-1 * var(--sp-section)); overflow: hidden; line-height: .78; }
-.signTrack { display: flex; white-space: nowrap; width: max-content; font-size: clamp(120px, 26vw, 460px); font-weight: 600; letter-spacing: -0.045em; color: var(--ink); user-select: none; will-change: transform; transform-origin: 50% 100%; }
-.signTrack span { padding-right: .06em; }
+.signLine { display: flex; justify-content: center; white-space: nowrap; font-size: clamp(120px, 27vw, 480px); font-weight: 600; letter-spacing: -0.045em; color: var(--ink); user-select: none; transform-origin: 50% 100%; will-change: transform; }
+.signLine span { display: inline-block; will-change: transform; }
 @media (max-width: 768px) { .sign { margin-top: 28px; } }
