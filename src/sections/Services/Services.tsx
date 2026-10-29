@@ -6,7 +6,11 @@ import { Manifest } from '../../ui/Manifest';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
+import { TeamChat } from './TeamChat';
 import styles from './Services.module.css';
+
+// вариант Б (человек рассказывает в чате) — по адресу ?team=b, чтобы клиент сравнил с вариантом А
+const CHAT = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('team') === 'b';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
@@ -33,7 +37,7 @@ export function Services() {
   const busy = useRef(false);
   const pick = (i: number) => {
     if (i === active || busy.current) return;
-    if (reduced || !detail.current) { setActive(i); return; }
+    if (reduced || !detail.current) { setActive(i); return; } // в варианте Б detail нет — чат сам перезапускается
     busy.current = true;
     gsap.to(`.${styles.swap}`, { y: -10, opacity: 0, duration: 0.2, ease: 'power2.in', overwrite: true, onComplete: () => {
       setActive(i);
@@ -68,15 +72,17 @@ export function Services() {
         })}
       </div>
 
+      {CHAT && <TeamChat n={s.n} lead={s.lead} says={s.says} />}
+
       {/* раскрытая карточка: человек говорит от первого лица */}
-      <div ref={detail} className={styles.detail}>
+      {!CHAT && <div ref={detail} className={styles.detail}>
         <div className={styles.dLeft}>
           <span className={`label mute ${styles.swap}`}>{s.n} · {s.zone}</span>
           <h3 className={`${styles.dTitle} ${styles.swap}`}>{s.hello}</h3>
           <div className={`${styles.will} ${styles.swap}`}>
             <span className="label mute">{services.willLabel}</span>
             <ol className="steplist">
-              {s.will.map((w, k) => <li key={w}><i className="num">{k + 1}</i><span>{w}</span></li>)}
+              {s.will.map((w, k) => <li key={w}><i className="num">{k + 1}</i><span>{w.replace('\n', ' ')}</span></li>)}
             </ol>
           </div>
           <p className={`${styles.stat} ${styles.swap}`}><b className="num">{s.stat.big}</b><span>{s.stat.text}</span></p>
@@ -106,7 +112,7 @@ export function Services() {
             </ul>
           </div>
         </div>
-      </div>
+      </div>}
     </section>
   );
 }
