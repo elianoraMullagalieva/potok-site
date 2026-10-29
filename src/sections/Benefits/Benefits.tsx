@@ -5,15 +5,12 @@ import { SkyStatic } from '../../ui/Sky';
 import { Tag, Dot } from '../../ui/Tag';
 import { Face } from '../../ui/Face';
 import { useReducedMotion } from '../../lib/useReducedMotion';
-import { useMedia } from '../../lib/useMedia';
 import styles from './Benefits.module.css';
 
 export function Benefits() {
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const [open, setOpen] = useState<string | null>(null);
-  // на планшете и телефоне панель раскрывается прямо под нажатой карточкой
-  const inline = useMedia('(max-width: 1000px)');
   const toggle = (k: string) => setOpen((o) => (o === k ? null : k));
 
   useEffect(() => {
@@ -58,8 +55,8 @@ export function Benefits() {
         )}
       </h2>
 
-      <div className={styles.cards}>
-        {benefits.cards.map((c, i) => [
+      <div className={`${styles.cards} ${open ? styles.cardsOpen : ''}`}>
+        {benefits.cards.map((c, i) => (
           <article key={c.tag} className={`${styles.card} ${styles[c.kind]} ${open === c.kind ? styles.cardOn : ''} ${open && open !== c.kind ? styles.cardDim : ''}`} style={{ '--i': i } as React.CSSProperties}
             role="button" tabIndex={0} aria-expanded={open === c.kind} onClick={() => toggle(c.kind)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(c.kind); } }}>
             <span className={styles.more} aria-hidden>{open === c.kind ? '−' : '+'}</span>
@@ -72,36 +69,24 @@ export function Benefits() {
             {c.kind === 'photo' && <Timeline />}
             {c.kind === 'light' && <CrmRows />}
             {c.kind === 'grey' && <Team />}
+            {/* раскрытое содержимое живёт в самой карточке */}
+            {open === c.kind && (
+              <div className={styles.inCard} onClick={(e) => e.stopPropagation()}>
+                {c.kind === 'dark' && <DChain />}
+                {c.kind === 'photo' && <DTimeline />}
+                {c.kind === 'light' && <DCrm />}
+                {c.kind === 'grey' && <DTeam />}
+              </div>
+            )}
             <div className={styles.cardBody}>
               <Dot className={styles.cardDot} /><h3 className={styles.cardTitle}>{c.title}</h3>
               <p className={styles.cardText}>{c.text}</p>
             </div>
-          </article>,
-          inline && open === c.kind ? <Detail key={`d-${c.kind}`} open={open} onClose={() => setOpen(null)} /> : null,
-        ])}
+          </article>
+        ))}
       </div>
 
-      {/* раскрытая карточка: панель того же цвета под рядом, плавно растёт по высоте */}
-      {!inline && <Detail open={open} onClose={() => setOpen(null)} />}
     </section>
-  );
-}
-
-function Detail({ open, onClose }: { open: string | null; onClose: () => void }) {
-  return (
-    <div className={`${styles.detailWrap} ${open ? styles.detailOpen : ''}`}>
-      <div className={styles.detailInner}>
-        {open && (
-          <div key={open} className={`${styles.detail} ${styles['d_' + open]}`}>
-            <button type="button" className={styles.detailClose} onClick={onClose} aria-label={benefits.close}>×</button>
-            {open === 'dark' && <DChain />}
-            {open === 'photo' && <DTimeline />}
-            {open === 'light' && <DCrm />}
-            {open === 'grey' && <DTeam />}
-          </div>
-        )}
-      </div>
-    </div>
   );
 }
 
@@ -150,28 +135,41 @@ function DChain() {
   );
 }
 
-/* 2. Старт: шкала двух дней, метка едет к первой заявке */
+/* 2. Старт: диаграмма по часам двух дней, исполнители, бегущая отметка времени, первая заявка */
 function DTimeline() {
   const d = D.photo;
+  // ось: день 1 — 9…20 (11 ч), день 2 — 9…15 (6 ч), между днями узкий разрыв
+  const total = 11 + 6, gap = 0.6;
+  const x = (day: number, h: number) => ((day === 1 ? h - 9 : 11 + gap + (h - 9)) / (total + gap)) * 100;
+  const ticks1 = [9, 12, 15, 18], ticks2 = [9, 12, 15];
   return (
     <>
       <h3 className={styles.dTitle}>{d.title}</h3>
-      <div className={styles.dDays}>
-        {d.days.map((day, di) => (
-          <div key={day.day} className={styles.dDay}>
-            <span className={styles.dDayLabel}>{day.day}</span>
-            <div className={styles.dRail}><i style={{ animationDelay: `${di * 1.6}s` }} /></div>
-            <ol>
-              {day.items.map((it, i) => (
-                <li key={it.h} className={'on' in it && it.on ? styles.dOn : ''} style={{ '--i': di * 4 + i } as React.CSSProperties}>
-                  <span className={`num ${styles.dTime}`}>{it.t}</span>
-                  <b>{it.h}</b>
-                  <p>{it.p}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        ))}
+      <div className={styles.gStats}>{d.stats.map(([b, t]) => <div key={t}><b className="num">{b}</b><span>{t}</span></div>)}</div>
+      <div className={styles.gantt}>
+        <div className={styles.gAxis}>
+          <span className={styles.gDay} style={{ left: `${x(1, 9)}%` }}>День 1</span>
+          <span className={styles.gDay} style={{ left: `${x(2, 9)}%` }}>День 2</span>
+          {ticks1.map((t) => <i key={`a${t}`} style={{ left: `${x(1, t)}%` }}>{t}:00</i>)}
+          {ticks2.map((t) => <i key={`b${t}`} style={{ left: `${x(2, t)}%` }}>{t}:00</i>)}
+        </div>
+        <div className={styles.gBody}>
+          <span className={styles.gSplit} style={{ left: `${(x(1, 20) + x(2, 9)) / 2}%` }} />
+          {d.rows.map((r, i) => {
+            const p = services.people[r.who];
+            return (
+              <div key={i} className={styles.gRow} style={{ '--i': i } as React.CSSProperties}>
+                <span className={styles.gBar} style={{ left: `${x(r.d, r.from)}%`, width: `${x(r.d, r.to) - x(r.d, r.from)}%` }}>
+                  <Face src={p.face} name={p.name} size={22} />
+                </span>
+                {/* подпись справа от полоски, у правого края — слева; на телефоне всегда над строкой */}
+                <em className={styles.gLabel} style={x(r.d, r.to) > 62 ? { right: `calc(${100 - x(r.d, r.from)}% + 10px)` } : { left: `calc(${x(r.d, r.to)}% + 10px)` }}>{r.h}</em>
+              </div>
+            );
+          })}
+          <span className={styles.gLead} style={{ left: `${x(d.lead.d, d.lead.at)}%` }}><b>{d.lead.label}</b></span>
+          <span className={styles.gNow} />
+        </div>
       </div>
       <p className={styles.dNote}>{d.note}</p>
     </>
