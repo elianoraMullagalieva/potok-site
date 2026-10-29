@@ -96,3 +96,45 @@
 :global(:root[data-accent="white"]) .check { background: var(--ink); color: var(--on-dark); }
 :global(:root[data-accent="white"]) .optFill { background: var(--bg-2); }
 :global(:root[data-accent="white"]) .stepOn { background: var(--ink) !important; }
+
+/* ───── загрузка после 4-го ответа ───── */
+.load { display: flex; flex-direction: column; flex: 1; animation: qIn .6s var(--ease) both; }
+@keyframes qIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.bar { position: relative; height: 12px; margin-top: 48px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; background: repeating-linear-gradient(-45deg, var(--yellow) 0 10px, #fbfd9a 10px 20px); background-size: 28px 28px; animation: stripes .8s linear infinite; transition: width .2s linear; }
+@keyframes stripes { to { background-position: 28px 0; } }
+.barPct { margin-top: 10px; font-size: 13px; color: var(--mute); }
+.loadList { list-style: none; display: grid; gap: 14px; margin-top: 30px; }
+.loadList li { display: flex; align-items: center; gap: 12px; font-size: 17px; letter-spacing: -0.01em; color: var(--mute-2, #b0b0b4); transition: color .4s var(--ease); }
+.tick { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; box-shadow: 0 0 0 1px var(--line) inset; transition: background .4s var(--ease), box-shadow .4s; }
+.loadNow { color: var(--ink-2); } .loadNow .tick { box-shadow: 0 0 0 2px var(--yellow) inset; animation: pulseT 1s ease-in-out infinite; }
+@keyframes pulseT { 50% { box-shadow: 0 0 0 6px var(--yellow-glow), 0 0 0 2px var(--yellow) inset; } }
+.loadOn { color: var(--ink); } .loadOn .tick { background: var(--yellow); box-shadow: none; color: var(--ink); }
+
+/* ───── готовый расчёт: колонки поменялись ───── */
+.cardReady { grid-template-columns: 1fr 1fr; animation: qIn .7s var(--ease) both; }
+.readyLeft { position: relative; overflow: hidden; color: #fff; background: var(--blue); }
+.readyIn { position: relative; z-index: 1; padding: 36px 40px 32px; display: flex; flex-direction: column; height: 100%; }
+.readyTitle { font-size: var(--t-m); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; max-width: 20ch; text-wrap: balance; }
+.readySub { margin-top: 10px; font-size: 15px; color: rgba(255,255,255,.8); }
+.readyGifts { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 26px; }
+.readyGifts li { display: flex; flex-direction: column; gap: 10px; padding: 10px; border-radius: 16px; background: rgba(255,255,255,.14); backdrop-filter: blur(10px); animation: qIn .6s var(--ease) both; animation-delay: calc(var(--i) * 120ms + 150ms); }
+.readyGifts li:last-child { grid-column: 1 / -1; flex-direction: row; align-items: center; }
+.readyGifts li:last-child .rgImg { width: 46%; flex: none; }
+.readyGifts b { font-size: 15px; font-weight: 500; line-height: 1.25; white-space: pre-line; }
+.rgImg { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; background: #fff; }
+.rgImg img { width: 100%; height: 100%; object-fit: cover; object-position: left top; display: block; }
+.rgLocked img { filter: blur(6px) saturate(.8); transform: scale(1.06); }
+.lock { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--ink); background: rgba(255,255,255,.35); }
+.lock svg { width: 30px; height: 30px; padding: 7px; border-radius: 50%; background: #fff; }
+.readyBonus { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.92); color: var(--ink-2); font-size: 14px; }
+.readyBonus i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-dot); } .readyBonus b { color: var(--ink); font-weight: 500; }
+.readyAnswers { margin-top: auto; padding-top: 18px; }
+.readyAnswers > span { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: rgba(255,255,255,.7); }
+.readyAnswers ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.readyAnswers li { padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.18); font-size: 13px; }
+.readyRight { padding: 36px 40px 32px; display: flex; flex-direction: column; }
+.readyRight .form { animation: qIn .7s var(--ease) .2s both; }
+.readyRight .plan { align-self: flex-start; }
+@media (max-width: 1000px) { .cardReady { grid-template-columns: 1fr; } .readyRight { order: -1; } .readyIn, .readyRight { padding: 26px 22px; } }
+@media (max-width: 560px) { .readyGifts { grid-template-columns: 1fr; } .readyGifts li:last-child { flex-direction: column; } .readyGifts li:last-child .rgImg { width: 100%; } }

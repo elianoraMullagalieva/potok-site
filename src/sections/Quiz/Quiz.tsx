@@ -21,6 +21,9 @@ export function Quiz() {
   const [step, setStep] = useState(0); // 0..3 вопросы, 4 финал
   const [answers, setAnswers] = useState<(number | null)[]>([null, null, null, null]);
   const [sent, setSent] = useState(false);
+  // после 4-го ответа: загрузка → готовый расчёт (колонки меняются местами)
+  const [phase, setPhase] = useState<'q' | 'load' | 'ready'>('q');
+  const [pct, setPct] = useState(0);
   const reduced = useReducedMotion();
   const answered = answers.filter((a) => a !== null).length;
 
@@ -51,7 +54,11 @@ export function Quiz() {
     busy.current = true;
     const a = [...answers]; a[step] = i; setAnswers(a);
     const from = step;
-    setTimeout(() => { busy.current = false; go(Math.min(from + 1, 4)); }, 320);
+    setTimeout(() => {
+      busy.current = false;
+      if (from === 3) { setPhase('load'); setPct(0); setStep(4); return; }
+      go(Math.min(from + 1, 4));
+    }, 320);
   };
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,14 +72,32 @@ export function Quiz() {
     setSent(true);
   };
 
+  // полоса загрузки: ~3,6 секунды, затем показываем готовый расчёт
+  useEffect(() => {
+    if (phase !== 'load') return;
+    if (reduced) { setPct(100); const t = setTimeout(() => setPhase('ready'), 400); return () => clearTimeout(t); }
+    let raf = 0; const t0 = performance.now(), dur = 3600;
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - t0) / dur);
+      setPct(Math.round((1 - Math.pow(1 - p, 2.2)) * 100));
+      if (p < 1) raf = requestAnimationFrame(tick); else setTimeout(() => setPhase('ready'), 450);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [phase, reduced]);
+  const backToQuestions = () => { setPhase('q'); setStep(3); };
+
   const q = quiz.questions[step];
   const fill = (answered / 4) * 100;
 
   return (
     <section id="quiz" ref={root} className={`wrap ${styles.section}`}>
       <h2 className={`display ${styles.h2}`}>{quiz.title}</h2>
+      {phase === 'ready' ? (
+        <ReadyCard answers={answers} sent={sent} onSubmit={submit} onBack={backToQuestions} />
+      ) : (
       <div className={styles.card}>
-        {/* левая колонка: вопрос или финал */}
+        {/* левая колонка: вопрос или загрузка */}
         <div className={styles.left}>
           <div className={styles.top}>
             <span className={`label ${styles.progressLabel}`}>{step < 4 ? quiz.progress(step + 1) : quiz.title}</span>
@@ -81,7 +106,9 @@ export function Quiz() {
               : <span className={styles.plan}>{plan(answers)}</span>}
           </div>
           <div ref={pane} className={styles.pane}>
-            {step < 4 ? (
+            {phase === 'load' ? (
+              <Loading pct={pct} />
+            ) : step < 4 ? (
               <>
                 <h3 className={styles.q}>{q.q}</h3>
                 <ul className={styles.options}>
@@ -138,7 +165,76 @@ export function Quiz() {
           </ul>
         </div>
       </div>
+      )}
     </section>
+  );
+}
+
+/* Загрузка: полоса в полоску едет, строки загораются по порогам */
+function Loading({ pct }: { pct: number }) {
+  const L = quiz.loading;
+  return (
+    <div className={styles.load}>
+      <h3 className={styles.q}>{L.title}</h3>
+      <div className={styles.bar}><i style={{ width: `${pct}%` }} /></div>
+      <span className={`num ${styles.barPct}`}>{pct}%</span>
+      <ul className={styles.loadList}>
+        {L.steps.map((t, i) => {
+          const on = pct >= ((i + 1) / L.steps.length) * 100 - 2, active = !on && pct >= (i / L.steps.length) * 100;
+          return <li key={t} className={`${on ? styles.loadOn : ''} ${active ? styles.loadNow : ''}`}><span className={styles.tick} aria-hidden>{on ? '✓' : ''}</span>{t}</li>;
+        })}
+      </ul>
+    </div>
+  );
+}
+
+/* Готовый расчёт: слева на небе — что подготовили, справа на белом — форма */
+function ReadyCard({ answers, sent, onSubmit, onBack }: { answers: (number | null)[]; sent: boolean; onSubmit: (e: FormEvent<HTMLFormElement>) => void; onBack: () => void }) {
+  const R = quiz.ready, g = quiz.gift;
+  return (
+    <div className={`${styles.card} ${styles.cardReady}`}>
+      <div className={styles.readyLeft}>
+        <SkyStatic id="quiz" className={styles.sky} />
+        <div className={styles.readyIn}>
+          <h3 className={styles.readyTitle}>{R.leftTitle}</h3>
+          <p className={styles.readySub}>{R.leftSub}</p>
+          <ul className={styles.readyGifts}>
+            {g.items.map((it, k) => (
+              <li key={it.n} style={{ '--i': k } as React.CSSProperties}>
+                <span className={`${styles.rgImg} ${k === 2 ? styles.rgLocked : ''}`}>
+                  <img src={`${import.meta.env.BASE_URL}${it.visual}`} alt="" loading="lazy" draggable={false} />
+                  {k === 2 && <span className={styles.lock}><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" strokeWidth="1.6" /><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.6" /></svg>{R.locked}</span>}
+                </span>
+                <b>{it.title}</b>
+              </li>
+            ))}
+          </ul>
+          <div className={styles.readyBonus}><i aria-hidden /><b>Бонус</b>{quiz.final.bonus}</div>
+          <div className={styles.readyAnswers}>
+            <span>{R.answersLabel}</span>
+            <ul>{answers.map((a, i) => a === null ? null : <li key={i}>✓ {quiz.questions[i].a[a]}</li>)}</ul>
+          </div>
+        </div>
+      </div>
+      <div className={styles.readyRight}>
+        {sent ? (
+          <div className={styles.done}><span className={styles.check} aria-hidden>✓</span><h3 className={styles.q}>{quiz.final.done}</h3></div>
+        ) : (
+          <form className={styles.form} onSubmit={onSubmit}>
+            <span className={styles.plan}>{plan(answers)}</span>
+            <h3 className={styles.q} style={{ marginTop: 18 }}>{quiz.final.title}</h3>
+            <p className={styles.sub}>{quiz.final.sub}</p>
+            <div className={styles.fields}>
+              <input name="name" required placeholder={quiz.final.name} aria-label={quiz.final.name} className={styles.input} autoComplete="name" />
+              <input name="contact" required placeholder={quiz.final.contact} aria-label={quiz.final.contact} className={styles.input} autoComplete="tel" />
+            </div>
+            <label className={styles.consent}><input type="checkbox" required /> <span>{quiz.final.consent}</span></label>
+            <Button variant="primary" arrow type="submit" className={styles.cta}>{quiz.final.cta}</Button>
+            <button type="button" className={styles.back} onClick={onBack}>← {quiz.back}</button>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }
 
