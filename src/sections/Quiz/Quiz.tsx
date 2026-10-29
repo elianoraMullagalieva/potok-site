@@ -72,15 +72,15 @@ export function Quiz() {
     setSent(true);
   };
 
-  // полоса загрузки: ~3,6 секунды, затем показываем готовый расчёт
+  // полоса загрузки: ~1,8 секунды, затем показываем готовый расчёт
   useEffect(() => {
     if (phase !== 'load') return;
     if (reduced) { setPct(100); const t = setTimeout(() => setPhase('ready'), 400); return () => clearTimeout(t); }
-    let raf = 0; const t0 = performance.now(), dur = 3600;
+    let raf = 0; const t0 = performance.now(), dur = 1800;
     const tick = (now: number) => {
       const p = Math.min(1, (now - t0) / dur);
       setPct(Math.round((1 - Math.pow(1 - p, 2.2)) * 100));
-      if (p < 1) raf = requestAnimationFrame(tick); else setTimeout(() => setPhase('ready'), 450);
+      if (p < 1) raf = requestAnimationFrame(tick); else setTimeout(() => setPhase('ready'), 250);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);

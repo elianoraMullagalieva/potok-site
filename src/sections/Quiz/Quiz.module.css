@@ -138,3 +138,16 @@
 .readyRight .plan { align-self: flex-start; }
 @media (max-width: 1000px) { .cardReady { grid-template-columns: 1fr; } .readyRight { order: -1; } .readyIn, .readyRight { padding: 26px 22px; } }
 @media (max-width: 560px) { .readyGifts { grid-template-columns: 1fr; } .readyGifts li:last-child { flex-direction: column; } .readyGifts li:last-child .rgImg { width: 100%; } }
+
+/* расчёт компактнее: три подарка в один ряд, закрытый — под тёмной вуалью */
+@media (min-width: 1001px) {
+  .cardReady { min-height: 0; }
+  .readyIn, .readyRight { padding: 32px 36px 28px; }
+  .readyGifts { grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 22px; }
+  .readyGifts li:last-child { grid-column: auto; flex-direction: column; align-items: stretch; }
+  .readyGifts li:last-child .rgImg { width: auto; }
+  .readyGifts b { font-size: 13.5px; }
+}
+.lock { color: #fff; background: rgba(8,12,28,.62); }
+.lock svg { background: rgba(255,255,255,.16); box-shadow: 0 0 0 1px rgba(255,255,255,.28) inset; }
+.readyRight .cta { padding-left: 30px; gap: 40px; }
