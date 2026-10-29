@@ -26,7 +26,7 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
       const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: delayRef.current });
       tl.from(`.${styles.frame}`, { scale: 0.96, borderRadius: 60, duration: 1.4 }, 0)
         .from(`.${styles.word}`, { yPercent: 110, opacity: 0, filter: 'blur(8px)', duration: 1.1, stagger: 0.05 }, 0.25)
-        .from(`.${styles.sub}, .${styles.actions}, .${styles.under}`, { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 0.7)
+        .from(`.${styles.sub}, .${styles.actions}`, { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 0.7)
         .from(`.${styles.stage}`, { y: 140, opacity: 0, scale: 0.92, duration: 1.8 }, 0.55)
         // выделение слова «первого», как текст на телефоне
         .fromTo(`.${styles.selBg}`, { scaleX: 0 }, { scaleX: 1, duration: 0.5 }, 1.5)
@@ -64,9 +64,12 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
           <p className={styles.sub}>{hero.sub}</p>
           <div className={styles.actions}>
             <Button variant="glass" href="#benefits">{hero.secondary}</Button>
-            <Button variant="primary" arrow href="#lead">{hero.cta}</Button>
+            {/* бирка «план в подарок» сидит на кнопке: не зависит от высоты экрана и не уходит под карточки */}
+            <span className={styles.ctaWrap}>
+              <Button variant="primary" arrow href="#lead">{hero.cta}</Button>
+              <span className={styles.gift}>{hero.underCta}</span>
+            </span>
           </div>
-          <p className={`label ${styles.under}`}>{hero.underCta}</p>
         </div>
 
         <div className={styles.stage}>
