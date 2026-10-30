@@ -114,6 +114,13 @@ function Viz({ v, n, line }: { v: string; n: string; line: { big?: string; pct?:
           <ol>{services.chat[n].slice(1, 4).map((l, i) => <li key={l.cap} style={st(i)}><i>{i + 1}</i>{l.cap}</li>)}</ol>
         </div>
       );
+    case 'sites':
+      return (
+        <div className={styles.vSites}>
+          <span className={`${styles.site} ${styles.siteMain}`} style={st(0)}><img src={asset('works/w3.webp')} alt="LAVILLA — сайт недвижимости на Бали" loading="lazy" /><em>LAVILLA · недвижимость на Бали</em></span>
+          {['works/w2.webp', 'works/w1.webp', 'works/w5.webp'].map((w, i) => <span key={w} className={styles.site} style={st(i + 1)}><img src={asset(w)} alt="" loading="lazy" /></span>)}
+        </div>
+      );
     case 'match': {
       const niches = benefits.details.dark.niches.slice(0, 12);
       return (
@@ -149,7 +156,7 @@ function Viz({ v, n, line }: { v: string; n: string; line: { big?: string; pct?:
       return (
         <div className={styles.vPage}>
           <div className={styles.works}>
-            {['works/w2.webp', 'works/w3.webp', 'works/w1.webp'].map((w, i) => <span key={w} className={styles.work} style={st(i)}><img src={asset(w)} alt="" loading="lazy" /></span>)}
+            {['works/w1.webp', 'works/w2.webp', 'works/w3.webp'].map((w, i) => <span key={w} className={styles.work} style={st(i)}><img src={asset(w)} alt="" loading="lazy" /></span>)}
           </div>
           <div className={styles.tags}>{['1 услуга', '1 город', '1 кнопка'].map((x, i) => <span key={x} style={st(i + 3)}>{x}</span>)}</div>
         </div>
