@@ -151,3 +151,46 @@
 .lock { color: #fff; background: rgba(8,12,28,.62); }
 .lock svg { background: rgba(255,255,255,.16); box-shadow: 0 0 0 1px rgba(255,255,255,.28) inset; }
 .readyRight .cta { padding-left: 30px; gap: 40px; }
+
+/* ───── телефон: подарки и форма на одном экране, три раскладки (?qm=1|2|3) ───── */
+@media (max-width: 700px) {
+  .cardReady .readyRight { order: 0; }
+  .cardReady .readySub, .cardReady .readyAnswers, .cardReady .readyBonus { display: none; }
+  .cardReady .readyIn { padding: 20px 16px 18px; }
+  .cardReady .readyTitle { font-size: 24px; max-width: none; }
+  .cardReady .readyRight { padding: 18px 16px 18px; }
+  .cardReady .readyRight .plan, .cardReady .readyRight .sub { display: none; }
+  .cardReady .readyRight .q { margin-top: 0 !important; font-size: 22px; max-width: none; }
+  .cardReady .fields { margin-top: 14px; gap: 8px; }
+  .cardReady .input { height: 48px; }
+  .cardReady .consent { margin-top: 10px; font-size: 12px; }
+  .cardReady .cta { width: 100%; justify-content: space-between; margin-top: 14px; }
+  .cardReady .back { padding-top: 10px; font-size: 13px; }
+
+  /* 1 — три миниатюры в ряд над формой */
+  .qm1 .readyGifts { grid-template-columns: repeat(3, 1fr) !important; gap: 6px; margin-top: 14px; }
+  .qm1 .readyGifts li, .qm1 .readyGifts li:last-child { grid-column: auto; flex-direction: column !important; align-items: stretch; padding: 5px; gap: 6px; border-radius: 12px; }
+  .qm1 .readyGifts li:last-child .rgImg { width: auto !important; }
+  .qm1 .readyGifts b { font-size: 11px; line-height: 1.2; white-space: normal; }
+  .qm1 .rgImg { aspect-ratio: 4 / 3; border-radius: 8px; }
+  .qm1 .lock { font-size: 0; gap: 0; } .qm1 .lock svg { width: 26px; height: 26px; padding: 6px; }
+
+  /* 2 — подарки листаются вбок, видно край следующего */
+  .qm2 .readyGifts { display: flex !important; gap: 8px; margin: 14px -16px 0; padding: 0 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .qm2 .readyGifts::-webkit-scrollbar { display: none; }
+  .qm2 .readyGifts li, .qm2 .readyGifts li:last-child { flex: 0 0 64%; flex-direction: column !important; align-items: stretch; scroll-snap-align: start; padding: 7px; gap: 7px; }
+  .qm2 .readyGifts li:last-child .rgImg { width: auto !important; }
+  .qm2 .readyGifts b { font-size: 13px; }
+  .qm2 .readyIn::after { content: 'Листайте →'; margin-top: 8px; font-size: 12px; color: rgba(255,255,255,.8); }
+
+  /* 3 — форма сверху, ниже список «что придёт» строками с превью */
+  .qm3 .readyRight { order: -1; }
+  .qm3 .readyIn { padding-top: 16px; }
+  .qm3 .readyTitle { font-size: 17px; }
+  .qm3 .readyGifts { grid-template-columns: 1fr !important; gap: 6px; margin-top: 10px; }
+  .qm3 .readyGifts li, .qm3 .readyGifts li:last-child { flex-direction: row !important; align-items: center; padding: 6px; gap: 12px; border-radius: 12px; }
+  .qm3 .rgImg, .qm3 .readyGifts li:last-child .rgImg { width: 72px !important; flex: none; aspect-ratio: 4 / 3; border-radius: 7px; }
+  .qm3 .readyGifts b { font-size: 13.5px; white-space: normal; }
+  .qm3 .lock { font-size: 0; gap: 0; } .qm3 .lock svg { width: 22px; height: 22px; padding: 5px; }
+}
+.still, .still * { animation: none !important; }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { gsap } from '../../lib/lenis';
+import { gsap, getLenis } from '../../lib/lenis';
 import { quiz } from '../../content/texts';
 import { SkyStatic } from '../../ui/Sky';
 import { services } from '../../content/texts';
@@ -19,16 +19,16 @@ function plan(answers: (number | null)[]) {
 export function Quiz() {
   const root = useRef<HTMLElement>(null);
   const [step, setStep] = useState(0); // 0..3 вопросы, 4 финал
-  const [answers, setAnswers] = useState<(number | null)[]>([null, null, null, null]);
+  const [answers, setAnswers] = useState<(number | null)[]>(QREADY ? [0, 1, 1, 0] : [null, null, null, null]);
   const [sent, setSent] = useState(false);
   // после 4-го ответа: загрузка → готовый расчёт (колонки меняются местами)
-  const [phase, setPhase] = useState<'q' | 'load' | 'ready'>('q');
+  const [phase, setPhase] = useState<'q' | 'load' | 'ready'>(QREADY ? 'ready' : 'q');
   const [pct, setPct] = useState(0);
   const reduced = useReducedMotion();
   const answered = answers.filter((a) => a !== null).length;
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || QREADY) return;
     const ctx = gsap.context(() => {
       gsap.from(`.${styles.card}`, { y: 80, opacity: 0, scale: 0.97, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 75%' } });
       gsap.from(`.${styles.h2}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 80%' } });
@@ -86,6 +86,17 @@ export function Quiz() {
     return () => cancelAnimationFrame(raf);
   }, [phase, reduced]);
   const backToQuestions = () => { setPhase('q'); setStep(3); };
+  // ?qready: сразу показываем экран расчёта в кадре — для страницы сравнения вариантов
+  useEffect(() => {
+    if (!QREADY) return;
+    const go = () => {
+      const c = root.current?.querySelector<HTMLElement>(`.${styles.cardReady}`);
+      if (!c) return; const y = c.getBoundingClientRect().top + window.scrollY - 12; const l = getLenis(); if (l) l.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
+    };
+    // страница выше ещё догружается и сдвигается — доводим несколько раз
+    const ts = [900, 2000, 3500].map((ms) => setTimeout(go, ms));
+    return () => ts.forEach(clearTimeout);
+  }, []);
 
   const q = quiz.questions[step];
   const fill = (answered / 4) * 100;
@@ -188,11 +199,16 @@ function Loading({ pct }: { pct: number }) {
   );
 }
 
+// ?qready — сразу экран готового расчёта (для сравнения вариантов); ?qm=1|2|3 — мобильная раскладка этого экрана
+const QS = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+const QREADY = !!QS?.has('qready');
+const QM = ['1', '2', '3'].includes(QS?.get('qm') ?? '') ? QS!.get('qm')! : '1';
+
 /* Готовый расчёт: слева на небе — что подготовили, справа на белом — форма */
 function ReadyCard({ answers, sent, onSubmit, onBack }: { answers: (number | null)[]; sent: boolean; onSubmit: (e: FormEvent<HTMLFormElement>) => void; onBack: () => void }) {
   const R = quiz.ready, g = quiz.gift;
   return (
-    <div className={`${styles.card} ${styles.cardReady}`}>
+    <div className={`${styles.card} ${styles.cardReady} ${styles[`qm${QM}`]} ${QREADY ? styles.still : ''}`}>
       <div className={styles.readyLeft}>
         <SkyStatic id="quiz" className={styles.sky} />
         <div className={styles.readyIn}>
