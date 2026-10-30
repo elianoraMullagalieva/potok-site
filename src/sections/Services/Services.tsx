@@ -7,6 +7,7 @@ import { SwipeHint } from '../../ui/SwipeHint';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import { TeamChat } from './TeamChat';
+import { Notice } from '../../ui/Notice';
 import styles from './Services.module.css';
 
 // вариант Б (человек рассказывает в чате) — по адресу ?team=b, чтобы клиент сравнил с вариантом А
@@ -108,7 +109,7 @@ export function Services() {
           <div className={`${styles.says} ${styles.swap}`}>
             <span className="label mute">{services.saysLabel}</span>
             <ul>
-              {s.says.map((q, k) => <li key={q} data-time={['10:42', '16:05'][k]}>{q}</li>)}
+              {s.says.map((q, k) => <li key={q}><Notice from={services.saysFrom[s.n][k]} text={q.replace(/[«»]/g, '')} time={['10:42', '16:05'][k]} /></li>)}
             </ul>
           </div>
         </div>

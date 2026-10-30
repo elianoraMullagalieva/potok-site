@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { services, benefits } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { Face } from '../../ui/Face';
+import { Notice } from '../../ui/Notice';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './TeamChat.module.css';
 
@@ -56,6 +57,12 @@ export function TeamChat({ n, lead, says }: { n: string; lead: string; says: str
       <div className={styles.portrait}>
         <img key={person.photo} src={asset(person.photo)} alt={person.name} loading="lazy" decoding="async" />
         <div className={styles.pCard}><b>{person.name}</b><span>{person.role} · {person.exp.split('.')[0]}</span></div>
+        {/* слова клиентов прилетают уведомлениями поверх фото, когда человек договорил */}
+        {phase === 'done' && (
+          <div className={styles.notes}>
+            {says.map((q, k) => <Notice key={q} from={services.saysFrom[n][k]} text={q.replace(/[«»]/g, '')} time={['10:42', '16:05'][k]} className={styles.note} style={{ '--k': k } as React.CSSProperties} />)}
+          </div>
+        )}
       </div>
 
       <div className={styles.chat}>
@@ -75,8 +82,6 @@ export function TeamChat({ n, lead, says }: { n: string; lead: string; says: str
           {phase === 'dots' && <div className={`${styles.msg} ${styles.dots}`}><span /><span /><span /></div>}
           {phase === 'done' && (
             <>
-              <span className={styles.fromLabel}>{services.saysLabel}</span>
-              {says.map((q, k) => <div key={q} className={styles.in} style={{ '--k': k } as React.CSSProperties}>{q}<time>{['10:42', '16:05'][k]}</time></div>)}
               <Button variant="primary" arrow href="#quiz" className={styles.reply}>{services.chatReply}</Button>
             </>
           )}
@@ -143,10 +148,8 @@ function Viz({ v, n, line }: { v: string; n: string; line: { big?: string; pct?:
     case 'page':
       return (
         <div className={styles.vPage}>
-          <div className={styles.browser}>
-            <div className={styles.bBar}><i /><i /><i /><span>vorota-nn.ru</span></div>
-            <div className={styles.bHero} style={st(0)}><b>Промышленные ворота за 7 дней</b><span>Нижний Новгород · монтаж под ключ</span><em>Рассчитать цену</em></div>
-            <div className={styles.bRow}>{[1, 2, 3].map((k) => <span key={k} style={st(k)} />)}</div>
+          <div className={styles.works}>
+            {['works/w2.webp', 'works/w3.webp', 'works/w1.webp'].map((w, i) => <span key={w} className={styles.work} style={st(i)}><img src={asset(w)} alt="" loading="lazy" /></span>)}
           </div>
           <div className={styles.tags}>{['1 услуга', '1 город', '1 кнопка'].map((x, i) => <span key={x} style={st(i + 3)}>{x}</span>)}</div>
         </div>
@@ -208,7 +211,7 @@ function Viz({ v, n, line }: { v: string; n: string; line: { big?: string; pct?:
       const r = 54, c = 2 * Math.PI * r;
       return (
         <div className={styles.vStat}>
-          <svg viewBox="0 0 140 140" aria-hidden><circle cx="70" cy="70" r={r} className={styles.rBg} /><circle cx="70" cy="70" r={r} className={styles.rFg} style={{ strokeDasharray: c, '--off': c * (1 - (line.pct ?? 100) / 100), '--c': c } as React.CSSProperties} /></svg>
+          <svg viewBox="0 0 140 140" aria-hidden><defs><linearGradient id={`rg${n}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8fb6ff" /><stop offset="1" stopColor="#1f6cff" /></linearGradient></defs><circle cx="70" cy="70" r={r} className={styles.rBg} /><circle cx="70" cy="70" r={r} className={styles.rFg} stroke={`url(#rg${n})`} style={{ strokeDasharray: c, '--off': c * (1 - (line.pct ?? 100) / 100), '--c': c } as React.CSSProperties} /></svg>
           <b className="num">{line.big}</b>
           <span>{it.stat.text}</span>
         </div>

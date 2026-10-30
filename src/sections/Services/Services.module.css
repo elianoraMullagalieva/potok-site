@@ -98,3 +98,8 @@
   .stat span { max-width: none; }
   .dVisual { min-height: 480px; }
 }
+
+/* реплики клиентов — уведомлениями, как на iPhone */
+.says li { padding: 0; background: none; border-radius: 0; max-width: 360px; }
+.says li::after { content: none; }
+.says li:nth-child(2) { margin-left: 22px; }
