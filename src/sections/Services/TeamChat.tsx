@@ -42,9 +42,9 @@ export function TeamChat({ n, lead, says }: { n: string; lead: string; says: str
     if (phase === 'idle' || phase === 'done') return;
     let t = 0;
     if (shown >= lines.length) { setPhase('done'); return; }
-    if (phase === 'dots') t = window.setTimeout(() => { setPhase('type'); setView(shown); }, 700);
-    else if (typed < lines[shown].m.length) t = window.setTimeout(() => setTyped((x) => x + 2), 24);
-    else t = window.setTimeout(() => { setShown((x) => x + 1); setTyped(0); setPhase('dots'); }, 1500);
+    if (phase === 'dots') t = window.setTimeout(() => { setPhase('type'); setView(shown); }, 350);
+    else if (typed < lines[shown].m.length) t = window.setTimeout(() => setTyped((x) => x + 2), 18);
+    else t = window.setTimeout(() => { setShown((x) => x + 1); setTyped(0); setPhase('dots'); }, 750);
     return () => window.clearTimeout(t);
   }, [phase, typed, shown, lines]);
 
