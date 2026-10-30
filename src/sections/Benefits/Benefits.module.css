@@ -330,3 +330,7 @@
   .dTeam li .stat { margin-top: auto; }
   .dTeam li .bubble { position: static; opacity: 1; transform: none; margin-top: 12px; border-radius: 14px 14px 14px 4px; }
 }
+/* раскрытая карточка закрывается кликом в любое место; минус не крутится */
+.cardOn .inCard { cursor: pointer; }
+.cardOn:hover .more { transform: none; }
+.cardsOpen .cardDim:hover .more { transform: translateX(-50%) rotate(90deg); }

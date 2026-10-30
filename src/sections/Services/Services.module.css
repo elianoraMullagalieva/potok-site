@@ -103,3 +103,11 @@
 .says li { padding: 0; background: none; border-radius: 0; max-width: 360px; }
 .says li::after { content: none; }
 .says li:nth-child(2) { margin-left: 22px; }
+
+/* вариант А: левая колонка опущена к центру карточки, кнопка крупнее и с воздухом до кружка */
+@media (min-width: 1001px) {
+  .dLeft { justify-content: center; padding-top: 24px; }
+}
+.dLeft .dCta { height: 62px; padding-left: 32px; padding-right: 9px; gap: 48px; font-size: 17px; transition: translate .4s var(--ease), background .3s, color .3s, box-shadow .4s var(--ease); }
+.dLeft .dCta:hover { translate: 0 -3px; }
+.dLeft .dCta > :last-child { width: 46px; height: 46px; }

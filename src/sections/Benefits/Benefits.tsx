@@ -86,7 +86,7 @@ export function Benefits() {
             {c.kind === 'grey' && <Team />}
             {/* раскрытое содержимое живёт в самой карточке */}
             {open === c.kind && (
-              <div className={styles.inCard} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.inCard}>
                 {c.kind === 'dark' && <DChain />}
                 {c.kind === 'photo' && <DTimeline />}
                 {c.kind === 'light' && <DCrm />}
