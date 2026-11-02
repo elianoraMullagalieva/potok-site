@@ -30,7 +30,7 @@ export function Process() {
       gsap.from(`.${styles.h2}, .${styles.sub}`, { y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1, scrollTrigger: { trigger: root.current, start: small ? 'top 85%' : 'top 75%', once: small } });
       if (small) {
         // телефон и планшет: без pin, карточки-«сторис» один раз мягко проявляются
-        gsap.from(`.${styles.card}`, { y: 40, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.view}`, start: 'top 90%', once: true } });
+        gsap.from(`.${styles.card}`, { opacity: 0, scale: 0.97, duration: 0.9, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: `.${styles.view}`, start: 'top 90%', once: true } });
         return;
       }
       // ряд едет влево до последней карточки с полем справа, затем пауза, чтобы её рассмотреть

@@ -83,9 +83,9 @@ export function Services() {
           <span className={`label mute ${styles.swap}`}>{s.n} · {s.zone}</span>
           <h3 className={`${styles.dTitle} ${styles.swap}`}>{s.hello}</h3>
           <div className={`${styles.will} ${styles.swap}`}>
-            <span className="label mute">{services.willLabel}</span>
-            <ol className="steplist">
-              {s.will.map((w, k) => <li key={w}><i className="num">{k + 1}</i><span>{w.replace('\n', ' ')}</span></li>)}
+            <span className={styles.willLabel}>{services.willLabel}</span>
+            <ol className={`steplist ${styles.willList}`}>
+              {s.will.map((w, k) => <li key={w}><i className="num">{String(k + 1).padStart(2, '0')}</i><span>{w.replace('\n', ' ')}</span></li>)}
             </ol>
           </div>
           <p className={`${styles.stat} ${styles.swap}`}><b className="num">{s.stat.big}</b><span>{s.stat.text}</span></p>

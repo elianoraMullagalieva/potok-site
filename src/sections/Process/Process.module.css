@@ -146,3 +146,16 @@
 .drawerFoot b { display: block; font-size: var(--fs-sm); font-weight: 500; } .drawerFoot span { font-size: var(--fs-xs); color: var(--mute); }
 .drawerFoot .result { grid-column: 2; }
 @media (max-width: 900px) { .drawer { top: auto; height: 86svh; left: 8px; right: 8px; bottom: 8px; width: auto; transform: translateY(calc(100% + 16px)); border-radius: 22px 22px 18px 18px; padding: 20px 20px 24px; } .drawerOpen .drawer { transform: none; } .openMark { top: 44px; right: 14px; } }
+
+/* телефон: карточки по линии текста, компактнее, соседняя выглядывает, ничего не режется снизу */
+@media (max-width: 900px) {
+  .view { scroll-padding-inline: 16px; padding-bottom: 8px; }
+  .track { padding-right: 16px; }
+  .card { width: 70vw; max-width: 300px; min-height: 0; padding: 16px; border-radius: 18px; }
+  .title { margin-top: 12px; font-size: var(--fs-lg); }
+  .visual { margin-top: 12px; }
+  .plate { padding: 12px; }
+  .bars { height: 64px; }
+  .sites { height: 150px; }
+  .foot { margin-top: 12px; }
+}

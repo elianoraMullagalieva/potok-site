@@ -150,3 +150,23 @@
 @media (max-width: 700px) { .shots { height: 170px; } .shot { max-width: 230px; } }
 @media (max-width: 700px) { .says { display: none; } .dRight { gap: 0; } }
 @media (max-width: 700px) { .detail { padding: 20px; margin-top: 12px; } .mWho { margin-bottom: 16px; padding-bottom: 16px; } .dTitle { margin-top: 12px; } .will { margin-top: 24px; } .will .steplist { margin-top: 12px; } .stat { margin-top: 24px; padding-top: 16px; } .dLeft .dCta { margin-top: 24px; } .dRight { margin-top: 12px; } }
+
+/* вариант А по макету Эли: фото шире, текст от верха, «Сделаю под вас» подзаголовком, номера-пилюли */
+.willLabel { display: block; font-size: var(--fs-lg); font-weight: 500; letter-spacing: var(--tr-head); line-height: var(--lh-head); color: var(--ink); }
+.willList { gap: var(--sp-5) !important; }
+.willList li { font-size: var(--fs-base) !important; line-height: var(--lh-ui); }
+.willList li > i { width: 40px !important; height: 26px !important; border-radius: 999px !important; font-size: var(--fs-xs) !important; }
+.stat span { max-width: 18ch !important; font-size: var(--fs-sm); line-height: 1.25; }
+@media (min-width: 1001px) {
+  .detail { grid-template-columns: 1.2fr 1fr 1fr; gap: var(--sp-5); padding: var(--sp-7); }
+  .dLeft { justify-content: flex-start; padding-top: 0; }
+  .dTitle { margin-top: var(--sp-4); font-size: var(--fs-3xl); letter-spacing: -0.03em; max-width: 18ch; }
+  .will { margin-top: var(--sp-7); }
+  .will .steplist { margin-top: var(--sp-5); }
+  .stat { margin-top: var(--sp-6); padding-top: var(--sp-5); max-width: 390px; }
+  .stat b { font-size: var(--fs-2xl); }
+  .dLeft .dCta { margin-top: var(--sp-6); height: 62px; font-size: var(--fs-base); gap: 48px; }
+  .dVisual { min-height: 560px; }
+}
+@media (min-width: 1001px) { .detail { grid-template-columns: 1.3fr 1fr 1fr; } }
+@media (max-width: 700px) { .will .steplist { margin-top: 16px; } .willList { gap: 16px !important; } .dLeft .dCta { font-size: var(--fs-base); } }
