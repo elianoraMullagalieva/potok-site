@@ -77,38 +77,48 @@ export function Footer() {
   );
 }
 
-/* Подпись как у Osmo: буквы поднимаются снизу по очереди от центра к краям, пока футер
-   въезжает в экран. В моменте верх надписи образует дугу, потом выравнивается в строку.
-   Привязано к прокрутке в обе стороны, плюс лёгкий наклон от скорости скролла. */
+/* Подпись как у Osmo: строка гигантских букв лежит на куполе. Центр — вершина, к краям буквы
+   опускаются и поворачиваются по касательной к дуге. Чем ближе конец страницы, тем больше радиус,
+   в самом низу — ровная строка. Привязано к прокрутке в обе стороны. */
 function ElasticSign() {
   const box = useRef<HTMLDivElement>(null);
   const line = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = box.current, row = line.current; if (!el || !row) return;
     const letters = Array.from(row.children) as HTMLElement[];
-    const n = letters.length, mid = (n - 1) / 2;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let raf = 0, p = 0, last = window.scrollY, vel = 0, skew = 0;
-    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+    // расстояние центра каждой буквы от центра строки (в ровном состоянии)
+    let dx: number[] = [];
+    const measure = () => {
+      const c = row.offsetWidth / 2;
+      dx = letters.map((l) => l.offsetLeft + l.offsetWidth / 2 - c);
+    };
+    measure();
+    const ro = new ResizeObserver(measure); ro.observe(row);
+    let raf = 0, p = reduced ? 1 : 0;
     const tick = () => {
       const r = el.getBoundingClientRect(), vh = window.innerHeight;
-      // 0 — верх подписи у нижнего края экрана, 1 — подпись полностью видна
-      const target = reduced ? 1 : Math.max(0, Math.min(1, (vh - r.top) / (r.height * 1.6)));
-      p += (target - p) * 0.14;
-      const y = window.scrollY, dy = y - last; last = y;
-      vel += (dy - vel) * 0.18;
-      skew += ((reduced ? 0 : Math.max(-14, Math.min(14, vel * 0.7))) - skew) * 0.12;
-      for (let i = 0; i < n; i++) {
-        const u = Math.abs(i - mid) / mid;        // 0 в центре, 1 у краёв
-        const delay = u * u * 0.55;               // центр стартует первым: получается дуга
-        const lp = ease(Math.max(0, Math.min(1, (p - delay) / (1 - 0.55))));
-        letters[i].style.transform = `translate3d(0, ${((1 - lp) * 112).toFixed(2)}%, 0)`;
+      const doc = document.documentElement.scrollHeight;
+      const left = Math.max(0, doc - (window.scrollY + vh));               // сколько ещё листать до конца
+      // путь от момента, когда верх подписи показался внизу экрана, до самого конца страницы
+      const span = Math.max(1, r.height + Math.max(0, doc - (r.bottom + window.scrollY)));
+      const target = reduced ? 1 : 1 - Math.min(1, left / span);           // 0 — купол, 1 — ровно
+      p += (target - p) * 0.12;
+      // кривизна: от сильной (радиус ≈ ширина экрана) до нуля
+      const k = (1 - p) * (1 / (window.innerWidth * 0.5));
+      for (let i = 0; i < letters.length; i++) {
+        const d = dx[i] ?? 0;
+        let x = 0, y = 0, rot = 0;
+        if (k > 1e-6) {
+          const R = 1 / k, th = d / R;                                       // угол по длине дуги
+          x = R * Math.sin(th) - d; y = R * (1 - Math.cos(th)); rot = th * 180 / Math.PI;
+        }
+        letters[i].style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg)`;
       }
-      row.style.transform = `skewX(${skew.toFixed(2)}deg)`;
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
   }, []);
   const text = footer.sign.repeat(3);
   return (

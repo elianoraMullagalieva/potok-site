@@ -67,3 +67,6 @@
 .signLine { display: flex; justify-content: center; white-space: nowrap; font-size: clamp(120px, 27vw, 480px); font-weight: 600; letter-spacing: -0.045em; color: var(--ink); user-select: none; transform-origin: 50% 100%; will-change: transform; }
 .signLine span { display: inline-block; will-change: transform; }
 @media (max-width: 768px) { .sign { margin-top: 24px; } }
+/* купол: буквы поворачиваются вокруг низа, строка не перекашивается */
+.signLine { transform: none !important; }
+.signLine span { transform-origin: 50% 100%; }
