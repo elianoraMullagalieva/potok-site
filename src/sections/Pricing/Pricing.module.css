@@ -105,3 +105,9 @@
   .who { min-height: 0; }
   .plan { padding: var(--sp-5) !important; }
 }
+/* основной тариф — наше небо, а не чёрный */
+.featured { background: var(--blue) !important; color: #fff !important; box-shadow: 0 40px 80px -40px rgba(0,30,120,.55) !important; }
+.featured .shade { background: linear-gradient(to top, rgba(5,20,70,.55), rgba(5,20,70,.12) 60%, rgba(5,20,70,0)); }
+.featured .who, .featured .per, .featured .caption { color: rgba(255,255,255,.8) !important; }
+.featured .inc { color: #fff; }
+.featured .inc i::after { border-color: #fff !important; }

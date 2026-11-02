@@ -3,6 +3,7 @@ import { gsap } from '../../lib/lenis';
 import { pricing } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { Face } from '../../ui/Face';
+import { SkyStatic } from '../../ui/Sky';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { services } from '../../content/texts';
 import { Manifest } from '../../ui/Manifest';
@@ -35,6 +36,7 @@ export function Pricing() {
         {/* основной тариф в центре, как в референсе: тёмная карточка, по бокам светлые */}
         {[pricing.plans[2], pricing.plans[0], pricing.plans[1]].map((p) => (
           <article key={p.id} className={`${styles.plan} ${p.featured ? styles.featured : ''}`}>
+            {p.featured && <div className={styles.bg} aria-hidden><SkyStatic id="test" /><div className={styles.shade} /></div>}
             <div className={styles.planTop}>
               <h3 className={styles.name}>{p.name}</h3>
               {p.badge && <span className={styles.badge}>{p.badge}</span>}
