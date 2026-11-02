@@ -257,3 +257,4 @@
   .sayRole { display: block; margin-top: 2px; font-size: var(--fs-xs); font-weight: 400; color: rgba(255,255,255,.75); }
   .sayRole::before { content: none; }
 }
+@media (max-width: 700px) { .val { padding: 16px; } .giftHead { margin-top: 20px; } .gifts { margin-top: 24px; gap: 8px; } }
