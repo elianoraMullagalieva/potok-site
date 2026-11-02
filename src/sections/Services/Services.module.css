@@ -149,3 +149,4 @@
 }
 @media (max-width: 700px) { .shots { height: 170px; } .shot { max-width: 230px; } }
 @media (max-width: 700px) { .says { display: none; } .dRight { gap: 0; } }
+@media (max-width: 700px) { .detail { padding: 20px; margin-top: 12px; } .mWho { margin-bottom: 16px; padding-bottom: 16px; } .dTitle { margin-top: 12px; } .will { margin-top: 24px; } .will .steplist { margin-top: 12px; } .stat { margin-top: 24px; padding-top: 16px; } .dLeft .dCta { margin-top: 24px; } .dRight { margin-top: 12px; } }
