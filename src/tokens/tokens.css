@@ -52,4 +52,4 @@
 :root[data-accent="white"] { --yellow: #ffffff; --yellow-soft: #ecebe6; --accent-dot: var(--ink); }
 
 /* телефон: одинаковый воздух между блоками ≈ 95px */
-@media (max-width: 700px) { :root { --sp-section: 44px; } }
+@media (max-width: 700px) { :root { --sp-section: 40px; } main .skyBand { margin-top: calc(var(--sp-section) - 16px); margin-bottom: calc(var(--sp-section) - 16px); } }

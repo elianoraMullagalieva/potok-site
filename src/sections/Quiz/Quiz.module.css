@@ -239,3 +239,21 @@
   .giftTitle { white-space: normal; max-width: 15ch; font-size: 20px; line-height: 1.08; text-wrap: balance; }
   .giftHead { margin-top: 14px; }
 }
+/* телефон: без реплики, только имя и роль мелко; свой заголовок подарков */
+.tMob { display: none; }
+@media (max-width: 700px) {
+  .tDesk { display: none; } .tMob { display: inline; }
+  .sayText { display: none; }
+  .sayRole { display: inline; }
+  .say { align-items: center; }
+  .sayName { font-size: 12.5px; line-height: 1.3; }
+  .sayName::first-line { color: #fff; }
+  .giftTitle { max-width: 14ch; }
+}
+.sayRole::before { content: ' · '; }
+@media (max-width: 700px) {
+  .sayName { color: #fff; font-size: 15px; font-weight: 500; }
+  .sayName::first-line { color: inherit; }
+  .sayRole { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,.75); }
+  .sayRole::before { content: none; }
+}

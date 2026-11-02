@@ -336,6 +336,7 @@ export const quiz = {
   back: 'Назад',
   gift: {
     title: 'За ответы вы получаете бесплатно',
+    titleMobile: 'За ответы соберу под вас бесплатно',
     usually: 'обычно 5 000 ₽',
     items: [
       { n: '01', title: 'Расчёт заявок по\u00a0вашему городу', visual: 'gifts/v3/calc.webp' },

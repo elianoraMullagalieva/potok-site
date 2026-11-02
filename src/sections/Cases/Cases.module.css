@@ -62,4 +62,4 @@
   .more { margin-top: 32px; }
   .moreBtn { width: 100%; justify-content: space-between; }
 }
-@media (max-width: 700px) { .pin { padding-top: calc(var(--sp-section) + 8px); } }
+@media (max-width: 700px) { .pin { padding-top: var(--sp-section); } }
