@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { pricing } from '../../content/texts';
 import { Button } from '../../ui/Button';
-import { SkyStatic } from '../../ui/Sky';
 import { Face } from '../../ui/Face';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { services } from '../../content/texts';
@@ -33,24 +32,18 @@ export function Pricing() {
       <Manifest label="" chunks={pricing.manifest} skies={['test', 'manifest1']} />
 
       <div className={styles.grid}>
-        {pricing.plans.map((p) => (
+        {/* основной тариф в центре, как в референсе: тёмная карточка, по бокам светлые */}
+        {[pricing.plans[2], pricing.plans[0], pricing.plans[1]].map((p) => (
           <article key={p.id} className={`${styles.plan} ${p.featured ? styles.featured : ''}`}>
-            {p.featured && <div className={styles.bg} aria-hidden><SkyStatic id="test" /><div className={styles.shade} /></div>}
             <div className={styles.planTop}>
-              <div>
-                <h3 className={styles.name}>{p.name}</h3>
-                <p className={styles.tag}>{p.tag}</p>
-              </div>
+              <h3 className={styles.name}>{p.name}</h3>
               {p.badge && <span className={styles.badge}>{p.badge}</span>}
             </div>
             <p className={styles.who}>{p.who}</p>
-            <div className={styles.panel}>
-              <span className={styles.incLabel}>{p.includesLabel}</span>
-              <ul className={styles.inc}>{p.includes.map((x) => <li key={x}><i aria-hidden /><span>{x}</span></li>)}</ul>
-            </div>
-            {/* цена мелко под перечнем, кнопка внизу — так просил клиент */}
+            <ul className={styles.inc}>{p.includes.map((x) => <li key={x}><i aria-hidden /><span>{x}</span></li>)}</ul>
             <div className={styles.priceRow}><span className={`num ${styles.price}`}>{p.price}</span><span className={styles.per}>{p.per}</span></div>
             <Button variant={p.featured ? 'primary' : 'dark'} arrow className={styles.cta} href={p.id === 'test' ? '#quiz' : '#lead'}>{p.cta}</Button>
+            <p className={styles.caption}>{p.tag}</p>
           </article>
         ))}
       </div>

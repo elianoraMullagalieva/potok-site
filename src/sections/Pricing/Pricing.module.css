@@ -75,3 +75,33 @@
 :global(:root[data-accent="white"]) .inc i { background: var(--ink); }
 :global(:root[data-accent="white"]) .inc i::after { border-color: var(--on-dark); }
 :global(:root[data-accent="white"]) .plan:not(.featured) .inc i { background: var(--ink); }
+
+/* v3: тарифы легче — светлые карточки, основной в центре тёмный, список без панели, цена крупно */
+.grid { grid-template-columns: repeat(3, 1fr) !important; gap: var(--sp-4) !important; margin-top: var(--sp-head) !important; }
+.plan { padding: var(--sp-6) var(--sp-6) var(--sp-5) !important; border-radius: 24px; background: #fff; box-shadow: 0 0 0 1px var(--line) inset !important; }
+.plan:hover { transform: translateY(-4px); }
+.featured { background: var(--dark) !important; color: var(--on-dark) !important; box-shadow: 0 40px 80px -44px rgba(10,10,20,.55) !important; }
+.planTop { align-items: center; }
+.name { font-size: var(--fs-xl) !important; letter-spacing: var(--tr-head) !important; }
+.badge { padding: 6px 12px !important; }
+.who { margin-top: var(--sp-3) !important; font-size: var(--fs-sm) !important; line-height: var(--lh-body) !important; color: var(--mute) !important; min-height: 4.5em; }
+.featured .who { color: rgba(244,244,243,.65) !important; }
+.inc { flex: 1; align-content: start; gap: var(--sp-3) !important; margin-top: var(--sp-5) !important; font-size: var(--fs-sm) !important; color: var(--ink); }
+.featured .inc { color: var(--on-dark); }
+.inc i { width: 16px !important; height: 16px !important; margin-top: 2px; border-radius: 0 !important; background: none !important; }
+.inc i::after { left: 5px !important; top: 1px !important; width: 5px !important; height: 10px !important; border-color: var(--blue) !important; border-width: 0 1.8px 1.8px 0 !important; }
+.featured .inc i::after { border-color: #6aa0ff !important; }
+.priceRow { margin-top: var(--sp-6) !important; gap: var(--sp-2) !important; }
+.price { font-size: var(--fs-2xl) !important; letter-spacing: var(--tr-display) !important; }
+.per { font-size: var(--fs-sm) !important; color: var(--mute) !important; }
+.featured .per { color: rgba(244,244,243,.6) !important; }
+.cta { margin-top: var(--sp-4) !important; height: 56px !important; }
+.featured .cta { background: var(--yellow) !important; color: var(--ink) !important; }
+.caption { margin-top: var(--sp-3); text-align: center; font-size: var(--fs-xs); color: var(--mute); }
+.featured .caption { color: rgba(244,244,243,.55); }
+@media (max-width: 1000px) {
+  .grid { grid-template-columns: 1fr !important; }
+  .featured { order: -1; }
+  .who { min-height: 0; }
+  .plan { padding: var(--sp-5) !important; }
+}
