@@ -49,10 +49,18 @@ export function initReveal(root: HTMLElement) {
   };
   const onScroll = () => { if (!raf) raf = requestAnimationFrame(sweep); };
   window.addEventListener('scroll', onScroll, { passive: true });
+  // блоки вне экрана: ставим их бесконечные CSS-анимации на паузу
+  const blkIO = new IntersectionObserver((entries) => {
+    for (const e of entries) (e.target as HTMLElement).classList.toggle('offscreen', !e.isIntersecting);
+  }, { rootMargin: '150px 0px' });
+  const watchBlocks = () => root.querySelectorAll<HTMLElement>(':scope > section, :scope > .blk, :scope > .skyBand, footer').forEach((b) => {
+    if (b.dataset.pw) return; b.dataset.pw = '1'; blkIO.observe(b);
+  });
+  watchBlocks();
   // секции подгружаются лениво — досканируем, когда появляются новые
   let t = 0;
-  const mo = new MutationObserver(() => { clearTimeout(t); t = window.setTimeout(scan, 700); });
+  const mo = new MutationObserver(() => { clearTimeout(t); t = window.setTimeout(() => { scan(); watchBlocks(); }, 700); });
   mo.observe(root, { childList: true, subtree: true });
   t = window.setTimeout(scan, 900);
-  return () => { io.disconnect(); mo.disconnect(); clearTimeout(t); window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
+  return () => { io.disconnect(); blkIO.disconnect(); mo.disconnect(); clearTimeout(t); window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
 }

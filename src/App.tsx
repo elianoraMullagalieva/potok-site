@@ -14,7 +14,9 @@ if (ACCENT) document.documentElement.dataset.accent = ACCENT;
 // вариант тарифов без серой плашки: /v1/flat/ или ?flat
 if (params.has('flat') || /\/flat(\/|$)/.test(location.pathname)) document.documentElement.dataset.pricing = 'flat';
 // прелоадер показывается при каждой загрузке; ?nopre отключает его
-const skipLoader = params.has('nopre') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+// прелоадер только при первом заходе за сессию: при повторных визитах и обновлениях страница открывается сразу
+const seen = (() => { try { const v = sessionStorage.getItem('potok-intro'); sessionStorage.setItem('potok-intro', '1'); return !!v; } catch { return false; } })();
+const skipLoader = params.has('nopre') || seen || matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Первый экран едет одним чанком; всё остальное, включая выгоды нужной версии, подгружается отдельно
 const HeroCardV2 = lazy(() => import('./sections/Hero/HeroCardsV2').then((m) => ({ default: m.HeroCardV2 })));

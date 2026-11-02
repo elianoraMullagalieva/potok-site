@@ -48,7 +48,8 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
   return (
     <section ref={root} className={`${styles.hero} ${renderCard ? styles.dynamic : ''}`}>
       <div className={styles.frame}>
-        <Sky seed={1.7} />
+        {/* на телефоне небо рисуется один раз — облака там почти не заметны, а телефону легче */}
+        <Sky seed={1.7} animate={!small} />
         <div className={styles.shade} />
         <Nav onDark />
 

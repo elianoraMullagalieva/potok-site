@@ -95,8 +95,9 @@ function ElasticSign() {
     };
     measure();
     const ro = new ResizeObserver(measure); ro.observe(row);
-    let raf = 0, p = reduced ? 1 : 0;
+    let raf = 0, p = reduced ? 1 : 0, shown = -1, inView = false;
     const tick = () => {
+      if (!inView) { raf = 0; return; }
       const r = el.getBoundingClientRect(), vh = window.innerHeight;
       const doc = document.documentElement.scrollHeight;
       const left = Math.max(0, doc - (window.scrollY + vh));               // сколько ещё листать до конца
@@ -104,6 +105,8 @@ function ElasticSign() {
       const span = Math.max(1, r.height + Math.max(0, doc - (r.bottom + window.scrollY)));
       const target = reduced ? 1 : 1 - Math.min(1, left / span);           // 0 — купол, 1 — ровно
       p += (target - p) * 0.12;
+      if (Math.abs(p - shown) < 0.0005) { raf = requestAnimationFrame(tick); return; }
+      shown = p;
       // кривизна: от сильной (радиус ≈ ширина экрана) до нуля
       const k = (1 - p) * (1 / (window.innerWidth * 0.5));
       for (let i = 0; i < letters.length; i++) {
@@ -117,8 +120,10 @@ function ElasticSign() {
       }
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    // считаем только пока подпись рядом с экраном
+    const io = new IntersectionObserver(([e]) => { inView = e.isIntersecting; if (inView && !raf) raf = requestAnimationFrame(tick); }, { rootMargin: '200px 0px' });
+    io.observe(el);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
   }, []);
   const text = footer.sign.repeat(3);
   return (
