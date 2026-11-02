@@ -1,11 +1,23 @@
+import { useEffect, useRef } from 'react';
 import styles from './Notice.module.css';
 
 export type NoticeFrom = { name: string; role: string; face?: string };
 
 /* Плашка-уведомление как на iPhone: аватар со значком мессенджера, кто пишет — над цитатой, время справа */
 export function Notice({ from, text, time, className = '', style }: { from: NoticeFrom; text: string; time: string; className?: string; style?: React.CSSProperties }) {
+  // всплывает, как уведомление на экране телефона, когда долистали; соседние — по очереди
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.classList.add(styles.in); return; }
+    const sib = el.closest('ul, ol, [data-notes]') ? [...(el.closest('ul, ol, [data-notes]') as HTMLElement).querySelectorAll(`.${styles.notice}`)].indexOf(el) : 0;
+    el.style.setProperty('--nd', `${Math.max(0, sib) * 420}ms`);
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add(styles.in); io.disconnect(); } }, { threshold: 0.6 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <div className={`${styles.notice} ${className}`} style={style}>
+    <div ref={ref} className={`${styles.notice} ${styles.pop} ${className}`} style={style}>
       {/* аватар клиента со значком мессенджера; без фото — инициалы, как в iPhone */}
       <span className={styles.ava}>
         {from.face ? <img src={`${import.meta.env.BASE_URL}${from.face}`} alt="" loading="lazy" /> : <span className={styles.ini}>{from.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>}

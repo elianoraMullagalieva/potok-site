@@ -11,9 +11,9 @@ export function LogoMark({ size = 30 }: { size?: number }) {
   );
 }
 
-export function Logo({ onDark = false, word = 'Поток' }: { onDark?: boolean; word?: string }) {
+export function Logo({ onDark = false, word = 'Поток', href = '#' }: { onDark?: boolean; word?: string; href?: string }) {
   return (
-    <a href="#" className={`${styles.logo} ${onDark ? styles.onDark : ''}`} aria-label={word}>
+    <a href={href} className={`${styles.logo} ${onDark ? styles.onDark : ''}`} aria-label={word}>
       <LogoMark />
       <span className={styles.word} data-logo-word>{word}</span>
     </a>

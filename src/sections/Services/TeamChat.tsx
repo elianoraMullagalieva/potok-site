@@ -59,7 +59,7 @@ export function TeamChat({ n, lead, says }: { n: string; lead: string; says: str
         <div className={styles.pCard}><b>{person.name}</b><span>{person.role} · {person.exp.split('.')[0]}</span></div>
         {/* слова клиентов прилетают уведомлениями поверх фото, когда человек договорил */}
         {phase === 'done' && (
-          <div className={styles.notes}>
+          <div className={styles.notes} data-notes>
             {says.map((q, k) => <Notice key={q} from={services.saysFrom[n][k]} text={q.replace(/[«»]/g, '')} time={['10:42', '16:05'][k]} className={styles.note} style={{ '--k': k } as React.CSSProperties} />)}
           </div>
         )}

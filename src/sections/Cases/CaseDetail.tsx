@@ -15,7 +15,11 @@ const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
  */
 export function CaseDetail() {
   const root = useRef<HTMLDivElement>(null);
-  const [active, onPick] = useState(cases.items[0].id);
+  // кейс из адреса (?id=) берём сразу, иначе событие от страницы может прийти раньше подписки
+  const [active, onPick] = useState(() => {
+    const id = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('id') : null;
+    return id && cases.items.some((c) => c.id === id) ? id : cases.items[0].id;
+  });
   const [steps, setSteps] = useState(false);
   useEffect(() => {
     const h = (e: Event) => onPick((e as CustomEvent<string>).detail);
@@ -85,11 +89,23 @@ export function CaseDetail() {
               <div><dt>{caseDetail.taskLabel}</dt><dd>{d.task}</dd></div>
               <div><dt>{caseDetail.solutionLabel}</dt><dd>{d.solution}</dd></div>
             </dl>
-            {/* было → стало: красное превращается в зелёное */}
-            <dl className={`${styles.delta} ${styles.swap}`}>
-              <div className={styles.deltaHead}><dt /><dd className={styles.was}>{cases.wasNow[0]}</dd><dd className={styles.now}>{cases.wasNow[1]}</dd></div>
-              {c.delta.map(([l, w, n]) => <div key={l}><dt>{l}</dt><dd className={`num ${styles.was}`}>{w}</dd><dd className={`num ${styles.now}`}>{n}</dd></div>)}
-            </dl>
+            {/* было → стало: две полоски на метрику, длина по значению, итог плашкой */}
+            <div className={`${styles.ba} ${styles.swap}`}>
+              <div className={styles.baHead}><span><i className={styles.dWas} />{cases.wasNow[0]}</span><span><i className={styles.dNow} />{cases.wasNow[1]}</span></div>
+              {c.delta.map(([l, w, n], k) => {
+                const num = (x: string) => parseFloat(x.replace(/\s/g, '').replace(',', '.')) || 0;
+                const a = num(w), b = num(n), max = Math.max(a, b) || 1;
+                const less = b < a; // цена: меньше — лучше
+                const badge = less ? `−${Math.round((1 - b / a) * 100)} %` : `×${(b / (a || 1)).toFixed(b / (a || 1) >= 10 ? 0 : 1).replace('.', ',')}`;
+                return (
+                  <div key={l} className={styles.baRow} style={{ '--k': k } as React.CSSProperties}>
+                    <div className={styles.baTop}><span>{l}</span><em>{badge}</em></div>
+                    <div className={styles.baBar}><i className={styles.barWas} style={{ width: `${(a / max) * 100}%` }} /><b className="num">{w}</b></div>
+                    <div className={styles.baBar}><i className={styles.barNow} style={{ width: `${(b / max) * 100}%` }} /><b className="num">{n}</b></div>
+                  </div>
+                );
+              })}
+            </div>
             <div className={styles.actions}>
               <button type="button" className={styles.full} onClick={() => setSteps((v) => !v)} aria-expanded={steps}>
                 <span className={styles.fullT}>{caseDetail.full}</span>

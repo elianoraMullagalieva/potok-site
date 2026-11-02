@@ -97,3 +97,21 @@
   .delta > div { grid-template-columns: 1fr 72px 72px; }
 }
 @media (max-width: 700px) { .headline { font-size: var(--fs-2xl); } .delta { padding: var(--sp-4); } }
+
+/* было → стало: полоски */
+.ba { display: grid; gap: var(--sp-4); max-width: 520px; margin-top: var(--sp-6); padding: var(--sp-5); border-radius: 20px; background: var(--bg); }
+.baHead { display: flex; gap: var(--sp-4); font-size: var(--fs-xs); color: var(--mute); }
+.baHead span { display: inline-flex; align-items: center; gap: 6px; }
+.baHead i { width: 10px; height: 10px; border-radius: 3px; }
+.dWas, .barWas { background: #cfd0d4; }
+.dNow, .barNow { background: linear-gradient(90deg, #1f6cff, #6aa0ff); }
+.baRow { display: grid; gap: 6px; }
+.baTop { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--fs-sm); color: var(--ink-2); }
+.baTop em { font-style: normal; font-size: var(--fs-xs); font-weight: 600; padding: 3px 9px; border-radius: 999px; background: #e3f3e6; color: #1f6b3a; }
+.baBar { display: flex; align-items: center; gap: 10px; height: 22px; }
+.baBar i { display: block; height: 100%; min-width: 6px; border-radius: 6px; transform-origin: left; animation: baGrow .9s var(--ease) both; animation-delay: calc(var(--k) * 120ms + 150ms); }
+.baBar b { flex: none; font-size: var(--fs-sm); font-weight: 500; color: var(--ink-2); white-space: nowrap; }
+.baBar:last-child b { color: var(--ink); font-weight: 600; }
+@keyframes baGrow { from { transform: scaleX(0); } }
+@media (max-width: 700px) { .ba { padding: var(--sp-4); } }
+.num b { font-size: var(--fs-3xl) !important; white-space: nowrap; letter-spacing: var(--tr-display); line-height: 1; } .numMain b { font-size: var(--fs-4xl) !important; }

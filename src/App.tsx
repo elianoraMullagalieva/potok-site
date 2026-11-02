@@ -58,6 +58,7 @@ function RefreshOnce() {
 export default function App() {
   const [loading, setLoading] = useState(!skipLoader);
   useEffect(() => { import('./lib/lenis').then((m) => m.initLenis()); }, []);
+  useEffect(() => { let off = () => {}; import('./lib/reveal').then((m) => { off = m.initReveal(document.querySelector('main')!); }); return () => off(); }, []);
   const done = useCallback(() => setLoading(false), []);
 
   return (
