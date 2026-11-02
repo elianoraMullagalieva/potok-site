@@ -10,7 +10,7 @@ import styles from './Cases.module.css';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 /* подробный кейс живёт на отдельной странице и открывается в новой вкладке */
-export const caseUrl = (id: string) => import.meta.env.PAGES ? `${import.meta.env.BASE_URL}v2/case/?id=${id}` : `${import.meta.env.BASE_URL}case.html?id=${id}`;
+export const caseUrl = (id: string) => import.meta.env.PAGES ? `${import.meta.env.BASE_URL}v3/case/?id=${id}` : `${import.meta.env.BASE_URL}case.html?id=${id}`;
 type Case = (typeof cases.items)[number];
 
 /**

@@ -5,7 +5,7 @@ import { Sky } from './ui/Sky';
 import { useMedia } from './lib/useMedia';
 
 const params = new URLSearchParams(location.search);
-const V1 = params.get('v') === '1' || /\/v[12](\/|$)/.test(location.pathname);
+const V1 = params.get('v') === '1' || /\/v[123](\/|$)/.test(location.pathname);
 // /v1/3/ или ?n=3 — показать только первые N блоков (отдельная ссылка для показа)
 const LIMIT = Number(params.get('n')) || (location.pathname.match(/\/(\d+)(\/|$)/)?.[1] ? Number(location.pathname.match(/\/(\d+)(\/|$)/)![1]) : 99);
 // вариант акцента: /lime/ или /white/ в пути, либо ?accent=

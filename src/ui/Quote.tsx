@@ -1,15 +1,16 @@
 import { quotes } from '../content/texts';
-import { Face } from './Face';
+import { Notice } from './Notice';
 import styles from './Quote.module.css';
 
-/** Мини-плашка с цитатой клиента: фото, одна фраза, должность. Вместо отдельного блока отзывов */
-export function Quote({ i, className, onDark = false }: { i: number; className?: string; onDark?: boolean }) {
+const TIMES = ['10:42', '14:20', '18:05'];
+
+/** Цитата клиента как уведомление из мессенджера на iPhone: кто пишет — над фразой, время справа */
+export function Quote({ i, className }: { i: number; className?: string; onDark?: boolean }) {
   const q = quotes[i % quotes.length];
+  const [role, company] = q.role.split(', ');
   return (
-    <figure className={`${styles.quote} ${onDark ? styles.onDark : ''} ${className ?? ''}`}>
-      <Face src={q.face} name={q.name} size={44} />
-      <blockquote className={styles.text}>«{q.text}»</blockquote>
-      <figcaption className={styles.who}><b>{q.name}</b><span>{q.role}</span></figcaption>
+    <figure className={`${styles.quote} ${className ?? ''}`}>
+      <Notice from={{ name: q.name, role: company ? `${company} · ${role}` : role }} text={q.text} time={TIMES[i % TIMES.length]} />
     </figure>
   );
 }

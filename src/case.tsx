@@ -13,7 +13,7 @@ function CasePage() {
     const id = new URLSearchParams(location.search).get('id');
     if (id && cases.items.some((c) => c.id === id)) requestAnimationFrame(() => window.dispatchEvent(new CustomEvent('case:open', { detail: id })));
   }, []);
-  const home = import.meta.env.PAGES ? `${import.meta.env.BASE_URL}v2/` : `${import.meta.env.BASE_URL}`;
+  const home = import.meta.env.PAGES ? `${import.meta.env.BASE_URL}v3/` : `${import.meta.env.BASE_URL}`;
   return (
     <main className="page">
       <a href={home} className="label casePageBack">← На главную</a>

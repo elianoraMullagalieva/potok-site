@@ -1,4 +1,4 @@
-.hint { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 500; color: var(--mute); letter-spacing: -0.01em; }
+.hint { display: inline-flex; align-items: center; gap: 12px; font-size: var(--fs-xs); font-weight: 500; color: var(--mute); letter-spacing: -0.01em; }
 .onDark { color: rgba(255,255,255,.9); }
 .hand { animation: swipe 2.2s var(--ease) infinite; }
 @keyframes swipe { 0%, 100% { transform: translateX(0) rotate(0); } 50% { transform: translateX(4px) rotate(-5deg); } }

@@ -19,8 +19,8 @@
 .bars i { flex: 1; border-radius: .3em .3em .15em .15em; background: var(--bg-2); }
 .bars i:last-child { background: var(--accent-dot); }
 .head { position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; width: max-content; max-width: 90%; }
-.hint { display: flex; justify-content: center; margin-bottom: 22px; }
-.h2 { font-size: clamp(26px, 2.7vw, 40px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; }
+.hint { display: flex; justify-content: center; margin-bottom: 20px; }
+.h2 { font-size: var(--fs-3xl); font-weight: 500; letter-spacing: -0.04em; line-height: 1.0; }
 .tail { color: rgba(255,255,255,.7); }
 @media (max-width: 900px) { .frame { height: 78svh; min-height: 560px; max-height: 760px; } }
-@media (max-width: 768px) { .frame { height: 64svh; min-height: 440px; max-height: 560px; } .h2 { font-size: 24px; } .hint { margin-bottom: 14px; } }
+@media (max-width: 768px) { .frame { height: 64svh; min-height: 440px; max-height: 560px; } .h2 { font-size: var(--fs-xl); } .hint { margin-bottom: 12px; } }

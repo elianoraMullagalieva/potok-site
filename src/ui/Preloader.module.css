@@ -8,5 +8,5 @@
 .core { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 56px; height: 56px; display: grid; place-items: center; color: #fff; }
 .ringSvg { position: absolute; inset: 0; }
 .mark { display: grid; place-items: center; }
-.meta { position: absolute; left: 40px; right: 40px; bottom: 32px; display: flex; justify-content: space-between; font-size: 13px; color: var(--mute); }
+.meta { position: absolute; left: 40px; right: 40px; bottom: 32px; display: flex; justify-content: space-between; font-size: var(--fs-xs); color: var(--mute); }
 @media (max-width: 768px) { .meta { left: 20px; right: 20px; bottom: 20px; } }

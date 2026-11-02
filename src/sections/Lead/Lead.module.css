@@ -2,62 +2,62 @@
 .card { display: grid; grid-template-columns: 1.3fr 1fr; border-radius: var(--r-frame); overflow: hidden; min-height: 800px; box-shadow: 0 40px 80px -50px rgba(10,10,10,.35); }
 
 /* левая панель: небо */
-.left { position: relative; isolation: isolate; padding: 40px 44px 36px; background: var(--blue); color: #fff; display: flex; flex-direction: column; gap: 32px; }
+.left { position: relative; isolation: isolate; padding: 40px 40px 32px; background: var(--blue); color: #fff; display: flex; flex-direction: column; gap: 32px; }
 .shade { position: absolute; inset: 0; z-index: 0; background: linear-gradient(to bottom, rgba(0,20,90,.34), rgba(0,20,90,.12) 45%, rgba(0,20,90,.18)); pointer-events: none; }
 .left > :not(.shade, canvas) { position: relative; z-index: 1; }
 .who { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
-.person { display: flex; gap: 14px; align-items: flex-start; max-width: 380px; }
-.person b { display: block; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
-.person span { display: block; margin-top: 4px; font-size: 14.5px; line-height: 1.35; color: rgba(255,255,255,.82); }
+.person { display: flex; gap: 12px; align-items: flex-start; max-width: 380px; }
+.person b { display: block; font-size: var(--fs-md); font-weight: 600; letter-spacing: -0.01em; }
+.person span { display: block; margin-top: 4px; font-size: var(--fs-sm); line-height: 1.35; color: rgba(255,255,255,.82); }
 .contacts { display: flex; gap: 8px; flex-wrap: wrap; }
-.pill { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 12px; background: var(--ink); color: var(--on-dark); font-size: 14px; font-weight: 500; transition: transform .3s var(--ease), background .3s; }
+.pill { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 12px; background: var(--ink); color: var(--on-dark); font-size: var(--fs-sm); font-weight: 500; transition: transform .3s var(--ease), background .3s; }
 .pill:hover { transform: translateY(-2px); }
 .pillTg { background: #fff; color: var(--ink); }
 .pillTg:hover { background: var(--yellow); }
-.h2 { margin-top: auto; font-size: clamp(36px, 4.6vw, 68px); font-weight: 500; letter-spacing: -0.045em; line-height: 1.0; }
+.h2 { margin-top: auto; font-size: var(--fs-4xl); font-weight: 500; letter-spacing: -0.045em; line-height: 1.0; }
 .h2 span { color: rgba(255,255,255,.62); }
 /* подарок */
-.gift { padding: 18px 20px; border-radius: 20px; background: rgba(255,255,255,.94); color: var(--ink); }
-.giftHead { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; }
-.giftLabel { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
-.usually { font-size: 13px; font-weight: 500; padding: 6px 10px; border-radius: 999px; background: var(--yellow); }
-.gifts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
-.gifts li { display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 1.3; }
+.gift { padding: 16px 20px; border-radius: 20px; background: rgba(255,255,255,.94); color: var(--ink); }
+.giftHead { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; }
+.giftLabel { font-size: var(--fs-sm); font-weight: 600; letter-spacing: -0.01em; }
+.usually { font-size: var(--fs-xs); font-weight: 500; padding: 6px 8px; border-radius: 999px; background: var(--yellow); }
+.gifts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+.gifts li { display: flex; flex-direction: column; gap: 8px; font-size: var(--fs-sm); line-height: 1.3; }
 .gifts img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: left top; border-radius: 10px; box-shadow: 0 0 0 1px var(--line) inset; }
 .socials { display: flex; gap: 8px; }
 .socials a { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; transition: transform .3s var(--ease); }
 .socials a:hover { transform: translateY(-2px); }
 
 /* правая панель: форма */
-.right { padding: 48px 48px 44px; background: #fff; color: var(--ink); display: flex; flex-direction: column; }
-.fTitle { font-size: clamp(30px, 2.8vw, 44px); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
+.right { padding: 48px 48px 40px; background: #fff; color: var(--ink); display: flex; flex-direction: column; }
+.fTitle { font-size: var(--fs-3xl); font-weight: 500; letter-spacing: -0.04em; line-height: 1.02; }
 .fTitle span { color: var(--mute); }
-.form { display: flex; flex-direction: column; margin-top: 36px; flex: 1; }
-.label { font-size: 13px; color: var(--mute); }
-.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.form { display: flex; flex-direction: column; margin-top: 32px; flex: 1; }
+.label { font-size: var(--fs-xs); color: var(--mute); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .chipBreak { flex-basis: 100%; height: 0; }
-.chip { font-size: 14px; padding: 9px 14px; border-radius: 999px; background: var(--bg); color: var(--ink); transition: background .3s, color .3s, box-shadow .3s; }
+.chip { font-size: var(--fs-sm); padding: 9px 12px; border-radius: 999px; background: var(--bg); color: var(--ink); transition: background .3s, color .3s, box-shadow .3s; }
 .chip:hover { box-shadow: 0 0 0 1px var(--ink) inset; }
 .chipOn { background: var(--yellow); color: var(--ink); box-shadow: none; }
-.field { position: relative; display: block; margin-top: 28px; }
-.field input { width: 100%; height: 40px; padding: 10px 0 6px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: 16px; outline: 0; transition: border-color .3s; }
+.field { position: relative; display: block; margin-top: 24px; }
+.field input { width: 100%; height: 40px; padding: 8px 0 6px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: var(--fs-base); outline: 0; transition: border-color .3s; }
 .field input:focus { border-color: var(--ink); }
-.field span { position: absolute; left: 0; top: 10px; font-size: 15px; color: var(--mute); pointer-events: none; transition: transform .3s var(--ease), font-size .3s, color .3s; transform-origin: left top; }
-.field input:focus + span, .field input:not(:placeholder-shown) + span { transform: translateY(-16px); font-size: 11.5px; color: var(--mute); }
-.consent { display: flex; gap: 10px; align-items: flex-start; margin-top: 28px; font-size: 13px; color: var(--mute); }
+.field span { position: absolute; left: 0; top: 10px; font-size: var(--fs-sm); color: var(--mute); pointer-events: none; transition: transform .3s var(--ease), font-size .3s, color .3s; transform-origin: left top; }
+.field input:focus + span, .field input:not(:placeholder-shown) + span { transform: translateY(-16px); font-size: var(--fs-xs); color: var(--mute); }
+.consent { display: flex; gap: 8px; align-items: flex-start; margin-top: 24px; font-size: var(--fs-xs); color: var(--mute); }
 .consent input { margin-top: 2px; accent-color: var(--ink); }
 .cta { margin-top: auto; align-self: stretch; justify-content: space-between; padding-top: 0; }
 .form .cta { margin-top: 24px; height: 56px; }
 .form .cta:hover { background: var(--yellow); color: var(--ink); }
-.done { display: flex; align-items: center; gap: 14px; margin-top: 40px; font-size: 20px; font-weight: 500; }
+.done { display: flex; align-items: center; gap: 12px; margin-top: 40px; font-size: var(--fs-lg); font-weight: 500; }
 .check { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--yellow); color: var(--ink); }
 
 @media (max-width: 1100px) { .chipBreak { display: none; } .gifts { grid-template-columns: 1fr; } .gifts li { flex-direction: row; align-items: center; } .gifts img { width: 96px; flex: none; } }
 @media (max-width: 900px) {
   .section { padding: 24px var(--gutter) 0; }
   .card { grid-template-columns: 1fr; min-height: 0; }
-  .left, .right { padding: 28px 20px; }
-  .chip { padding: 13px 14px; font-size: 14px; }
+  .left, .right { padding: 24px 20px; }
+  .chip { padding: 12px 12px; font-size: var(--fs-sm); }
   .pill { min-height: 44px; }
   .field input { height: 48px; }
   .socials a { width: 44px; height: 44px; }
