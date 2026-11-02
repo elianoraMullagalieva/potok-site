@@ -4,7 +4,7 @@
   border-radius: var(--r-frame); background: #fff; box-shadow: 0 1px 1px rgba(10,10,10,.03), 0 30px 60px -40px rgba(10,10,10,.22);
 }
 .portrait { position: relative; border-radius: var(--r-card); overflow: hidden; background: var(--bg-2); }
-.portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; animation: fadeIn .8s var(--ease) both; }
+.portrait > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; animation: fadeIn .8s var(--ease) both; }
 .pCard { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; gap: 2px; padding: 12px 12px; border-radius: 14px; background: rgba(255,255,255,.88); backdrop-filter: blur(10px); }
 .pCard b { font-size: var(--fs-base); font-weight: 500; } .pCard span { font-size: var(--fs-xs); color: var(--mute); }
 
@@ -229,8 +229,8 @@ div.msgOn { padding-bottom: 12px; cursor: default; }
 .note { animation: drop .6s cubic-bezier(.2,.9,.25,1.15) both; animation-delay: calc(var(--k) * 700ms + 300ms); }
 @keyframes drop { from { opacity: 0; transform: translateY(-16px) scale(.94); } to { opacity: 1; transform: none; } }
 @media (max-width: 1000px) {
-  .portrait { display: block; height: 0; overflow: visible; }
-  .portrait img, .pCard { display: none; }
+  .portrait { display: block; height: auto; overflow: visible; background: none; border-radius: 0; }
+  .portrait > img, .pCard { display: none; }
   .notes { position: static; margin: 8px 0 0; }
   .box { gap: 8px; }
 }
