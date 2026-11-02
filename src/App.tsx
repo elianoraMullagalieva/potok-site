@@ -14,9 +14,7 @@ if (ACCENT) document.documentElement.dataset.accent = ACCENT;
 // вариант тарифов без серой плашки: /v1/flat/ или ?flat
 if (params.has('flat') || /\/flat(\/|$)/.test(location.pathname)) document.documentElement.dataset.pricing = 'flat';
 // прелоадер показывается при каждой загрузке; ?nopre отключает его
-// прелоадер только при первом заходе за сессию: при повторных визитах и обновлениях страница открывается сразу
-const seen = (() => { try { const v = sessionStorage.getItem('potok-intro'); sessionStorage.setItem('potok-intro', '1'); return !!v; } catch { return false; } })();
-const skipLoader = params.has('nopre') || seen || matchMedia('(prefers-reduced-motion: reduce)').matches;
+const skipLoader = params.has('nopre') || matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Первый экран едет одним чанком; всё остальное, включая выгоды нужной версии, подгружается отдельно
 const HeroCardV2 = lazy(() => import('./sections/Hero/HeroCardsV2').then((m) => ({ default: m.HeroCardV2 })));
@@ -67,7 +65,7 @@ export default function App() {
     <>
     <main className="page">
       {loading && <Preloader onDone={done} />}
-      <Hero renderCard={V1 ? undefined : (i) => <Suspense fallback={null}><HeroCardV2 i={i} /></Suspense>} delay={loading ? 3.8 : 0} />
+      <Hero renderCard={V1 ? undefined : (i) => <Suspense fallback={null}><HeroCardV2 i={i} /></Suspense>} delay={loading ? 3.25 : 0} />
       {LIMIT > 1 && <Block><Benefits /></Block>}
       {LIMIT > 2 && <Block><Quiz /></Block>}
       {LIMIT > 3 && <Block><Services /></Block>}
