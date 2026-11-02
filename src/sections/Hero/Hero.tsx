@@ -24,8 +24,11 @@ export function Hero({ renderCard, delay = 0 }: { renderCard?: (i: number) => Re
     const ctx = gsap.context(() => {
       if (reduced) return;
       const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: delayRef.current });
-      tl.from(`.${styles.frame}`, { scale: 0.96, borderRadius: 60, duration: 1.4 }, 0)
-        .from(`.${styles.word}`, { yPercent: 110, opacity: 0, filter: 'blur(8px)', duration: 1.1, stagger: 0.05 }, 0.25)
+      const afterLoader = delayRef.current > 0;
+      // после прелоадера рамку не трогаем: окно шторки уже раскрылось ровно до неё, иначе на стыке дёргается
+      if (!afterLoader) tl.from(`.${styles.frame}`, { scale: 0.96, borderRadius: 60, duration: 1.4 }, 0);
+      // blur на телефоне дорогой и даёт рывки — там только подъём и прозрачность
+      tl.from(`.${styles.word}`, { yPercent: 110, opacity: 0, ...(small ? {} : { filter: 'blur(8px)' }), duration: 1.1, stagger: 0.05 }, afterLoader ? 0.05 : 0.25)
         .from(`.${styles.sub}, .${styles.actions}, .${styles.under}`, { y: 24, opacity: 0, duration: 1, stagger: 0.1 }, 0.7)
         .from(`.${styles.stage}`, { y: 140, opacity: 0, scale: 0.92, duration: 1.8 }, 0.55)
         // выделение слова «первого», как текст на телефоне

@@ -64,7 +64,7 @@ export function Sky({ seed = 1.7, zoom = 1, pan = [0, 0], animate = true, classN
     };
     resize();
     const draw = (ms: number) => { gl.uniform1f(uT, ms / 1000 + seed * 40); gl.drawArrays(gl.TRIANGLES, 0, 3); };
-    const loop = (ms: number) => { if (!running) return; if (visible) draw(ms); raf = requestAnimationFrame(loop); };
+    const loop = (ms: number) => { if (!running) return; if (visible && (!document.documentElement.dataset.preloading || cv.closest('[data-preloader]'))) draw(ms); raf = requestAnimationFrame(loop); };
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
     io.observe(cv);
     const ro = new ResizeObserver(() => { resize(); draw(performance.now()); });

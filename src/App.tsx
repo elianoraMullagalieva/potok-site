@@ -64,7 +64,7 @@ export default function App() {
     <>
     <main className="page">
       {loading && <Preloader onDone={done} />}
-      <Hero renderCard={V1 ? undefined : (i) => <Suspense fallback={null}><HeroCardV2 i={i} /></Suspense>} delay={loading ? 3.0 : 0} />
+      <Hero renderCard={V1 ? undefined : (i) => <Suspense fallback={null}><HeroCardV2 i={i} /></Suspense>} delay={loading ? 3.8 : 0} />
       {LIMIT > 1 && <Block><Benefits /></Block>}
       {LIMIT > 2 && <Block><Quiz /></Block>}
       {LIMIT > 3 && <Block><Services /></Block>}

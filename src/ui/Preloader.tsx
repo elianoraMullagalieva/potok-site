@@ -26,6 +26,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
     const small = `inset(${(H - S) / 2}px ${(W - S) / 2 + 0.01}px ${(H - S) / 2 + 0.02}px ${(W - S) / 2 + 0.03}px round 14px)`;
     const full = `inset(12px 12.01px 12.02px 12.03px round 28px)`;
     gsap.set(w, { clipPath: small, opacity: 0 });
+    document.documentElement.dataset.preloading = '1';
 
     const M = Math.min(W, H);
     const ins = (size: number, r: number) => `inset(${(H - size) / 2}px ${(W - size) / 2 + 0.01}px ${(H - size) / 2 + 0.02}px ${(W - size) / 2 + 0.03}px round ${r}px)`;
@@ -49,12 +50,13 @@ export function Preloader({ onDone }: { onDone: () => void }) {
       .to(q(`.${styles.core}`), { opacity: 0, scale: 0.8, duration: 0.3, ease: 'power2.in' }, 3.0)
       .fromTo(w, { clipPath: small }, { clipPath: full, duration: 1.3, ease: 'expo.inOut' }, 3.05)
       .to(q(`.${styles.meta}`), { opacity: 0, duration: 0.3 }, 3.05)
+      .call(() => { delete document.documentElement.dataset.preloading; }, [], 4.15)
       .to(el, { opacity: 0, duration: 0.45, ease: 'power2.inOut', onComplete: onDone }, 4.2);
-    return () => { tl.kill(); };
+    return () => { tl.kill(); delete document.documentElement.dataset.preloading; };
   }, [onDone]);
 
   return (
-    <div ref={root} className={styles.root} aria-hidden>
+    <div ref={root} className={styles.root} aria-hidden data-preloader>
       {RINGS.map((_, i) => <div key={i} className={`${styles.ring} ${i % 2 ? styles.ringDeep : ''}`} style={{ backgroundImage: `url(${import.meta.env.BASE_URL}sky/quiz.webp)`, backgroundSize: `${118 + i * 14}% auto` }} />)}
       <div ref={win} className={styles.win}>
         <Sky seed={1.7} />
