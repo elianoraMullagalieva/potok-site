@@ -58,6 +58,19 @@ function RefreshOnce() {
 export default function App() {
   const [loading, setLoading] = useState(!skipLoader);
   useEffect(() => { import('./lib/lenis').then((m) => m.initLenis()); }, []);
+  // ссылка с #блоком (например #services): блоки выше подгружаются позже и сдвигают страницу,
+  // поэтому доводим прокрутку несколько раз, пока всё не встанет; за прелоадером этого не видно
+  useEffect(() => {
+    const id = location.hash.slice(1); if (!id) return;
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    const go = () => import('./lib/lenis').then(({ getLenis }) => {
+      const el = document.getElementById(id); if (!el) return;
+      const y = el.getBoundingClientRect().top + window.scrollY;
+      const l = getLenis(); if (l) l.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
+    });
+    const ts = [300, 900, 1600, 2400, 3100, 4000].map((ms) => window.setTimeout(go, ms));
+    return () => ts.forEach(clearTimeout);
+  }, []);
   useEffect(() => { let off = () => {}; import('./lib/reveal').then((m) => { off = m.initReveal(document.querySelector('main')!); }); return () => off(); }, []);
   const done = useCallback(() => setLoading(false), []);
 
