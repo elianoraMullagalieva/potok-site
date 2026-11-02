@@ -168,3 +168,4 @@ article:nth-child(3n+1) [data-live] .inner, [data-live]:nth-child(3n+1) .inner {
 :global(:root[data-accent="white"]) .chipOn { background: var(--ink); color: var(--on-dark); }
 :global(:root[data-accent="white"]) .chips .chip { animation-name: chipCycleInk; }
 @keyframes chipCycleInk { 0%, 2% { background: var(--bg-2); color: var(--ink); } 6%, 18% { background: var(--ink); color: var(--on-dark); } 22%, 100% { background: var(--bg-2); color: var(--ink); } }
+@media (max-width: 700px) { .hero { margin-bottom: 44px; } }

@@ -85,6 +85,11 @@ export function CaseDetail() {
               <div><dt>{caseDetail.taskLabel}</dt><dd>{d.task}</dd></div>
               <div><dt>{caseDetail.solutionLabel}</dt><dd>{d.solution}</dd></div>
             </dl>
+            {/* было → стало: красное превращается в зелёное */}
+            <dl className={`${styles.delta} ${styles.swap}`}>
+              <div className={styles.deltaHead}><dt /><dd className={styles.was}>{cases.wasNow[0]}</dd><dd className={styles.now}>{cases.wasNow[1]}</dd></div>
+              {c.delta.map(([l, w, n]) => <div key={l}><dt>{l}</dt><dd className={`num ${styles.was}`}>{w}</dd><dd className={`num ${styles.now}`}>{n}</dd></div>)}
+            </dl>
             <div className={styles.actions}>
               <button type="button" className={styles.full} onClick={() => setSteps((v) => !v)} aria-expanded={steps}>
                 <span className={styles.fullT}>{caseDetail.full}</span>

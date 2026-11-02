@@ -111,3 +111,40 @@
 .dLeft .dCta { height: 62px; padding-left: 32px; padding-right: 9px; gap: 48px; font-size: 17px; transition: translate .4s var(--ease), background .3s, color .3s, box-shadow .4s var(--ease); }
 .dLeft .dCta:hover { translate: 0 -3px; }
 .dLeft .dCta > :last-child { width: 46px; height: 46px; }
+
+/* телефон: четыре лица в ряд без прокрутки, ниже компактная карточка выбранного */
+@media (max-width: 700px) {
+  .hint { display: none !important; }
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 24px; overflow: visible; padding-bottom: 0; }
+  .item { flex: none; max-width: none; height: auto; aspect-ratio: 3 / 4; padding: 0; border-radius: 16px; }
+  .item .top, .item .shade { display: none; }
+  .photo { object-position: 50% 14%; }
+  .title { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 6px 7px; font-size: 11.5px; line-height: 1.15; text-align: center; background: linear-gradient(to top, rgba(10,10,14,.75), transparent); }
+  .on { box-shadow: 0 0 0 2.5px var(--yellow); }
+  .detail { padding: 16px; gap: 14px; margin-top: 10px; }
+  .dVisual { min-height: 0; aspect-ratio: 4 / 3; order: 0; }
+  .dPhoto { object-position: 50% 12%; }
+  .who { left: 10px; right: 10px; bottom: 10px; padding: 9px 11px; }
+  .pName { font-size: 14.5px; } .pRole { font-size: 12px; }
+  .dTitle { margin-top: 8px; font-size: 26px; }
+  .will { margin-top: 16px; }
+  .will .steplist { margin-top: 10px; }
+  .stat { margin-top: 16px; padding-top: 14px; }
+  .stat b { font-size: 26px; }
+  .dLeft .dCta { margin-top: 18px; height: 56px; }
+  .dRight { gap: 18px; }
+  .shots { height: 150px; }
+  .shot { max-width: 250px; right: 18%; }
+}
+.mWho { display: none; }
+@media (max-width: 700px) {
+  .title { display: none; }
+  .item { aspect-ratio: 4 / 5; }
+  .photo { object-position: 50% 10%; }
+  .dVisual { display: none; }
+  .mWho { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .mWho img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+  .mWho span { display: grid; line-height: 1.2; }
+  .mWho b { font-size: 15px; font-weight: 500; } .mWho small { font-size: 12px; color: var(--mute); }
+}
+@media (max-width: 700px) { .shots { height: 170px; } .shot { max-width: 230px; } }

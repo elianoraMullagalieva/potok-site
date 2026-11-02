@@ -266,7 +266,7 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
       <div className={styles.say} key={`s${Math.min(step, 4)}`}>
         <img className={styles.ava} src={`${import.meta.env.BASE_URL}${person.photo}`} alt={person.name} width={76} height={76} loading="lazy" draggable={false} />
         <div>
-          <div className={styles.sayName}>{person.name} · {person.role}</div>
+          <div className={styles.sayName}>{person.name}<span className={styles.sayRole}> · {person.role}</span></div>
           <p className={styles.sayText}>{quiz.say[Math.min(step, 4)]}</p>
         </div>
       </div>

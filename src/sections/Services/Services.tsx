@@ -78,6 +78,8 @@ export function Services() {
       {/* раскрытая карточка: человек говорит от первого лица */}
       {!CHAT && <div ref={detail} className={styles.detail}>
         <div className={styles.dLeft}>
+          {/* на телефоне вместо большого фото — компактная строка с лицом */}
+          <div className={`${styles.mWho} ${styles.swap}`}><img src={asset(person.face)} alt="" /><span><b>{person.name}</b><small>{person.role} · {person.exp.split('.')[0]}</small></span></div>
           <span className={`label mute ${styles.swap}`}>{s.n} · {s.zone}</span>
           <h3 className={`${styles.dTitle} ${styles.swap}`}>{s.hello}</h3>
           <div className={`${styles.will} ${styles.swap}`}>

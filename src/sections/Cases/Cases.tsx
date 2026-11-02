@@ -102,11 +102,8 @@ function Card({ c, onStudy }: { c: Case; onStudy: (id: string) => void }) {
         <span className={styles.cat}>{c.category}</span>
         <h3 className={styles.niche}>{c.niche}</h3>
         <p className={styles.did}>{c.did}</p>
-        {/* было → стало: красное превращается в зелёное */}
-        <dl className={styles.delta}>
-          <div className={styles.deltaHead}><dt /><dd className={styles.was}>{cases.wasNow[0]}</dd><dd className={styles.now}>{cases.wasNow[1]}</dd></div>
-          {c.delta.map(([l, w, n]) => <div key={l}><dt>{l}</dt><dd className={`num ${styles.was}`}>{w}</dd><dd className={`num ${styles.now}`}>{n}</dd></div>)}
-        </dl>
+        {/* в превью только результат; «было → стало» — в подробном разборе кейса */}
+        <ul className={styles.facts}>{c.facts.slice(0, 2).map((f) => <li key={f}>{f}</li>)}</ul>
       </div>
       <Button variant="ghost" arrow className={styles.cta} href={caseUrl(c.id)} target="_blank" rel="noreferrer" title={cases.openNew} onClick={() => onStudy(c.id)}>{cases.cta}</Button>
     </article>

@@ -194,3 +194,48 @@
   .qm3 .lock { font-size: 0; gap: 0; } .qm3 .lock svg { width: 22px; height: 22px; padding: 5px; }
 }
 .still, .still * { animation: none !important; }
+
+/* ───── телефон: квиз компактнее, чтобы вопрос и несколько ответов были на одном экране ───── */
+@media (max-width: 700px) {
+  .card { margin-top: 28px; }
+  .val { padding: 14px 14px 14px; }
+  .say { gap: 10px; padding-right: 56px; }
+  .ava { width: 46px; height: 46px; }
+  .sayName { font-size: 11.5px; }
+  .sayText { margin-top: 3px; font-size: 15px; line-height: 1.22; }
+  .o { width: 44px; right: 12px; top: 12px; }
+  .giftHead { margin-top: 16px; }
+  .giftTitle { font-size: clamp(16px, 5vw, 20px); max-width: none; white-space: nowrap; }
+  .usually { top: -24px; right: -2px; font-size: 11.5px; padding: 6px 10px; }
+  .gifts { gap: 6px; margin-top: 10px; }
+  .gift, .giftWide { grid-template-columns: 70px 1fr auto; gap: 10px; padding: 6px 8px 6px 6px; border-radius: 12px; }
+  .gv, .gvPlaceholder { border-radius: 7px; }
+  .giftText { gap: 2px; }
+  .giftText b, .giftWide .giftText b { font-size: 13.5px; line-height: 1.2; }
+  .giftState { font-size: 11px; }
+  .giftN { font-size: 10px; padding: 2px 6px; }
+  .left { padding: 16px 16px 16px; }
+  .pane { margin-top: 12px; }
+  .q { font-size: clamp(22px, 6.6vw, 27px); max-width: none; }
+  .options { margin-top: 14px; gap: 7px; }
+  .opt { height: 50px; padding: 0 16px; border-radius: 14px; font-size: 15.5px; }
+  .back { padding-top: 12px; }
+}
+@media (max-width: 700px) {
+  .gifts { margin-top: 18px; }
+  .usually { top: -15px; right: 6px; transform: rotate(-3deg); }
+}
+@media (max-width: 380px) {
+  .giftN { display: none; }
+  .gift, .giftWide { grid-template-columns: 64px 1fr; }
+  .usually + .gift { padding-top: 16px; }
+  .sayText { font-size: 14px; }
+}
+/* телефон: роль у имени прячем, реплика в две строки, «За ответы…» — в две строки, не под плашкой */
+@media (max-width: 700px) {
+  .sayRole { display: none; }
+  .say { padding-right: 50px; }
+  .sayText { font-size: 14.5px; max-width: none; white-space: normal; text-wrap: balance; }
+  .giftTitle { white-space: normal; max-width: 15ch; font-size: 20px; line-height: 1.08; text-wrap: balance; }
+  .giftHead { margin-top: 14px; }
+}
