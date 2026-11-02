@@ -10,7 +10,7 @@ export function Quote({ i, className }: { i: number; className?: string; onDark?
   const [role, company] = q.role.split(', ');
   return (
     <figure className={`${styles.quote} ${className ?? ''}`}>
-      <Notice from={{ name: q.name, role: company ? `${company} · ${role}` : role }} text={q.text} time={TIMES[i % TIMES.length]} />
+      <Notice from={{ name: q.name, role: company ? `${company} · ${role}` : role, face: q.face }} text={q.text} time={TIMES[i % TIMES.length]} />
     </figure>
   );
 }

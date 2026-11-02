@@ -16,7 +16,7 @@
 
 .list { border-top: 1px solid var(--line); }
 .item { border-bottom: 1px solid var(--line); }
-.q { display: flex; align-items: center; gap: 20px; width: 100%; padding: 24px 4px; text-align: left; font-size: var(--fs-lg); letter-spacing: -0.02em; font-weight: 500; transition: color .3s; }
+.q { display: flex; align-items: center; gap: 20px; width: 100%; padding: 24px 4px; text-align: left; font-size: var(--fs-md); letter-spacing: -0.02em; font-weight: 500; transition: color .3s; }
 .q:hover { color: var(--ink-2); }
 .n { flex: none; width: 30px; font-size: var(--fs-sm); color: var(--mute); }
 .qText { flex: 1; }
@@ -53,3 +53,4 @@
 :global(:root[data-accent="white"]) .on .plus { background: var(--ink); }
 :global(:root[data-accent="white"]) .on .plus::before, :global(:root[data-accent="white"]) .on .plus::after { background: var(--on-dark); }
 @media (max-width: 700px) { .section { padding-top: calc(var(--sp-section) - 16px); padding-bottom: calc(var(--sp-section) + 15px); } }
+@media (max-width: 700px) { .q { padding: 20px 4px; gap: 16px; } }
