@@ -111,3 +111,14 @@
 .featured .who, .featured .per, .featured .caption { color: rgba(255,255,255,.8) !important; }
 .featured .inc { color: #fff; }
 .featured .inc i::after { border-color: #fff !important; }
+/* «С кем сравнивать»: заголовок слева, уведомление справа */
+.cmpHead { display: flex !important; justify-content: space-between; align-items: flex-end; gap: var(--sp-6); text-align: left !important; }
+.cmpHead .cmpTitle, .cmpHead .cmpSub { text-align: left !important; margin-left: 0 !important; }
+.cmpQuote { width: 380px; max-width: 100%; flex: none; }
+@media (max-width: 900px) { .cmpHead { flex-direction: column; align-items: stretch; } .cmpQuote { width: 100%; } }
+/* планшет: основной во всю строку (список в две колонки), два других рядом */
+@media (min-width: 701px) and (max-width: 1000px) {
+  .grid { grid-template-columns: 1fr 1fr !important; }
+  .featured { grid-column: 1 / -1; }
+  .featured .inc { grid-template-columns: 1fr 1fr; column-gap: var(--sp-6); }
+}

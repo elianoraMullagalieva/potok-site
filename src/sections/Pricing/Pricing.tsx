@@ -50,12 +50,15 @@ export function Pricing() {
         ))}
       </div>
       <p className={styles.budget}>{pricing.budget}</p>
-      <Quote i={1} className={styles.quote} />
 
       {/* сравнение: все четыре варианта открыты сразу, у каждого свой «аватар» */}
+      {/* слева заголовок сравнения, справа слова клиента */}
       <div className={styles.cmpHead}>
-        <h3 className={`display ${styles.cmpTitle}`}>{c.title}</h3>
-        <p className={styles.cmpSub}>{c.honest}</p>
+        <div>
+          <h3 className={`display ${styles.cmpTitle}`}>{c.title}</h3>
+          <p className={styles.cmpSub}>{c.honest}</p>
+        </div>
+        <Quote i={1} className={styles.cmpQuote} />
       </div>
       <div className={styles.compare}>
         <SwipeHint text="Листайте вправо" className={styles.cmpHint} />
