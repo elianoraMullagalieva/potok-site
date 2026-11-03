@@ -4,6 +4,7 @@ import { cases, caseDetail } from '../../content/texts';
 import { Dot } from '../../ui/Tag';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Chats.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
@@ -39,7 +40,7 @@ export function Chats() {
             <header className={styles.top}>
               <i>{ch.who.slice(0, 1)}</i>
               <span><b>{ch.who}</b><small>{ch.role} · {c.client}</small></span>
-              <img src={asset(`logos/${c.id}.webp`)} alt="" className={styles.logo} loading="lazy" draggable={false} />
+              <LazyImg src={asset(`logos/${c.id}.webp`)} alt="" className={styles.logo} draggable={false} />
             </header>
             {ch.msgs.map((m, i) => <p key={m} className={styles.msg}>{mark(m)}<time>{['10:42', '10:43', '10:45'][i]}</time></p>)}
             <p className={`${styles.msg} ${styles.ours}`}>{ch.reply}<time>10:51 <i aria-hidden>✓✓</i></time></p>

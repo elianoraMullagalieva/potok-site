@@ -9,6 +9,7 @@ import { services } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './About.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
@@ -64,16 +65,18 @@ export function About() {
         </div>
         <div className={`${styles.card} ${styles.partners}`}>
           <span className={styles.cardTitle}>{c.partners.title}</span>
-          <ul>{c.partners.items.map(([n, r]) => <li key={n}><b>{n}</b><small>{r}</small></li>)}</ul>
+          <ul>{c.partners.items.map(([n, r]) => <li key={n}>{LOGOS[n] ? <img className={styles.pLogo} src={`${import.meta.env.BASE_URL}partners/${LOGOS[n]}`} alt={n} loading="lazy" /> : <b>{n}</b>}<small>{r}</small></li>)}</ul>
         </div>
         <div className={`${styles.card} ${styles.years}`}>
           <SkyStatic id="manifest2" className={styles.cardSky} /><div className={styles.cardShade} />
           <div className={styles.line} aria-hidden><i /><span className={styles.lineDot} /><em>0</em><em>1 год</em><em>2 года</em></div>
           <b className={`num ${styles.big}`}>{c.years.big}</b>
           <p>{c.years.text}</p>
+          {/* слова клиента прямо в плитке со стажем */}
+          <Quote i={2} className={styles.yearsQuote} />
         </div>
         <figure className={`${styles.card} ${styles.photo}`}>
-          <img src={asset(about.photo)} alt="Команда Потока за работой" loading="lazy" draggable={false} />
+          <LazyImg src={asset(about.photo)} alt="Команда Потока за работой" draggable={false} />
         </figure>
         <div className={`${styles.card} ${styles.contract}`}>
           <div className={styles.contractText}>
@@ -83,7 +86,6 @@ export function About() {
           </div>
           <Paper compact />
         </div>
-            <Quote i={2} className="aboutQuote" />
 </div>
 
     </section>
@@ -104,3 +106,6 @@ function Paper({ compact = false }: { compact?: boolean }) {
     </div>
   );
 }
+
+/* логотипы партнёров: официальные SVG (Wikimedia Commons, сайт amoCRM) */
+const LOGOS: Record<string, string> = { 'Яндекс Директ': 'direct.svg', 'Avito Ads': 'avito.svg', amoCRM: 'amocrm.svg', 'Битрикс24': 'bitrix24.svg' };

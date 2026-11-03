@@ -71,7 +71,9 @@ export function Sky({ seed = 1.7, zoom = 1, pan = [0, 0], animate = true, classN
     io.observe(cv);
     const ro = new ResizeObserver(() => { resize(); draw(performance.now()); });
     ro.observe(cv);
-    if (animate && !reduced) raf = requestAnimationFrame(loop); else draw(performance.now());
+    // облегчённый режим (телефоны, слабые устройства): небо рисуется один раз
+    const lite = !!document.documentElement.dataset.lite && !cv.closest('[data-preloader]');
+    if (animate && !reduced && !lite) raf = requestAnimationFrame(loop); else draw(performance.now());
     return () => { running = false; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect(); };
   }, [seed, zoom, pan[0], pan[1], animate, reduced, dpr]); // eslint-disable-line react-hooks/exhaustive-deps
   return <canvas ref={ref} className={`${styles.sky} ${className ?? ''}`} aria-hidden />;

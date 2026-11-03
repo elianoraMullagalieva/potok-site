@@ -2,11 +2,11 @@ import { useEffect, useRef } from 'react';
 import { gsap } from '../../lib/lenis';
 import { cases } from '../../content/texts';
 import { Button } from '../../ui/Button';
-import { Quote } from '../../ui/Quote';
 import { SkyStatic } from '../../ui/Sky';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Cases.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 /* подробный кейс живёт на отдельной странице и открывается в новой вкладке */
@@ -80,7 +80,6 @@ export function Cases() {
           <div className={styles.more}>
             <Button variant="dark" arrow className={styles.moreBtn} href="#lead">{cases.more}</Button>
             <span className={styles.moreSub}>{cases.moreSub}</span>
-            <Quote i={0} className={styles.quote} />
           </div>
         </div>
       </div>
@@ -97,7 +96,7 @@ function Card({ c, onStudy }: { c: Case; onStudy: (id: string) => void }) {
         <span>{a}</span>
         {b && <><span className={styles.arrow} aria-hidden><svg width="26" height="12" viewBox="0 0 28 12" fill="none"><path d="M0 6h26m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span><span>{b}</span></>}
       </p>
-      <div className={styles.logoBox}><img className={`${styles.logo} ${styles[c.id] ?? ''}`} src={asset(`logos/${c.id}.webp`)} alt={c.client} loading="lazy" draggable={false} /></div>
+      <div className={styles.logoBox}><LazyImg className={`${styles.logo} ${styles[c.id] ?? ''}`} src={asset(`logos/${c.id}.webp`)} alt={c.client} draggable={false} /></div>
       <div className={styles.body}>
         <span className={styles.cat}>{c.category}</span>
         <h3 className={styles.niche}>{c.niche}</h3>

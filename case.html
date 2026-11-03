@@ -7,7 +7,8 @@
     <meta name="robots" content="noindex" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet" />
+    <!-- шрифты не блокируют первую отрисовку --><link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Caveat:wght@600&display=swap" onload="this.onload=null;this.rel='stylesheet'" /><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Caveat:wght@600&display=swap" /></noscript>
+    <script>/* облегчённый режим для телефонов и слабых устройств: без размытий фона и без анимации неба */(function(){try{var n=navigator,m=matchMedia('(max-width: 900px), (pointer: coarse)').matches,c=n.hardwareConcurrency||8,d=n.deviceMemory||8;if(m||c<=4||d<=4)document.documentElement.dataset.lite='1'}catch(e){}})()</script>
   </head>
   <body>
     <div id="root"></div>

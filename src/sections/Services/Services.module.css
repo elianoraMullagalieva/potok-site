@@ -170,3 +170,10 @@
 }
 @media (min-width: 1001px) { .detail { grid-template-columns: 1.3fr 1fr 1fr; } }
 @media (max-width: 700px) { .will .steplist { margin-top: 16px; } .willList { gap: 16px !important; } .dLeft .dCta { font-size: var(--fs-base); } }
+/* вариант А: под «Сделаю под вас» и ниже — больше воздуха */
+.willList { margin-top: var(--sp-5) !important; }
+@media (min-width: 1001px) {
+  .will { margin-top: 56px; }
+  .stat { margin-top: var(--sp-7); padding-top: var(--sp-6); }
+  .dLeft .dCta { margin-top: var(--sp-7); }
+}

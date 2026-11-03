@@ -9,6 +9,7 @@ import { useReducedMotion } from '../../lib/useReducedMotion';
 import { TeamChat } from './TeamChat';
 import { Notice } from '../../ui/Notice';
 import styles from './Services.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 // вариант Б (человек рассказывает в чате) — по адресу ?team=b, чтобы клиент сравнил с вариантом А
 const CHAT = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('team') === 'b';
@@ -65,7 +66,7 @@ export function Services() {
                 <Tag onDark>{it.lead}</Tag>
                 <span className={`num ${styles.key}`}>{it.n}</span>
               </div>
-              <img className={styles.photo} src={asset(services.people[it.lead].photo)} alt={services.people[it.lead].name} loading="lazy" draggable={false} />
+              <LazyImg className={styles.photo} src={asset(services.people[it.lead].photo)} alt={services.people[it.lead].name} draggable={false} />
               <div className={styles.shade} aria-hidden />
               <h3 className={styles.title}>{it.title}</h3>
             </div>
@@ -93,7 +94,7 @@ export function Services() {
         </div>
 
         <div className={`${styles.dVisual} ${styles.swap}`}>
-          <img key={person.photo} className={styles.dPhoto} src={asset(person.photo)} alt={person.name} loading="lazy" decoding="async" />
+          <LazyImg key={person.photo} className={styles.dPhoto} src={asset(person.photo)} alt={person.name} decoding="async" />
           <div className={styles.who}>
             <div className={styles.pName}>{person.name}</div>
             <div className={styles.pRole}>{person.role} · {person.exp.split('.')[0]}</div>
@@ -104,7 +105,7 @@ export function Services() {
           <div className={`${styles.shots} ${styles.swap}`} aria-hidden>
             {s.shots.map((sh, k) => (
               <span key={sh} className={`${styles.shot} ${k === 1 ? styles.shotBack : ''}`}>
-                <img src={asset(sh.includes('/') ? sh : `gifts/v3/${sh}.webp`)} alt="" loading="lazy" draggable={false} />
+                <LazyImg src={asset(sh.includes('/') ? sh : `gifts/v3/${sh}.webp`)} alt="" draggable={false} />
               </span>
             ))}
           </div>

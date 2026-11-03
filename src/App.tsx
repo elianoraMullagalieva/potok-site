@@ -48,9 +48,19 @@ function Block({ children, h = '100vh' }: { children: ReactNode; h?: string }) {
 /* Один пересчёт ScrollTrigger после того, как смонтировались все секции */
 function RefreshOnce() {
   useEffect(() => {
-    let id = 0;
-    import('./lib/lenis').then(({ ScrollTrigger }) => { id = requestAnimationFrame(() => ScrollTrigger.refresh()); });
-    return () => cancelAnimationFrame(id);
+    let id = 0, t = 0, lastH = 0;
+    let ro: ResizeObserver | null = null;
+    import('./lib/lenis').then(({ ScrollTrigger }) => {
+      id = requestAnimationFrame(() => ScrollTrigger.refresh());
+      // секции подгружаются лениво и меняют высоту страницы — иначе закреплённые блоки (этапы) встают не туда
+      ro = new ResizeObserver(() => {
+        const h = document.body.scrollHeight;
+        if (Math.abs(h - lastH) < 4) return;
+        lastH = h; clearTimeout(t); t = window.setTimeout(() => ScrollTrigger.refresh(), 250);
+      });
+      ro.observe(document.body);
+    });
+    return () => { cancelAnimationFrame(id); clearTimeout(t); ro?.disconnect(); };
   }, []);
   return null;
 }
@@ -63,8 +73,9 @@ export default function App() {
   useEffect(() => {
     const id = location.hash.slice(1); if (!id) return;
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    const go = () => import('./lib/lenis').then(({ getLenis }) => {
+    const go = () => import('./lib/lenis').then(({ getLenis, ScrollTrigger }) => {
       const el = document.getElementById(id); if (!el) return;
+      ScrollTrigger.refresh();
       const y = el.getBoundingClientRect().top + window.scrollY;
       const l = getLenis(); if (l) l.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
     });

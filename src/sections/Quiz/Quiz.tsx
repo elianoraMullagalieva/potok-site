@@ -6,6 +6,7 @@ import { services } from '../../content/texts';
 import { Button } from '../../ui/Button';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Quiz.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 /* Результат по правилу из текстов: «Пока не знаю»/«Ничего» → Тест; «Агентство»/«Фрилансер» → Ведение; нестандартная ниша → Связка */
 function plan(answers: (number | null)[]) {
@@ -218,7 +219,7 @@ function ReadyCard({ answers, sent, onSubmit, onBack }: { answers: (number | nul
             {g.items.map((it, k) => (
               <li key={it.n} style={{ '--i': k } as React.CSSProperties}>
                 <span className={`${styles.rgImg} ${k === 2 ? styles.rgLocked : ''}`}>
-                  <img src={`${import.meta.env.BASE_URL}${it.visual}`} alt="" loading="lazy" draggable={false} />
+                  <LazyImg src={`${import.meta.env.BASE_URL}${it.visual}`} alt="" draggable={false} />
                   {k === 2 && <span className={styles.lock}><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" strokeWidth="1.6" /><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.6" /></svg>{R.locked}</span>}
                 </span>
                 <b>{it.title}</b>
@@ -264,7 +265,7 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
   return (
     <div className={styles.val}>
       <div className={styles.say} key={`s${Math.min(step, 4)}`}>
-        <img className={styles.ava} src={`${import.meta.env.BASE_URL}${person.photo}`} alt={person.name} width={76} height={76} loading="lazy" draggable={false} />
+        <LazyImg className={styles.ava} src={`${import.meta.env.BASE_URL}${person.photo}`} alt={person.name} width={76} height={76} draggable={false} />
         <div>
           <div className={styles.sayName}>{person.name}<span className={styles.sayRole}>{person.role}</span></div>
           <p className={styles.sayText}>{quiz.say[Math.min(step, 4)]}</p>
@@ -299,7 +300,7 @@ function Value({ answers, step }: { answers: (number | null)[]; step: number }) 
 function GiftVisual({ kind, on }: { kind: string; on: boolean }) {
   return (
     <span className={`${styles.gv} ${on ? styles.gvLive : ''}`}>
-      <img src={`${import.meta.env.BASE_URL}${kind}`} alt="" loading="lazy" draggable={false} />
+      <LazyImg src={`${import.meta.env.BASE_URL}${kind}`} alt="" draggable={false} />
     </span>
   );
 }

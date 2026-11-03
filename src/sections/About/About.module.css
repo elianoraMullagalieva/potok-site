@@ -129,3 +129,9 @@
 
 :global(.aboutQuote) { margin-top: 24px; }
 @media (max-width: 700px) { .contractBtn { align-self: stretch; justify-content: space-between; font-size: var(--fs-base) !important; } }
+/* партнёры логотипами */
+.partners li { display: grid; gap: var(--sp-2); align-content: center; padding: var(--sp-4); }
+.pLogo { display: block; height: 22px; width: auto; max-width: 100%; object-fit: contain; object-position: left center; }
+/* уведомление Марины внутри плитки «2,1 года» */
+.years { display: flex; flex-direction: column; }
+.yearsQuote { margin-top: auto; padding-top: var(--sp-5); width: 100%; max-width: 100%; }

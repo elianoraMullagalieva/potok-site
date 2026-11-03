@@ -86,3 +86,7 @@ p, li, dd, figcaption { text-wrap: pretty; }
 
 /* производительность: бесконечные анимации в блоках вне экрана стоят на паузе (lib/reveal.ts ставит .offscreen) */
 .offscreen, .offscreen *, .offscreen *::before, .offscreen *::after { animation-play-state: paused !important; }
+
+/* облегчённый режим (data-lite ставится в index.html): размытия фона — самое тяжёлое для слабых видеочипов Android */
+:root[data-lite] *, :root[data-lite] *::before, :root[data-lite] *::after { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+:root[data-lite] [class*="_notif_"] { background: rgba(255,255,255,.96); }

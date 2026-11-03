@@ -5,6 +5,7 @@ import { useMedia } from '../../lib/useMedia';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './WorkSphere.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 /**
  * Сфера из мини-экранов (распределение Фибоначчи), CSS 3D без WebGL.
@@ -126,7 +127,7 @@ export function WorkSphere() {
             <div key={i} ref={(n) => { tiles.current[i] = n; }} className={styles.tile}
               style={{ width: TILE * (RATIO[i % M] < 1 ? 0.78 : 1), height: (TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M], marginLeft: -(TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / 2, marginTop: -((TILE * (RATIO[i % M] < 1 ? 0.78 : 1)) / RATIO[i % M]) / 2,
                 transform: `rotateY(${p.lon}deg) rotateX(${-p.lat}deg) translateZ(${R}px)` }}>
-              {(() => { const t = SEQ[i % M]; if ('img' in t) return <img className={styles.img} src={t.img} alt="" loading="lazy" draggable={false} />;
+              {(() => { const t = SEQ[i % M]; if ('img' in t) return <LazyImg className={styles.img} src={t.img} alt="" draggable={false} />;
                 return (
                   <div className={`${styles.cardTile} ${t.card === 'yellow' ? styles.cardYellow : ''}`} style={{ fontSize: TILE * 0.075 }}>
                     {t.pills && <div className={styles.pills}>{t.pills.map((x) => <span key={x}>{x}</span>)}</div>}

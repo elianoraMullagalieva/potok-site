@@ -6,7 +6,9 @@ import { Face } from '../../ui/Face';
 import { SwipeHint } from '../../ui/SwipeHint';
 import { useMedia } from '../../lib/useMedia';
 import { useReducedMotion } from '../../lib/useReducedMotion';
+import { Quote } from '../../ui/Quote';
 import styles from './Process.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 type Step = (typeof process.steps)[number];
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
@@ -57,10 +59,16 @@ export function Process() {
       <Drawer open={open} onClose={() => setOpen(null)} />
       <div className={styles.frame}>
         <div className={styles.top}>
-          <h2 className={`display ${styles.h2}`}>{process.title}</h2>
-          <p className={styles.sub}>{process.sub}</p>
+          <div>
+            <h2 className={`display ${styles.h2}`}>{process.title}</h2>
+            <p className={styles.sub}>{process.sub}</p>
+          </div>
+          {/* слова клиента — уведомлением справа, под ним подсказка про ленту */}
+          <div className={styles.topRight}>
+            <Quote i={0} className={styles.quote} />
+            <SwipeHint onDark text={process.hint} className={styles.hint} />
+          </div>
         </div>
-        <div className={styles.hintRow}><SwipeHint onDark text={process.hint} /></div>
         <div ref={view} className={styles.view}>
           <div ref={track} className={styles.track}>
             {process.steps.map((st) => <Card key={st.n} st={st} onOpen={() => setOpen(st.n)} />)}
@@ -111,7 +119,7 @@ function Visual({ st }: { st: Step }) {
       const shots = m.shots as string[];
       return (
         <div className={styles.sites}>
-          {shots.map((s, k) => <span key={s} className={styles.site} style={{ '--k': k } as React.CSSProperties}><img src={asset(s)} alt="" loading="lazy" draggable={false} /></span>)}
+          {shots.map((s, k) => <span key={s} className={styles.site} style={{ '--k': k } as React.CSSProperties}><LazyImg src={asset(s)} alt="" draggable={false} /></span>)}
         </div>
       );
     }

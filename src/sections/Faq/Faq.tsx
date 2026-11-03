@@ -7,6 +7,7 @@ import { Button } from '../../ui/Button';
 import { SkyStatic } from '../../ui/Sky';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './Faq.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 /**
  * Вопросы: слева закреплённый заголовок и «онлайн», справа список.
@@ -37,7 +38,7 @@ export function Faq() {
           <h2 className={`display ${styles.h2}`}>{faq.titleChunks.map((ch, i) => ch === '▬' ? <span key={i} className={styles.capsule} aria-hidden><SkyStatic id="manifest1" /></span> : <span key={i}>{ch} </span>)}</h2>
           <p className={styles.sub}>{faq.sub}</p>
           <div className={styles.who} key={who}>
-            <img className={styles.bigAva} src={`${import.meta.env.BASE_URL}${lead.photo}`} alt={lead.name} width={96} height={96} loading="lazy" draggable={false} />
+            <LazyImg className={styles.bigAva} src={`${import.meta.env.BASE_URL}${lead.photo}`} alt={lead.name} width={96} height={96} draggable={false} />
             <div>
               <div className={styles.online}><i /><b>{who}</b>&nbsp;{faq.online}</div>
               <Button variant="dark" arrow className={styles.write} href={faq.tg[who]}>{faq.write(faq.dative[who])}</Button>

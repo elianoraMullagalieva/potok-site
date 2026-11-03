@@ -159,3 +159,14 @@
   .sites { height: 150px; }
   .foot { margin-top: 12px; }
 }
+
+/* шапка этапов: подзаголовок под заголовком, справа уведомление и «Листайте» под ним */
+.top { align-items: end; }
+.sub { justify-self: start !important; text-align: left !important; max-width: none !important; margin-top: var(--sp-4); }
+.topRight { justify-self: end; display: grid; justify-items: end; gap: var(--sp-4); }
+.topRight .quote { width: 380px; max-width: 100%; }
+.hintRow { display: none; }
+@media (max-width: 900px) {
+  .topRight { justify-self: stretch; justify-items: start; margin-top: var(--sp-5); }
+  .topRight .quote { width: 100%; }
+}

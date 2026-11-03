@@ -7,6 +7,7 @@ import { Face } from '../../ui/Face';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import { useMedia } from '../../lib/useMedia';
 import styles from './Lead.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
@@ -63,7 +64,7 @@ export function Lead() {
           <div className={styles.gift}>
             <div className={styles.giftHead}><span className={styles.giftLabel}>{lead.giftLabel}</span><span className={styles.usually}>{lead.giftUsually}</span></div>
             <ul className={styles.gifts}>
-              {lead.gifts.map((g) => <li key={g.t}><img src={asset(`gifts/v3/${g.visual}.webp`)} alt="" loading="lazy" draggable={false} /><span>{g.t}</span></li>)}
+              {lead.gifts.map((g) => <li key={g.t}><LazyImg src={asset(`gifts/v3/${g.visual}.webp`)} alt="" draggable={false} /><span>{g.t}</span></li>)}
             </ul>
           </div>
 

@@ -5,6 +5,7 @@ import { Face } from '../../ui/Face';
 import { Notice } from '../../ui/Notice';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import styles from './TeamChat.module.css';
+import { LazyImg } from '../../ui/LazyImg';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 type Phase = 'idle' | 'dots' | 'type' | 'done';
@@ -55,7 +56,7 @@ export function TeamChat({ n, lead, says }: { n: string; lead: string; says: str
   return (
     <div ref={root} className={styles.box}>
       <div className={styles.portrait}>
-        <img key={person.photo} src={asset(person.photo)} alt={person.name} loading="lazy" decoding="async" />
+        <LazyImg key={person.photo} src={asset(person.photo)} alt={person.name} decoding="async" />
         <div className={styles.pCard}><b>{person.name}</b><span>{person.role} · {person.exp.split('.')[0]}</span></div>
         {/* слова клиентов прилетают уведомлениями поверх фото, когда человек договорил */}
         {phase === 'done' && (
@@ -117,8 +118,8 @@ function Viz({ v, n, line }: { v: string; n: string; line: { big?: string; pct?:
     case 'sites':
       return (
         <div className={styles.vSites}>
-          <span className={`${styles.site} ${styles.siteMain}`} style={st(0)}><img src={asset('works/w3.webp')} alt="LAVILLA — сайт недвижимости на Бали" loading="lazy" /><em>LAVILLA · недвижимость на Бали</em></span>
-          {['works/w2.webp', 'works/w1.webp', 'works/w5.webp'].map((w, i) => <span key={w} className={styles.site} style={st(i + 1)}><img src={asset(w)} alt="" loading="lazy" /></span>)}
+          <span className={`${styles.site} ${styles.siteMain}`} style={st(0)}><LazyImg src={asset('works/w3.webp')} alt="LAVILLA — сайт недвижимости на Бали" /><em>LAVILLA · недвижимость на Бали</em></span>
+          {['works/w2.webp', 'works/w1.webp', 'works/w5.webp'].map((w, i) => <span key={w} className={styles.site} style={st(i + 1)}><LazyImg src={asset(w)} alt="" /></span>)}
         </div>
       );
     case 'match': {
@@ -156,7 +157,7 @@ function Viz({ v, n, line }: { v: string; n: string; line: { big?: string; pct?:
       return (
         <div className={styles.vPage}>
           <div className={styles.works}>
-            {['works/w1.webp', 'works/w2.webp', 'works/w3.webp'].map((w, i) => <span key={w} className={styles.work} style={st(i)}><img src={asset(w)} alt="" loading="lazy" /></span>)}
+            {['works/w1.webp', 'works/w2.webp', 'works/w3.webp'].map((w, i) => <span key={w} className={styles.work} style={st(i)}><LazyImg src={asset(w)} alt="" /></span>)}
           </div>
           <div className={styles.tags}>{['1 услуга', '1 город', '1 кнопка'].map((x, i) => <span key={x} style={st(i + 3)}>{x}</span>)}</div>
         </div>
