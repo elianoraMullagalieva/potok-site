@@ -1,5 +1,6 @@
 import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
+import './fonts.css';
 import './index.css';
 import { CaseDetail } from './sections/Cases/CaseDetail';
 import { Chats } from './sections/Cases/Chats';
