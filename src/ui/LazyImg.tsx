@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ImgHTMLAttributes } from 'react';
 
-/* Картинка грузится, только когда до неё остаётся ~600px прокрутки.
+/* Картинка грузится, только когда до неё остаётся ~1200px прокрутки.
    Стандартный loading="lazy" начинает качать слишком рано (за 1,5–2,5 тыс. px), и первый экран ждёт чужие фото */
 const io = typeof IntersectionObserver !== 'undefined'
   ? new IntersectionObserver((entries) => {
@@ -11,7 +11,7 @@ const io = typeof IntersectionObserver !== 'undefined'
         img.removeAttribute('data-lazy-src');
         io!.unobserve(img);
       }
-    }, { rootMargin: '600px 0px 600px 0px' })
+    }, { rootMargin: '1200px 0px 1200px 0px' })
   : null;
 
 export function LazyImg({ src, ...rest }: ImgHTMLAttributes<HTMLImageElement>) {
